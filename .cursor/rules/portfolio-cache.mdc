@@ -1,0 +1,126 @@
+---
+description: AI-only portfolio project cache — Cursor explores and enriches all projects
+alwaysApply: false
+---
+
+# Portfolio Project Cache (AI-only)
+
+Agent-readable database of Yahor Dubrouski's local projects. **Cursor does all understanding** — no external API keys, no Python heuristics.
+
+## Files
+
+| File | Owner | Purpose |
+|------|-------|---------|
+| `ai-agents/database/projects.json` | Human | List of absolute project paths |
+| `ai-agents/database/projects.cache.json` | **Cursor** | Enriched cache — agents read this |
+| `ai-agents/scripts/sync_projects_cache.py` | Python | Adds missing path stubs + git dates only |
+| `ai-agents/scripts/check_cache_stale.py` | Python | Reports pending/stale entries |
+
+Python never writes `summary`, `technologies`, or marks entries `complete`.
+
+## When the user says "update portfolio cache"
+
+### Step 1 — Sync stubs (optional)
+
+```bash
+python3 ai-agents/scripts/sync_projects_cache.py
+```
+
+Adds `pending` stubs for new paths in `projects.json`. Updates `last_commit_at` from git.
+
+### Step 2 — Cursor enriches every pending/stale entry
+
+For each entry in `projects.cache.json` where `enrichment_status` is `pending` or `stale`:
+
+1. **Explore the full project** at `path`:
+   - Read README, all configs (`package.json`, `composer.json`, `*.tf`, etc.)
+   - Walk subfolders — detect monorepos (`backend/`, `frontend/`) and collections
+   - Read images (certificates, diagrams, screenshots) and PDFs when relevant
+   - Read n8n workflow JSON, Jenkinsfiles, CI configs
+2. **Detect structure yourself** — do not assume root-level manifests
+3. **Create child entries** for meaningful sub-projects (e.g. `arch-decisions-backend`, `aws-real-time-data-processing`)
+4. **Write enrichment** directly into `projects.cache.json`
+
+### Required fields per entry
+
+```json
+{
+  "id": "kebab-case-id",
+  "path": "/absolute/path",
+  "type": "project | collection",
+  "parent_collection": null,
+  "name": "Human-readable name",
+  "last_commit_at": "ISO-8601 or null",
+  "sub_project_ids": [],
+  "enrichment_status": "complete",
+  "enriched_at": "UTC ISO timestamp",
+  "enriched_by": "cursor",
+  "summary": "1-3 sentences",
+  "technologies": {
+    "languages": [],
+    "frameworks": [],
+    "cloud": [],
+    "tools": [],
+    "databases": []
+  },
+  "features": [],
+  "architecture": "short note or null",
+  "problems_solved": [],
+  "use_cases": [],
+  "when_to_use": "One sentence — when should an agent open this project?",
+  "competencies": [],
+  "design_patterns": [],
+  "best_practices": [],
+  "keywords": [],
+  "trade_offs": [],
+  "audience": [],
+  "complexity": "low | medium | high",
+  "related_projects": []
+}
+```
+
+Evidence-based only — list patterns/practices you found in code or README, not generic labels.
+
+### Step 3 — Verify
+
+```bash
+python3 ai-agents/scripts/check_cache_stale.py
+```
+
+Must exit 0 before reporting done.
+
+## Enrichment rules
+
+- **Never** mark `complete` without reading the actual project files
+- **Never** guess technologies from folder names alone — confirm in configs or README
+- For **image/PDF-only repos** (Certificates, CV storage): read filenames, README alt text, and images
+- For **collections**: set `type: collection`, list `sub_project_ids`, enrich children separately
+- For **monorepos**: enrich parent AND each deployable subfolder
+- Include **test frameworks** (Jest, Vitest, PHPUnit) in `technologies.tools` when present
+- `when_to_use` is mandatory — it helps agents route questions to the right project
+- Fill `competencies`, `design_patterns`, `best_practices` from evidence in the repo
+- `keywords` help search/routing (e.g. `youtube-demo`, `client-work`, `certifications`)
+- `trade_offs` are especially important for architecture projects
+- `complexity`: `low` (single demo), `medium` (typical portfolio app), `high` (multi-service/monorepo)
+- `related_projects`: other cache entry ids that complement this one
+
+## What other agents should do
+
+- Read `projects.cache.json`, not `projects.json`
+- Only trust entries with `enrichment_status: complete`
+- If `pending`/`stale`, ask user to run "update portfolio cache" first
+
+## Stale entries
+
+An entry is stale when:
+
+- `enriched_at` is older than 30 days, or
+- `last_commit_at` is newer than `enriched_at`
+
+Re-explore and overwrite enrichment fields.
+
+## Adding a new project
+
+1. Add `{ "path": "/absolute/path" }` to `projects.json`
+2. Run sync script (or add stub manually)
+3. Say "update portfolio cache"

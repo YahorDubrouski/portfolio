@@ -1,0 +1,1932 @@
+{
+  "generated_at": "2026-06-29T18:29:44+00:00",
+  "stale_after_days": 30,
+  "source": "/var/www/my-github/portfolio/ai-agents/database/projects.json",
+  "enrichment_model": "cursor",
+  "projects": [
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "certificates",
+      "path": "/var/www/my-github/Certificates",
+      "type": "project",
+      "parent_collection": null,
+      "name": "Certificates Portfolio",
+      "last_commit_at": "2026-05-18T10:16:33+02:00",
+      "sub_project_ids": [],
+      "summary": "Repository of professional certifications and course completions across DevOps, cloud, frontend, backend, architecture, QA, AI, and English — stored as PNG/PDF proofs.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [
+          "magento"
+        ],
+        "cloud": [
+          "aws"
+        ],
+        "tools": [
+          "terraform",
+          "n8n",
+          "git",
+          "claude-api",
+          "mcp"
+        ],
+        "databases": []
+      },
+      "features": [
+        "AWS Certified Solutions Architect – Associate",
+        "Terraform Associate",
+        "Udemy AWS Solutions Architect Associate 2025",
+        "Meta Frontend Development & JavaScript certificates",
+        "Meta Version Control",
+        "Adobe Certified Professional – Adobe Commerce Developer",
+        "Enterprise Patterns & GOF/GRASP Design Patterns",
+        "QA Automation Diploma",
+        "AI Automations and AI Agents with n8n",
+        "Anthropic: Agent Skills, Claude API, MCP, Claude Code in Action",
+        "English Pre-Intermediate"
+      ],
+      "architecture": null,
+      "problems_solved": [
+        "Centralized proof of skills and certifications for job applications."
+      ],
+      "use_cases": [
+        "Verify credentials",
+        "Support CV and proposal claims"
+      ],
+      "when_to_use": "Use when an agent needs proof of certifications or validated skill credentials.",
+      "competencies": [
+        "AWS cloud",
+        "Terraform IaC",
+        "frontend development",
+        "Magento/Adobe Commerce",
+        "design patterns",
+        "QA automation",
+        "AI agents",
+        "technical English"
+      ],
+      "design_patterns": [
+        "enterprise patterns",
+        "GOF patterns",
+        "GRASP principles"
+      ],
+      "best_practices": [
+        "credential verification",
+        "organized skill taxonomy by domain"
+      ],
+      "keywords": [
+        "certifications",
+        "credentials",
+        "aws",
+        "terraform",
+        "magento",
+        "n8n",
+        "anthropic"
+      ],
+      "trade_offs": [],
+      "audience": [
+        "recruiters",
+        "hiring managers",
+        "proposal reviewers"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "file-storage",
+        "devops-portfolio"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "file-storage",
+      "path": "/var/www/my-github/File-storage",
+      "type": "project",
+      "parent_collection": null,
+      "name": "File Storage (CV)",
+      "last_commit_at": "2025-08-07T03:46:25+02:00",
+      "sub_project_ids": [],
+      "summary": "Git repository hosting CV/resume PDF files for Yahor Dubrouski — Full Stack Developer and Senior Backend & DevOps versions.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [],
+        "tools": [
+          "git"
+        ],
+        "databases": []
+      },
+      "features": [
+        "CV_Yahor_Dubrouski_Full_Stack_Developer.pdf",
+        "Yahor_Dubrouski_Senior_Backend_And_DevOps.pdf"
+      ],
+      "architecture": null,
+      "problems_solved": [
+        "Shareable CV documents linked from GitHub and portfolio."
+      ],
+      "use_cases": [
+        "CV links for job applications",
+        "Resume reference"
+      ],
+      "when_to_use": "Use when an agent needs a CV link or resume context for Yahor Dubrouski.",
+      "competencies": [
+        "professional presentation",
+        "resume management"
+      ],
+      "design_patterns": [],
+      "best_practices": [
+        "version-controlled CV documents",
+        "shareable GitHub-hosted PDFs"
+      ],
+      "keywords": [
+        "cv",
+        "resume",
+        "pdf",
+        "career"
+      ],
+      "trade_offs": [],
+      "audience": [
+        "recruiters",
+        "job application reviewers"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "certificates",
+        "devops-portfolio"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "end-to-end",
+      "path": "/var/www/my-github/YouTube/Logging/end-to-end",
+      "type": "project",
+      "parent_collection": null,
+      "name": "End-to-end Request Logging",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "Node.js demo tracing HTTP requests through Express with correlation IDs on every log line using Pino and AsyncLocalStorage — no req passing everywhere.",
+      "technologies": {
+        "languages": [
+          "javascript"
+        ],
+        "frameworks": [
+          "express"
+        ],
+        "cloud": [],
+        "tools": [
+          "pino"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Correlation ID per request",
+        "AsyncLocalStorage context propagation",
+        "Pino structured logging",
+        "Express middleware pattern"
+      ],
+      "architecture": "Express → AsyncLocalStorage context → Pino logger on every line",
+      "problems_solved": [
+        "Demonstrates clean request tracing without threading req through every function."
+      ],
+      "use_cases": [
+        "Logging tutorials",
+        "Node.js observability patterns"
+      ],
+      "when_to_use": "Use when discussing request tracing, correlation IDs, or structured logging in Node.js.",
+      "competencies": [
+        "structured logging",
+        "observability",
+        "Node.js middleware"
+      ],
+      "design_patterns": [
+        "AsyncLocalStorage context propagation",
+        "correlation ID pattern"
+      ],
+      "best_practices": [
+        "Pino structured JSON logs",
+        "correlation ID without passing req everywhere",
+        "Express middleware for context setup"
+      ],
+      "keywords": [
+        "logging",
+        "pino",
+        "correlation-id",
+        "nodejs",
+        "youtube-demo",
+        "observability"
+      ],
+      "trade_offs": [
+        "AsyncLocalStorage vs explicit context param — cleaner calls vs explicit threading"
+      ],
+      "audience": [
+        "backend engineers",
+        "observability-focused teams"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "ci-showcase",
+        "arch-decisions-backend"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "arch-decisions",
+      "path": "/var/www/my-github/arch-decisions",
+      "type": "collection",
+      "parent_collection": null,
+      "name": "Architecture Decisions Platform",
+      "last_commit_at": "2026-06-15T09:16:09+02:00",
+      "sub_project_ids": [
+        "arch-decisions-backend",
+        "arch-decisions-frontend"
+      ],
+      "summary": "Full-stack monorepo demonstrating architectural thinking, ADR workflows, and AI-assisted decision documentation. React + TypeScript frontend and Express + TypeScript + SQLite backend with OpenAI integration.",
+      "technologies": {
+        "languages": [
+          "typescript",
+          "javascript"
+        ],
+        "frameworks": [
+          "react",
+          "express",
+          "zustand"
+        ],
+        "cloud": [],
+        "tools": [
+          "docker",
+          "vite",
+          "openai",
+          "jest",
+          "vitest",
+          "zod",
+          "winston"
+        ],
+        "databases": [
+          "sqlite"
+        ]
+      },
+      "features": [
+        "Context Builder — multi-step project requirements form",
+        "Decision Engine — infrastructure recommendations with trade-offs",
+        "AI-Assisted ADR Generation via OpenAI",
+        "Monorepo with separate frontend/backend Docker compose",
+        "Feature-based React structure with domain layer"
+      ],
+      "architecture": "React SPA (Vite) → Express API → SQLite + OpenAI; Docker Compose monorepo",
+      "problems_solved": [
+        "Helps engineers capture context and produce Architecture Decision Records with rationale and alternatives."
+      ],
+      "use_cases": [
+        "Solution architect portfolio",
+        "ADR and trade-off discussions",
+        "React/TypeScript system design examples"
+      ],
+      "when_to_use": "Use for architecture decisions, ADRs, full-stack React/Node design, or AI-assisted technical documentation.",
+      "competencies": [
+        "architectural thinking",
+        "ADR writing",
+        "trade-off analysis",
+        "full-stack system design",
+        "AI-assisted documentation"
+      ],
+      "design_patterns": [
+        "feature-based folders",
+        "domain layer",
+        "separation of concerns",
+        "service layer (backend)",
+        "component composition (React)"
+      ],
+      "best_practices": [
+        "monorepo with isolated frontend/backend",
+        "Docker Compose for local dev",
+        "TypeScript end-to-end",
+        "Zustand over Redux for appropriate scope",
+        "SQLite for portfolio-appropriate persistence"
+      ],
+      "keywords": [
+        "portfolio",
+        "monorepo",
+        "adr",
+        "architecture",
+        "decision-records",
+        "ai"
+      ],
+      "trade_offs": [
+        "SQLite over PostgreSQL — portfolio scope vs production scale",
+        "React 18 over 19 — stability over bleeding edge",
+        "Zustand over Redux — simplicity vs enterprise state tooling",
+        "Node.js 24 Active LTS over Current — production pragmatism"
+      ],
+      "audience": [
+        "solution architects",
+        "platform architects",
+        "senior engineering managers"
+      ],
+      "complexity": "high",
+      "related_projects": [
+        "arch-decisions-backend",
+        "arch-decisions-frontend",
+        "certificates"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:18+00:00",
+      "id": "arch-decisions-backend",
+      "path": "/var/www/my-github/arch-decisions/backend",
+      "type": "project",
+      "parent_collection": "arch-decisions",
+      "name": "Architecture Decisions — Backend",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "Express + TypeScript API with OpenAI integration, Zod validation, SQLite persistence, and Jest tests.",
+      "technologies": {
+        "languages": [
+          "typescript",
+          "javascript"
+        ],
+        "frameworks": [
+          "express"
+        ],
+        "cloud": [],
+        "tools": [
+          "docker",
+          "openai",
+          "jest",
+          "zod",
+          "winston"
+        ],
+        "databases": [
+          "sqlite"
+        ]
+      },
+      "features": [
+        "REST API for decisions and ADRs",
+        "OpenAI ADR generation",
+        "SQLite via better-sqlite3",
+        "Jest test suite"
+      ],
+      "architecture": "Express API → SQLite + OpenAI",
+      "problems_solved": [
+        "Backend for architecture decision workflows and ADR storage."
+      ],
+      "use_cases": [
+        "Express + TypeScript API patterns",
+        "OpenAI integration examples"
+      ],
+      "when_to_use": "Use when discussing the arch-decisions API layer or Express + OpenAI backend.",
+      "competencies": [
+        "REST API design",
+        "OpenAI integration",
+        "TypeScript backend",
+        "input validation"
+      ],
+      "design_patterns": [
+        "layered architecture",
+        "service layer",
+        "repository-style data access"
+      ],
+      "best_practices": [
+        "Zod schema validation",
+        "structured logging (Winston)",
+        "Jest unit tests",
+        "Express middleware pipeline"
+      ],
+      "keywords": [
+        "express",
+        "openai",
+        "api",
+        "backend"
+      ],
+      "trade_offs": [
+        "SQLite file DB — zero ops for demo vs managed DB"
+      ],
+      "audience": [
+        "backend hiring managers",
+        "technical leads"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "arch-decisions",
+        "arch-decisions-frontend",
+        "aidesk-mini"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:18+00:00",
+      "id": "arch-decisions-frontend",
+      "path": "/var/www/my-github/arch-decisions/frontend",
+      "type": "project",
+      "parent_collection": "arch-decisions",
+      "name": "Architecture Decisions — Frontend",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "React 18 + TypeScript + Vite SPA with Zustand state management and Vitest testing.",
+      "technologies": {
+        "languages": [
+          "typescript",
+          "javascript"
+        ],
+        "frameworks": [
+          "react",
+          "vite",
+          "zustand"
+        ],
+        "cloud": [],
+        "tools": [
+          "docker",
+          "vitest"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Multi-step context builder UI",
+        "Decision results and ADR views",
+        "Feature-based folder structure",
+        "CSS Modules styling"
+      ],
+      "architecture": "React SPA (Vite) consuming backend REST API",
+      "problems_solved": [
+        "Frontend for guided architecture decision workflows."
+      ],
+      "use_cases": [
+        "React architecture portfolio",
+        "Feature-based React structure"
+      ],
+      "when_to_use": "Use when discussing the arch-decisions UI or React + Vite patterns.",
+      "competencies": [
+        "React architecture",
+        "state management",
+        "feature-based structure",
+        "TypeScript frontend"
+      ],
+      "design_patterns": [
+        "feature folders",
+        "CSS Modules",
+        "thin pages composing features",
+        "shared API client layer"
+      ],
+      "best_practices": [
+        "Vite for fast dev/build",
+        "Vitest + jest-dom",
+        "co-located styles",
+        "domain types separated from UI"
+      ],
+      "keywords": [
+        "react",
+        "vite",
+        "frontend",
+        "spa"
+      ],
+      "trade_offs": [
+        "CSS Modules over Tailwind — explicit scoping vs utility speed"
+      ],
+      "audience": [
+        "frontend leads",
+        "full-stack interviewers"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "arch-decisions",
+        "arch-decisions-backend",
+        "dziana-portfolio"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "devops-portfolio",
+      "path": "/var/www/my-github/devops-portfolio",
+      "type": "project",
+      "parent_collection": null,
+      "name": "DevOps Portfolio",
+      "last_commit_at": "2025-11-03T00:14:57+01:00",
+      "sub_project_ids": [],
+      "summary": "Markdown portfolio showcasing AWS, Terraform, and CI/CD projects with architecture diagrams and links to GitHub repositories.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [
+          "aws"
+        ],
+        "tools": [
+          "terraform",
+          "github-actions",
+          "jenkins",
+          "docker"
+        ],
+        "databases": []
+      },
+      "features": [
+        "AWS project summaries (Kinesis, ALB, serverless)",
+        "Terraform IaC examples",
+        "CI/CD pipeline showcases",
+        "PROJECTS_CONTEXT.md for agent reference"
+      ],
+      "architecture": null,
+      "problems_solved": [
+        "Single entry point to navigate DevOps portfolio projects."
+      ],
+      "use_cases": [
+        "Job applications",
+        "DevOps capability overview"
+      ],
+      "when_to_use": "Use when presenting DevOps/AWS/Terraform portfolio work or finding linked repos.",
+      "competencies": [
+        "DevOps storytelling",
+        "AWS architecture",
+        "Terraform",
+        "CI/CD overview"
+      ],
+      "design_patterns": [],
+      "best_practices": [
+        "centralized project index for agents",
+        "diagram-driven portfolio presentation"
+      ],
+      "keywords": [
+        "portfolio",
+        "devops",
+        "index",
+        "aws",
+        "terraform"
+      ],
+      "trade_offs": [],
+      "audience": [
+        "DevOps hiring managers",
+        "cloud architects"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "aws",
+        "terraform-aws-infrastructure",
+        "terraform-ci-cd",
+        "ci-showcase",
+        "certificates"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "aws",
+      "path": "/var/www/my-github/devops/aws",
+      "type": "collection",
+      "parent_collection": null,
+      "name": "AWS Projects",
+      "last_commit_at": null,
+      "sub_project_ids": [
+        "aws-real-time-data-processing",
+        "aws-scalable-web-application",
+        "aws-serverless-application"
+      ],
+      "summary": "Collection of three AWS architecture demos: real-time data processing, scalable web application, and serverless application.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [
+          "aws",
+          "kinesis",
+          "lambda",
+          "s3",
+          "glue",
+          "athena",
+          "quicksight",
+          "ec2",
+          "rds",
+          "alb",
+          "dynamodb",
+          "api-gateway"
+        ],
+        "tools": [],
+        "databases": []
+      },
+      "features": [
+        "Real-time data pipeline demo",
+        "Scalable web app with ALB/ASG/RDS",
+        "Serverless API with API Gateway/Lambda/DynamoDB"
+      ],
+      "architecture": null,
+      "problems_solved": [
+        "Demonstrates common AWS architecture patterns for portfolio and training."
+      ],
+      "use_cases": [
+        "AWS portfolio",
+        "Cloud architecture examples"
+      ],
+      "when_to_use": "Use when discussing AWS projects or picking a specific AWS demo pattern.",
+      "competencies": [
+        "AWS architecture",
+        "data streaming",
+        "high availability",
+        "serverless design"
+      ],
+      "design_patterns": [
+        "event-driven pipeline",
+        "three-tier web architecture",
+        "serverless API pattern"
+      ],
+      "best_practices": [
+        "one demo per common AWS pattern",
+        "documented service chains in README"
+      ],
+      "keywords": [
+        "aws",
+        "collection",
+        "cloud",
+        "portfolio"
+      ],
+      "trade_offs": [
+        "Separate demos vs single integrated app — clarity of pattern over realism"
+      ],
+      "audience": [
+        "cloud engineers",
+        "AWS certification reviewers",
+        "solution architects"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "aws-real-time-data-processing",
+        "aws-scalable-web-application",
+        "aws-serverless-application",
+        "certificates"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "aws-guides",
+      "path": "/var/www/my-github/devops/aws-guides",
+      "type": "collection",
+      "parent_collection": null,
+      "name": "AWS Guides",
+      "last_commit_at": "2025-12-15T00:45:03+01:00",
+      "sub_project_ids": [
+        "aws-guides-aws-calculator"
+      ],
+      "summary": "Collection of AWS guides. Contains aws-calculator: practical guide for estimating AWS costs using the Pricing Calculator (guest and console versions).",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [
+          "aws"
+        ],
+        "tools": [
+          "aws-pricing-calculator"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Guest vs Console calculator comparison",
+        "Step-by-step cost estimation with screenshots",
+        "Share/export workflow",
+        "S3 + Lambda cost example"
+      ],
+      "architecture": null,
+      "problems_solved": [
+        "Helps engineers estimate AWS costs before deployment."
+      ],
+      "use_cases": [
+        "AWS FinOps",
+        "Client cost estimates"
+      ],
+      "when_to_use": "Use when discussing AWS pricing, cost estimation, or the Pricing Calculator.",
+      "competencies": [
+        "AWS cost estimation",
+        "FinOps basics",
+        "technical writing"
+      ],
+      "design_patterns": [],
+      "best_practices": [
+        "screenshot-driven guides",
+        "guest vs console calculator comparison"
+      ],
+      "keywords": [
+        "aws",
+        "pricing",
+        "finops",
+        "guides",
+        "collection"
+      ],
+      "trade_offs": [
+        "Guest calculator recommended over console — UX vs account integration"
+      ],
+      "audience": [
+        "junior DevOps engineers",
+        "clients reviewing estimates"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "aws-guides-aws-calculator",
+        "aws",
+        "devops-portfolio"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:18+00:00",
+      "id": "aws-guides-aws-calculator",
+      "path": "/var/www/my-github/devops/aws-guides/aws-calculator",
+      "type": "project",
+      "parent_collection": "aws-guides",
+      "name": "AWS Pricing Calculator Guide",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "Markdown guide with screenshots for using AWS Pricing Calculator — guest and console versions, share links, PDF export, and common mistakes.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [
+          "aws"
+        ],
+        "tools": [
+          "aws-pricing-calculator"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Guest calculator walkthrough",
+        "Console calculator walkthrough",
+        "Share link workflow",
+        "PDF export for clients",
+        "S3 + Lambda cost example"
+      ],
+      "architecture": null,
+      "problems_solved": [
+        "Teaches DevOps engineers and clients how to estimate AWS infrastructure costs."
+      ],
+      "use_cases": [
+        "Training content",
+        "Client proposals"
+      ],
+      "when_to_use": "Use when walking through AWS Pricing Calculator usage or cost estimation.",
+      "competencies": [
+        "AWS Pricing Calculator",
+        "cost estimation",
+        "client communication"
+      ],
+      "design_patterns": [],
+      "best_practices": [
+        "Share link after each change",
+        "PDF export for stakeholders",
+        "realistic usage values"
+      ],
+      "keywords": [
+        "pricing-calculator",
+        "cost-estimation",
+        "tutorial"
+      ],
+      "trade_offs": [
+        "Manual Free Tier adjustment — calculator does not auto-apply credits"
+      ],
+      "audience": [
+        "DevOps engineers",
+        "pre-sales technical staff"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "aws-guides",
+        "aws"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:18+00:00",
+      "id": "aws-real-time-data-processing",
+      "path": "/var/www/my-github/devops/aws/real-time-data-processing",
+      "type": "project",
+      "parent_collection": "aws",
+      "name": "Real-Time Data Processing",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "AWS demo: Kinesis Data Streams → Lambda → S3 → Glue → Athena → QuickSight for real-time data ingestion and analytics.",
+      "technologies": {
+        "languages": [
+          "python"
+        ],
+        "frameworks": [],
+        "cloud": [
+          "kinesis",
+          "lambda",
+          "s3",
+          "glue",
+          "athena",
+          "quicksight"
+        ],
+        "tools": [],
+        "databases": []
+      },
+      "features": [
+        "Real-time data ingestion",
+        "Lambda processing",
+        "S3 storage",
+        "Athena queries",
+        "QuickSight visualization"
+      ],
+      "architecture": "Kinesis → Lambda → S3 → Glue → Athena → QuickSight",
+      "problems_solved": [
+        "Demonstrates real-time data pipeline on AWS."
+      ],
+      "use_cases": [
+        "Data streaming portfolio",
+        "Analytics dashboards"
+      ],
+      "when_to_use": "Use when discussing real-time AWS data processing or Kinesis pipelines.",
+      "competencies": [
+        "real-time data pipelines",
+        "AWS analytics",
+        "Kinesis",
+        "Lambda"
+      ],
+      "design_patterns": [
+        "stream processing",
+        "data lake ingestion"
+      ],
+      "best_practices": [
+        "Kinesis → Lambda → S3 decoupling",
+        "Athena for ad-hoc queries",
+        "QuickSight for visualization"
+      ],
+      "keywords": [
+        "kinesis",
+        "lambda",
+        "data-pipeline",
+        "analytics"
+      ],
+      "trade_offs": [
+        "Managed streaming vs self-hosted Kafka — AWS-native simplicity"
+      ],
+      "audience": [
+        "data engineers",
+        "cloud architects"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "aws",
+        "aws-scalable-web-application"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:18+00:00",
+      "id": "aws-scalable-web-application",
+      "path": "/var/www/my-github/devops/aws/scalable-web-application",
+      "type": "project",
+      "parent_collection": "aws",
+      "name": "Scalable Web Application",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "AWS demo: Application Load Balancer → Auto Scaling Group → EC2 → RDS for a fault-tolerant scalable web app.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [
+          "alb",
+          "ec2",
+          "rds",
+          "cloudwatch",
+          "auto-scaling"
+        ],
+        "tools": [],
+        "databases": []
+      },
+      "features": [
+        "High availability",
+        "Auto-scaling",
+        "Load balancing",
+        "RDS database",
+        "CloudWatch monitoring"
+      ],
+      "architecture": "ALB → ASG → EC2 → RDS",
+      "problems_solved": [
+        "Demonstrates production-style scalable web infrastructure on AWS."
+      ],
+      "use_cases": [
+        "High-traffic web apps",
+        "AWS scaling patterns"
+      ],
+      "when_to_use": "Use when discussing scalable AWS web applications or ALB/ASG/RDS setups.",
+      "competencies": [
+        "high availability",
+        "auto-scaling",
+        "load balancing",
+        "RDS"
+      ],
+      "design_patterns": [
+        "three-tier architecture",
+        "horizontal scaling via ASG"
+      ],
+      "best_practices": [
+        "ALB health checks",
+        "multi-AZ thinking",
+        "CloudWatch monitoring"
+      ],
+      "keywords": [
+        "alb",
+        "asg",
+        "ec2",
+        "rds",
+        "scalability"
+      ],
+      "trade_offs": [
+        "EC2 ASG vs containers — classic AWS pattern clarity"
+      ],
+      "audience": [
+        "cloud engineers",
+        "backend DevOps roles"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "aws",
+        "terraform-aws-infrastructure"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:18+00:00",
+      "id": "aws-serverless-application",
+      "path": "/var/www/my-github/devops/aws/serverless-application",
+      "type": "project",
+      "parent_collection": "aws",
+      "name": "Serverless Application",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "AWS demo: API Gateway → Lambda → DynamoDB & S3 for a serverless upload processing application.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [
+          "api-gateway",
+          "lambda",
+          "dynamodb",
+          "s3"
+        ],
+        "tools": [],
+        "databases": []
+      },
+      "features": [
+        "Serverless API",
+        "Lambda functions",
+        "DynamoDB storage",
+        "S3 with lifecycle policies",
+        "No server management"
+      ],
+      "architecture": "API Gateway → Lambda → DynamoDB & S3",
+      "problems_solved": [
+        "Demonstrates cost-effective serverless architecture on AWS."
+      ],
+      "use_cases": [
+        "Serverless APIs",
+        "Microservices",
+        "Upload processing"
+      ],
+      "when_to_use": "Use when discussing AWS serverless patterns or API Gateway + Lambda.",
+      "competencies": [
+        "serverless architecture",
+        "API design",
+        "NoSQL",
+        "cost optimization"
+      ],
+      "design_patterns": [
+        "serverless API",
+        "event-driven processing"
+      ],
+      "best_practices": [
+        "API Gateway + Lambda separation",
+        "DynamoDB for serverless data",
+        "S3 lifecycle policies"
+      ],
+      "keywords": [
+        "serverless",
+        "lambda",
+        "api-gateway",
+        "dynamodb"
+      ],
+      "trade_offs": [
+        "Serverless vs always-on EC2 — cost and ops vs cold starts"
+      ],
+      "audience": [
+        "serverless advocates",
+        "startup-style architects"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "aws",
+        "aws-real-time-data-processing"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "ci-showcase",
+      "path": "/var/www/my-github/devops/ci-showcase",
+      "type": "project",
+      "parent_collection": null,
+      "name": "CI Showcase",
+      "last_commit_at": "2025-11-02T17:45:49+01:00",
+      "sub_project_ids": [],
+      "summary": "Minimal Python Flask app with CI/CD pipelines on GitHub Actions and GitLab CI — demonstrates clean production-ready DevOps workflows.",
+      "technologies": {
+        "languages": [
+          "python"
+        ],
+        "frameworks": [
+          "flask"
+        ],
+        "cloud": [],
+        "tools": [
+          "docker",
+          "github-actions",
+          "gitlab-ci",
+          "pytest"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Flask app with unit tests",
+        "GitHub Actions CI pipeline",
+        "GitLab CI config",
+        "Docker containerization",
+        "Parallel CI jobs"
+      ],
+      "architecture": "Flask app → GitHub Actions + GitLab CI; Docker for testing",
+      "problems_solved": [
+        "Demonstrates dual-platform CI/CD setup for a simple Python app."
+      ],
+      "use_cases": [
+        "CI/CD portfolio",
+        "GitHub Actions + GitLab examples"
+      ],
+      "when_to_use": "Use when discussing CI/CD pipelines, GitHub Actions, or GitLab CI.",
+      "competencies": [
+        "CI/CD",
+        "GitHub Actions",
+        "GitLab CI",
+        "Docker testing"
+      ],
+      "design_patterns": [
+        "minimal testable app",
+        "pipeline as code"
+      ],
+      "best_practices": [
+        "same Docker env in CI as prod-like testing",
+        "pytest unit tests",
+        "parallel CI jobs",
+        "dual-platform CI (GitHub + GitLab)"
+      ],
+      "keywords": [
+        "ci-cd",
+        "github-actions",
+        "gitlab-ci",
+        "flask",
+        "docker"
+      ],
+      "trade_offs": [
+        "Minimal Flask app — CI focus over application complexity"
+      ],
+      "audience": [
+        "DevOps engineers",
+        "platform engineers"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "jenkins-database-backup-pipelines",
+        "terraform-ci-cd",
+        "aidesk-mini"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "jenkins-database-backup-pipelines",
+      "path": "/var/www/my-github/devops/jenkins-database-backup-pipelines",
+      "type": "project",
+      "parent_collection": null,
+      "name": "Jenkins Database Backup Pipelines",
+      "last_commit_at": "2025-11-02T17:19:24+01:00",
+      "sub_project_ids": [],
+      "summary": "Jenkins Declarative Pipeline for automated MySQL backups: mysqldump → gzip → SHA-256 checksum → upload to S3-compatible storage.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [
+          "s3"
+        ],
+        "tools": [
+          "jenkins",
+          "mysql",
+          "docker"
+        ],
+        "databases": []
+      },
+      "features": [
+        "MySQL mysqldump automation",
+        "Gzip compression",
+        "SHA-256 checksum generation",
+        "S3-compatible upload (AWS, DO Spaces, MinIO)",
+        "Works when Jenkins runs in Docker"
+      ],
+      "architecture": "Jenkins Pipeline → mysqldump → gzip → checksum → S3 upload",
+      "problems_solved": [
+        "Reliable automated database backups without host volume mounts."
+      ],
+      "use_cases": [
+        "Database backup automation",
+        "Jenkins pipeline examples"
+      ],
+      "when_to_use": "Use when discussing Jenkins backups, MySQL automation, or S3 upload pipelines.",
+      "competencies": [
+        "Jenkins pipelines",
+        "database backups",
+        "S3-compatible storage"
+      ],
+      "design_patterns": [
+        "declarative pipeline",
+        "checksum verification"
+      ],
+      "best_practices": [
+        "mysqldump + gzip compression",
+        "SHA-256 integrity check",
+        "works without host volume mounts in Docker Jenkins"
+      ],
+      "keywords": [
+        "jenkins",
+        "mysql",
+        "backup",
+        "s3",
+        "pipeline"
+      ],
+      "trade_offs": [
+        "mysqldump vs binlog replication — simplicity vs point-in-time recovery"
+      ],
+      "audience": [
+        "DevOps engineers",
+        "DBA-adjacent roles"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "ci-showcase",
+        "terraform-aws-infrastructure"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "terraform-aws-infrastructure",
+      "path": "/var/www/my-github/devops/terraform-aws-infrastructure",
+      "type": "project",
+      "parent_collection": null,
+      "name": "Terraform AWS Infrastructure",
+      "last_commit_at": "2026-02-01T13:44:31+01:00",
+      "sub_project_ids": [],
+      "summary": "Production-grade modular Terraform for AWS: VPC, EC2, RDS, S3, IAM with multi-environment support and remote S3/DynamoDB state backend.",
+      "technologies": {
+        "languages": [
+          "hcl"
+        ],
+        "frameworks": [],
+        "cloud": [
+          "aws",
+          "vpc",
+          "ec2",
+          "rds",
+          "s3",
+          "iam"
+        ],
+        "tools": [
+          "terraform"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Modular Terraform architecture",
+        "Multi-environment (dev/prod)",
+        "Remote backend (S3 + DynamoDB)",
+        "VPC, EC2, RDS, S3, IAM modules"
+      ],
+      "architecture": "Terraform modules → AWS VPC + EC2 + RDS + S3 + IAM",
+      "problems_solved": [
+        "Reusable infrastructure provisioning with environment separation."
+      ],
+      "use_cases": [
+        "Terraform IaC portfolio",
+        "Multi-env AWS setups"
+      ],
+      "when_to_use": "Use when discussing Terraform AWS modules or infrastructure provisioning.",
+      "competencies": [
+        "Infrastructure as Code",
+        "Terraform modules",
+        "multi-environment AWS",
+        "remote state"
+      ],
+      "design_patterns": [
+        "modular Terraform",
+        "environment separation"
+      ],
+      "best_practices": [
+        "S3 + DynamoDB remote backend",
+        "VPC module reuse",
+        "IAM least-privilege separation",
+        "dev/prod environment dirs"
+      ],
+      "keywords": [
+        "terraform",
+        "iac",
+        "aws",
+        "vpc",
+        "modules"
+      ],
+      "trade_offs": [
+        "Modular complexity vs single root module — maintainability vs simplicity"
+      ],
+      "audience": [
+        "DevOps hiring managers",
+        "cloud infrastructure engineers"
+      ],
+      "complexity": "high",
+      "related_projects": [
+        "terraform-ci-cd",
+        "aws-terraform-vpc-geocoder-example",
+        "aws-scalable-web-application"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "terraform-ci-cd",
+      "path": "/var/www/my-github/devops/terraform-ci-cd",
+      "type": "project",
+      "parent_collection": null,
+      "name": "Terraform CI/CD Pipeline",
+      "last_commit_at": "2025-09-28T22:21:13+02:00",
+      "sub_project_ids": [],
+      "summary": "Automated Terraform plan/apply workflows with GitHub Actions, environment isolation, security warnings, and deployment notifications.",
+      "technologies": {
+        "languages": [
+          "hcl"
+        ],
+        "frameworks": [],
+        "cloud": [],
+        "tools": [
+          "terraform",
+          "github-actions"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Plan on pull request",
+        "Manual apply via workflow dispatch",
+        "Environment isolation",
+        "Security warnings",
+        "Deployment notifications"
+      ],
+      "architecture": "GitHub Actions → terraform plan/apply with environment gates",
+      "problems_solved": [
+        "Safe automated Terraform deployments with review gates."
+      ],
+      "use_cases": [
+        "Terraform CI/CD patterns",
+        "GitHub Actions for IaC"
+      ],
+      "when_to_use": "Use when discussing Terraform automation or IaC CI/CD pipelines.",
+      "competencies": [
+        "Terraform automation",
+        "GitHub Actions",
+        "IaC governance"
+      ],
+      "design_patterns": [
+        "plan on PR, apply on approval",
+        "environment isolation"
+      ],
+      "best_practices": [
+        "terraform plan in CI",
+        "manual apply via workflow dispatch",
+        "security warnings in pipeline"
+      ],
+      "keywords": [
+        "terraform",
+        "github-actions",
+        "ci-cd",
+        "iac"
+      ],
+      "trade_offs": [
+        "Manual apply gate — safety vs deployment speed"
+      ],
+      "audience": [
+        "platform engineers",
+        "DevOps leads"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "terraform-aws-infrastructure",
+        "aws-terraform-vpc-geocoder-example",
+        "ci-showcase"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "dziana-portfolio",
+      "path": "/var/www/my-github/dziana/dziana-portfolio",
+      "type": "project",
+      "parent_collection": null,
+      "name": "Dziana Portfolio",
+      "last_commit_at": "2026-06-29T15:35:41+02:00",
+      "sub_project_ids": [],
+      "summary": "Multilingual static portfolio site for brand manager Diana Veremeichyk, built with Astro and Tailwind CSS, deployed on Cloudflare Pages.",
+      "technologies": {
+        "languages": [
+          "javascript",
+          "typescript"
+        ],
+        "frameworks": [
+          "astro"
+        ],
+        "cloud": [],
+        "tools": [
+          "tailwind",
+          "cloudinary"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Case studies and portfolio pages",
+        "Multilingual content",
+        "Cloudinary media hosting",
+        "Static site on Cloudflare Pages"
+      ],
+      "architecture": "Astro SSG → Cloudflare Pages + Cloudinary assets",
+      "problems_solved": [
+        "Professional portfolio website for a brand manager client."
+      ],
+      "use_cases": [
+        "Astro static site examples",
+        "Client portfolio work"
+      ],
+      "when_to_use": "Use when discussing Astro portfolio sites or client web projects for Dziana.",
+      "competencies": [
+        "static site development",
+        "client delivery",
+        "Astro",
+        "multilingual sites"
+      ],
+      "design_patterns": [
+        "static site generation",
+        "component-based pages"
+      ],
+      "best_practices": [
+        "Astro for performance",
+        "Tailwind utility styling",
+        "Cloudinary for media",
+        "Cloudflare Pages deployment"
+      ],
+      "keywords": [
+        "astro",
+        "client-work",
+        "portfolio",
+        "static-site",
+        "cloudflare"
+      ],
+      "trade_offs": [
+        "SSG over CMS — speed and cost vs client self-editing"
+      ],
+      "audience": [
+        "potential clients",
+        "frontend hiring managers"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "arch-decisions-frontend"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "ai-diary",
+      "path": "/var/www/my-github/learning/ai-diary",
+      "type": "project",
+      "parent_collection": null,
+      "name": "AI Diary / Mental Health Assistant",
+      "last_commit_at": null,
+      "sub_project_ids": [],
+      "summary": "n8n workflow template: Telegram voice/text → OpenAI transcription → Notion diary notes with confirmation replies.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [
+          "n8n"
+        ],
+        "cloud": [],
+        "tools": [
+          "openai",
+          "telegram",
+          "notion"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Telegram voice and text intake",
+        "OpenAI voice transcription",
+        "Notion diary note creation",
+        "Telegram confirmation messages"
+      ],
+      "architecture": "Telegram → n8n Switch → OpenAI → Notion → Telegram reply",
+      "problems_solved": [
+        "Low-friction personal diary capture via Telegram with structured Notion storage."
+      ],
+      "use_cases": [
+        "n8n automation examples",
+        "Telegram + OpenAI + Notion integration"
+      ],
+      "when_to_use": "Use when discussing n8n workflows, Telegram bots, or AI journaling automations.",
+      "competencies": [
+        "n8n automation",
+        "Telegram bots",
+        "OpenAI integration",
+        "Notion API"
+      ],
+      "design_patterns": [
+        "workflow automation",
+        "switch routing (voice vs text)"
+      ],
+      "best_practices": [
+        "voice transcription before LLM",
+        "unified text normalization",
+        "confirmation reply to user"
+      ],
+      "keywords": [
+        "n8n",
+        "telegram",
+        "notion",
+        "openai",
+        "automation",
+        "template"
+      ],
+      "trade_offs": [
+        "n8n vs custom code — speed of integration vs fine control"
+      ],
+      "audience": [
+        "automation enthusiasts",
+        "no-code/low-code reviewers"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "ai-planner",
+        "certificates"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "ai-planner",
+      "path": "/var/www/my-github/learning/ai-planner",
+      "type": "project",
+      "parent_collection": null,
+      "name": "n8n Automation Collection",
+      "last_commit_at": "2026-01-08T20:31:54+01:00",
+      "sub_project_ids": [],
+      "summary": "Collection of n8n automations including AI Planner (Telegram voice assistant → Notion tasks) and Prompt Hub (semantic prompt search with embeddings).",
+      "technologies": {
+        "languages": [],
+        "frameworks": [
+          "n8n"
+        ],
+        "cloud": [],
+        "tools": [
+          "docker",
+          "openai",
+          "telegram",
+          "notion",
+          "huggingface",
+          "postgres"
+        ],
+        "databases": []
+      },
+      "features": [
+        "AI Planner: voice/text task creation in Notion",
+        "Prompt Hub: semantic prompt search",
+        "Docker + Traefik deployment",
+        "Multiple automation flows in one repo"
+      ],
+      "architecture": "Telegram → n8n → OpenAI/Notion; Docker Compose with Traefik",
+      "problems_solved": [
+        "Personal productivity automation via voice and semantic prompt retrieval."
+      ],
+      "use_cases": [
+        "n8n portfolio",
+        "Voice assistant to Notion patterns"
+      ],
+      "when_to_use": "Use when discussing n8n automations, AI Planner, or Prompt Hub.",
+      "competencies": [
+        "n8n automation",
+        "voice assistants",
+        "semantic search",
+        "Docker deployment"
+      ],
+      "design_patterns": [
+        "workflow orchestration",
+        "embedding-based retrieval (Prompt Hub)"
+      ],
+      "best_practices": [
+        "Docker Compose with Traefik",
+        "Telegram as universal input",
+        "Notion as structured output",
+        "multiple automations in one repo"
+      ],
+      "keywords": [
+        "n8n",
+        "telegram",
+        "notion",
+        "prompt-hub",
+        "automation",
+        "voice"
+      ],
+      "trade_offs": [
+        "Self-hosted n8n vs cloud — control vs maintenance"
+      ],
+      "audience": [
+        "productivity automation users",
+        "AI workflow engineers"
+      ],
+      "complexity": "high",
+      "related_projects": [
+        "ai-diary",
+        "atlassian-mcp"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "aws-terraform-vpc-geocoder-example",
+      "path": "/var/www/my-github/learning/aws-terraform-vpc-geocoder-example",
+      "type": "project",
+      "parent_collection": null,
+      "name": "AWS Terraform VPC Geocoder Example",
+      "last_commit_at": "2025-09-28T21:42:22+02:00",
+      "sub_project_ids": [],
+      "summary": "Reusable multi-environment Terraform project: VPC, Aurora PostgreSQL, S3, App Runner reverse geocoder, remote state, and GitHub Actions CI/CD.",
+      "technologies": {
+        "languages": [
+          "hcl"
+        ],
+        "frameworks": [],
+        "cloud": [
+          "aws",
+          "vpc",
+          "s3",
+          "rds",
+          "app-runner"
+        ],
+        "tools": [
+          "terraform",
+          "github-actions",
+          "docker"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Multi-env (dev/test/prod)",
+        "S3 backend + DynamoDB locking",
+        "VPC with public/private subnets",
+        "Aurora PostgreSQL cluster",
+        "App Runner containerized geocoder",
+        "GitHub Actions plan/apply"
+      ],
+      "architecture": "Terraform → AWS VPC + Aurora + App Runner; GitHub Actions CI/CD",
+      "problems_solved": [
+        "Demonstrates production-grade Terraform AWS infrastructure with CI/CD."
+      ],
+      "use_cases": [
+        "Terraform portfolio",
+        "AWS infrastructure examples",
+        "App Runner deployments"
+      ],
+      "when_to_use": "Use when discussing Terraform AWS setups, VPC design, or App Runner.",
+      "competencies": [
+        "Terraform AWS",
+        "multi-environment IaC",
+        "App Runner",
+        "CI/CD for infrastructure"
+      ],
+      "design_patterns": [
+        "multi-env Terraform",
+        "remote state",
+        "VPC module pattern"
+      ],
+      "best_practices": [
+        "S3 backend + DynamoDB lock",
+        "VPC public/private subnets",
+        "GitHub Actions plan on PR",
+        "Aurora toggle for cost control"
+      ],
+      "keywords": [
+        "terraform",
+        "vpc",
+        "app-runner",
+        "geocoder",
+        "multi-env"
+      ],
+      "trade_offs": [
+        "App Runner vs ECS/EKS — simpler container hosting vs orchestration control",
+        "Aurora toggleable — cost savings vs always-on DB"
+      ],
+      "audience": [
+        "DevOps engineers",
+        "Terraform learners"
+      ],
+      "complexity": "high",
+      "related_projects": [
+        "terraform-aws-infrastructure",
+        "terraform-ci-cd",
+        "aws"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "aidesk-mini",
+      "path": "/var/www/my-github/money/aidesk-mini",
+      "type": "project",
+      "parent_collection": null,
+      "name": "AIDesk Mini",
+      "last_commit_at": "2026-05-10T00:54:38+02:00",
+      "sub_project_ids": [],
+      "summary": "Enterprise-grade Laravel 12 API for AI-powered support ticket triage with Docker, GitHub Actions CI, and OpenAPI documentation.",
+      "technologies": {
+        "languages": [
+          "php",
+          "javascript"
+        ],
+        "frameworks": [
+          "laravel",
+          "react"
+        ],
+        "cloud": [],
+        "tools": [
+          "docker",
+          "github-actions",
+          "openai",
+          "stripe",
+          "phpunit"
+        ],
+        "databases": []
+      },
+      "features": [
+        "AI ticket triage API",
+        "Laravel 12 + PHP 8.2",
+        "Docker-based dev and CI testing",
+        "GitHub Actions pipeline",
+        "16+ passing tests",
+        "Stripe payment integration"
+      ],
+      "architecture": "Laravel API → AI provider for ticket classification; Docker + GitHub Actions",
+      "problems_solved": [
+        "Demonstrates advanced Laravel backend architecture with AI integration and DevOps practices."
+      ],
+      "use_cases": [
+        "Laravel portfolio",
+        "AI + backend API examples",
+        "CI/CD with Docker"
+      ],
+      "when_to_use": "Use when discussing Laravel, AI ticket triage, or backend API architecture.",
+      "competencies": [
+        "Laravel architecture",
+        "AI integration",
+        "REST API design",
+        "Docker DevOps",
+        "payment integration"
+      ],
+      "design_patterns": [
+        "service layer",
+        "repository pattern",
+        "API resource controllers"
+      ],
+      "best_practices": [
+        "Laravel 12 best practices",
+        "business logic in services",
+        "Docker CI matches production",
+        "OpenAPI documentation",
+        "PHPUnit test suite",
+        "GitHub Actions CI"
+      ],
+      "keywords": [
+        "laravel",
+        "php",
+        "ai",
+        "api",
+        "docker",
+        "stripe",
+        "enterprise"
+      ],
+      "trade_offs": [
+        "Monolithic Laravel vs microservices — appropriate scope for portfolio API"
+      ],
+      "audience": [
+        "senior backend hiring managers",
+        "Laravel teams",
+        "AI product engineers"
+      ],
+      "complexity": "high",
+      "related_projects": [
+        "arch-decisions-backend",
+        "ci-showcase",
+        "certificates"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "ai-amotions",
+      "path": "/var/www/youtube/ai-amotions",
+      "type": "project",
+      "parent_collection": null,
+      "name": "AI Voice Emotion Demo",
+      "last_commit_at": "2026-04-17T15:32:06+02:00",
+      "sub_project_ids": [],
+      "summary": "YouTube Shorts demo: microphone → Hume prosody emotion analysis → top 3 emotions + narration + optional OpenAI TTS voiceover.",
+      "technologies": {
+        "languages": [
+          "javascript"
+        ],
+        "frameworks": [
+          "express"
+        ],
+        "cloud": [],
+        "tools": [
+          "hume-ai",
+          "openai"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Browser microphone recording",
+        "Hume emotion analysis",
+        "Top-3 emotion display",
+        "Optional OpenAI narration and TTS",
+        "EN/RU language modes"
+      ],
+      "architecture": "Browser → Express server → Hume API → optional OpenAI TTS",
+      "problems_solved": [
+        "Demo of real-time voice emotion detection for YouTube content."
+      ],
+      "use_cases": [
+        "AI emotion detection demo",
+        "Hume API integration"
+      ],
+      "when_to_use": "Use when discussing voice emotion AI, Hume API, or YouTube demo apps.",
+      "competencies": [
+        "AI emotion detection",
+        "voice APIs",
+        "demo app development"
+      ],
+      "design_patterns": [
+        "request/response API wrapper",
+        "optional TTS pipeline"
+      ],
+      "best_practices": [
+        "Hume prosody analysis",
+        "optional OpenAI narration layer",
+        "multilingual support (EN/RU)"
+      ],
+      "keywords": [
+        "hume",
+        "emotion-ai",
+        "voice",
+        "youtube-demo",
+        "tts"
+      ],
+      "trade_offs": [
+        "Hume prosody vs text sentiment — voice-specific accuracy vs text-only simplicity"
+      ],
+      "audience": [
+        "AI demo viewers",
+        "YouTube audience"
+      ],
+      "complexity": "low",
+      "related_projects": [
+        "ai-planner",
+        "ai-diary"
+      ]
+    },
+    {
+      "enrichment_status": "complete",
+      "enriched_at": "2026-06-29T18:29:44+00:00",
+      "enriched_by": "cursor",
+      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "atlassian-mcp",
+      "path": "/var/www/youtube/atlassian-mcp",
+      "type": "project",
+      "parent_collection": null,
+      "name": "Confluence ↔ Local Sync + Atlassian MCP",
+      "last_commit_at": "2026-06-03T22:21:05+02:00",
+      "sub_project_ids": [],
+      "summary": "YouTube tutorial repo: sync selected Confluence pages with local markdown in git, plus Atlassian MCP integration in Cursor.",
+      "technologies": {
+        "languages": [],
+        "frameworks": [],
+        "cloud": [],
+        "tools": [
+          "atlassian-mcp",
+          "confluence",
+          "git"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Confluence ↔ local markdown sync scripts",
+        "Selective page sync via confluence-map.json",
+        "Pull on request, push only when explicit",
+        "Atlassian MCP for Cursor agents"
+      ],
+      "architecture": "Confluence Cloud ↔ docs/*.md (git) via scripts; Cursor ↔ Confluence via MCP OAuth",
+      "problems_solved": [
+        "Keeps documentation in git while syncing with Confluence selectively."
+      ],
+      "use_cases": [
+        "Confluence sync patterns",
+        "MCP tutorial content",
+        "Docs-as-code workflows"
+      ],
+      "when_to_use": "Use when discussing Confluence sync, Atlassian MCP, or docs-in-git workflows.",
+      "competencies": [
+        "MCP integration",
+        "Confluence sync",
+        "docs-as-code"
+      ],
+      "design_patterns": [
+        "selective sync map",
+        "git as source of truth"
+      ],
+      "best_practices": [
+        "explicit push policy (only when asked)",
+        "confluence-map.json for scoped sync",
+        "local markdown in git",
+        "MCP OAuth for agent access"
+      ],
+      "keywords": [
+        "mcp",
+        "confluence",
+        "atlassian",
+        "docs-as-code",
+        "youtube-demo",
+        "cursor"
+      ],
+      "trade_offs": [
+        "Bidirectional sync vs git-first — controlled push prevents accidental overwrites"
+      ],
+      "audience": [
+        "Cursor/MCP users",
+        "documentation engineers"
+      ],
+      "complexity": "medium",
+      "related_projects": [
+        "ai-planner",
+        "arch-decisions"
+      ]
+    }
+  ]
+}
