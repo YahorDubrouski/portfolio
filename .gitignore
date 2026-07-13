@@ -8,6 +8,9 @@ test-results
 # Local-only: iteration plans, agent notes, drafts (not committed)
 .local/
 
-# Profile source files may contain sensitive CVs/reviews (JSON schemas in database/ are committed)
-ai-agents/sources/**
-!ai-agents/sources/README.md
+# Agent-only database, scripts, and raw sources — not used by Astro build
+ai-agents/**
+
+# Python cache from agent scripts (if present locally)
+__pycache__/
+*.pyc

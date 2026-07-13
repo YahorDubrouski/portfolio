@@ -1,0 +1,44 @@
+---
+description: Enrich profile database with measurable outcomes — metrics, achievements, perf review results
+alwaysApply: false
+---
+
+# Enrich — Outcomes
+
+Apply for quantified achievements: perf reviews, CV bullets with numbers, user-stated impact.
+
+## Target file
+
+`ai-agents/database/outcomes.json` → `records[]`
+
+## Record shape
+
+```json
+{
+  "id": "outcome-{slug}",
+  "statement": "Reduced deployment time from 2 hours to 15 minutes",
+  "metric": { "value": "87.5", "unit": "percent reduction", "raw": "2h → 15m" },
+  "context": "CI/CD migration at Company X, 2023",
+  "experienceId": "exp-...",
+  "projectCacheId": null,
+  "audience": ["employers", "clients"],
+  "sourceIds": [],
+  "confidence": "verified",
+  "publicSafe": true,
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+## Steps
+
+1. Extract only **factual** metrics from source; include `raw` when paraphrasing.
+2. Link `experienceId` / `projectCacheId` when context is clear.
+3. If no number exists, use qualitative outcome with `metric: null` and `confidence: "draft"`.
+
+## Rules
+
+- Never inflate numbers; copy exactly from perf review or CV.
+- `publicSafe: false` for internal KPIs unless user approves.
+- Prefer one outcome per distinct achievement; merge duplicates.

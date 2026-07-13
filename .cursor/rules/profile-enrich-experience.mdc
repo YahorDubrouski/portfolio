@@ -1,0 +1,59 @@
+---
+description: Enrich profile database with work history — jobs, contracts, responsibilities, technologies
+alwaysApply: false
+---
+
+# Enrich — Experience
+
+Apply for job history from CVs, LinkedIn experience section, perf reviews, or user dictation.
+
+Often invoked from `profile-enrich-cv.mdc`; can run standalone.
+
+## Target file
+
+`ai-agents/database/experience.json` → `records[]`
+
+## Record shape
+
+```json
+{
+  "id": "exp-{company-slug}-{year-start}",
+  "company": "Company name",
+  "role": "Title",
+  "period": { "start": "2021-03", "end": "2024-06", "current": false },
+  "type": "employment | contract | freelance",
+  "location": "City / Remote",
+  "remote": true,
+  "domain": "e.g. e-commerce, SaaS",
+  "teamSize": null,
+  "summary": "1-2 sentences",
+  "responsibilities": [],
+  "projects": [{ "name": "...", "description": "...", "projectCacheId": null }],
+  "technologies": [],
+  "challenges": [],
+  "outcomeIds": [],
+  "architectureNotes": [],
+  "leadership": [],
+  "relatedRoles": ["backend", "devops"],
+  "featured": false,
+  "sourceIds": [],
+  "confidence": "verified",
+  "publicSafe": true,
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+## Steps
+
+1. Dedupe by `company` + overlapping `period` — merge into existing record if same job.
+2. Link `projectCacheId` when work maps to `projects.cache.json` entry.
+3. Link `outcomeIds` for metrics stored in `outcomes.json`.
+4. `featured: true` only for roles user flags or strongest 2–3 careers entries.
+
+## Rules
+
+- Evidence only; `confidence: "draft"` if dates or company name unclear.
+- Anonymize company as `Company (NDA)` only if user requests.
+- Perf review content → `leadership`, `responsibilities`; mark `publicSafe: false` if internal.

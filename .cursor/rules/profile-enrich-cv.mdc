@@ -1,0 +1,59 @@
+---
+description: Enrich profile database from CV or resume — extract roles, skills, bullets into cvs.json and linked records
+alwaysApply: false
+---
+
+# Enrich — CV / Resume
+
+Apply when the user provides a CV (PDF, image, Word, pasted text) or says "enrich database with this CV".
+
+**Prerequisite:** register in `sources.json` (`profile-enrich-sources.mdc`).
+
+## Target files
+
+| File | What to extract |
+|------|-----------------|
+| `ai-agents/database/cvs.json` | CV metadata + headline + summary bullets |
+| `ai-agents/database/experience.json` | Jobs (via `profile-enrich-experience.mdc`) |
+| `ai-agents/database/outcomes.json` | Quantified bullets (via `profile-enrich-outcomes.mdc`) |
+| `ai-agents/database/profile.json` | Summary, languages, contacts if present |
+| `ai-agents/database/certifications.json` | Certs listed on CV if not already there |
+
+## CV record (`cvs.json`)
+
+```json
+{
+  "id": "cv-{audience}-{role-focus}-{lang}-{year}",
+  "audience": "employers | upwork | direct",
+  "roleFocus": ["solution-architect", "backend"],
+  "language": "en | ru",
+  "filePath": "ai-agents/sources/cvs/....pdf",
+  "lastUpdated": "YYYY-MM",
+  "headline": "Title line from CV",
+  "summaryBullets": ["..."],
+  "skillHighlights": ["AWS", "Terraform", "Laravel"],
+  "sourceIds": ["src-cv-..."],
+  "confidence": "verified",
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+## Steps
+
+1. Save PDF/image to `ai-agents/sources/cvs/`.
+2. Read full CV — all pages if image/PDF.
+3. Create or update `cvs.json` record for this version.
+4. For each employment block → `experience.json` (do not duplicate if same company+dates — merge).
+5. For bullets with numbers/%/time saved → `outcomes.json`.
+6. Update `profile.json` only for global facts (summary tone, languages, years) — do not overwrite with CV-only tailoring.
+7. Update `sources.json` → `extractedInto` with all touched files and record ids.
+
+## Rules
+
+- **Multiple CVs are normal** — one record per file/version; ids must differ.
+- Preserve **original wording** in `summaryBullets`; paraphrase only in `profile.json` taglines if needed.
+- Dates: use `YYYY-MM` when day unknown; `current: true` for present role.
+- Do not invent metrics not on the CV.
+- Do **not** copy CV into `src/data/*` or `public/cv/` unless user asks.

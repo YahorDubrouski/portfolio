@@ -1,0 +1,51 @@
+---
+description: Enrich profile database capabilities matrix — skills linked to projects, experience, certs, reviews
+alwaysApply: false
+---
+
+# Enrich — Capabilities
+
+Apply when mapping skills to evidence, building competency matrix, or after enriching projects/experience/certs.
+
+Usually run **after** other records exist so `evidence` links are populated.
+
+## Target file
+
+`ai-agents/database/capabilities.json` → `records[]`
+
+## Record shape
+
+```json
+{
+  "id": "cap-{skill-slug}",
+  "name": "AWS / Terraform",
+  "category": "cloud | backend | architecture | frontend | ai | devops | qa | leadership",
+  "level": "strong | working | learning",
+  "evidence": {
+    "projectCacheIds": ["terraform-aws-infrastructure"],
+    "experienceIds": [],
+    "certificationIds": ["cert-aws-saa"],
+    "reviewIds": [],
+    "outcomeIds": []
+  },
+  "keywords": ["iac", "terraform", "aws"],
+  "audience": ["employers", "clients"],
+  "sourceIds": [],
+  "confidence": "verified",
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+## Steps
+
+1. `level: "strong"` only with 2+ evidence types OR one major project + cert.
+2. Derive capabilities from new experience/CV — do not invent skills without evidence.
+3. When `projects.cache.json` entry lists competencies, link `projectCacheId` instead of duplicating prose.
+
+## Rules
+
+- Prefer merging into existing `cap-{slug}` records.
+- `learning` for certs-in-progress or course-only without delivery proof.
+- This file powers `/capabilities` page logic later — keep ids stable.

@@ -1,0 +1,49 @@
+---
+description: Enrich profile database with certifications — AWS, Terraform, courses, certificate images
+alwaysApply: false
+---
+
+# Enrich — Certifications
+
+Apply for certificate images, PDFs, Credly links, or CV cert sections.
+
+Cross-check `projects.cache.json` entry `certificates` when enriching.
+
+## Target file
+
+`ai-agents/database/certifications.json` → `records[]`
+
+## Record shape
+
+```json
+{
+  "id": "cert-{issuer-slug}-{short-name}",
+  "name": "AWS Certified Solutions Architect – Associate",
+  "issuer": "AWS",
+  "issuedAt": "2024-05",
+  "expiresAt": null,
+  "credentialId": null,
+  "verifyUrl": null,
+  "imagePath": "ai-agents/sources/certificates/aws-saa.png",
+  "categories": ["cloud", "architecture"],
+  "relatedRoles": ["devops", "backend"],
+  "featured": false,
+  "sourceIds": [],
+  "confidence": "verified",
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+## Steps
+
+1. Save certificate image to `ai-agents/sources/certificates/` if provided.
+2. Dedupe by `name` + `issuer` — update dates/verifyUrl if renewed.
+3. Set `featured: true` for home proof strip candidates (max 3–5 total across DB).
+
+## Rules
+
+- Read image/PDF to confirm exact cert name and date.
+- Link to Certificates repo paths in `projects.cache.json` when same file exists there.
+- Do not mark expired certs as current without user confirmation.

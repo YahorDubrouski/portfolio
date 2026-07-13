@@ -1,0 +1,65 @@
+---
+description: Enrich profile database with identity and positioning — bio, taglines, contacts, languages
+alwaysApply: false
+---
+
+# Enrich — Profile (identity & positioning)
+
+Apply for LinkedIn About, personal bios, taglines, contact details, languages, working style notes.
+
+## Target file
+
+`ai-agents/database/profile.json` → single `record` object (not an array)
+
+## Record shape
+
+```json
+{
+  "name": "Yahor Dubrouski",
+  "primaryTitle": "Solution Architect",
+  "secondaryTitles": ["Backend Engineer", "DevOps / Cloud Engineer"],
+  "taglines": {
+    "home": "...",
+    "careers": "...",
+    "workWithMe": "...",
+    "linkedin": "..."
+  },
+  "bios": {
+    "short": "1-2 sentences",
+    "medium": "paragraph",
+    "long": "full about section"
+  },
+  "photo": "public/images/yahor-dubrouski.png",
+  "location": null,
+  "timezone": null,
+  "languages": [{ "name": "English", "level": "Professional" }],
+  "yearsExperience": { "total": null, "notes": "" },
+  "domains": [],
+  "workingStyle": [],
+  "interests": [],
+  "avoid": [],
+  "contacts": {
+    "telegram": "https://t.me/YahorDubrouski",
+    "email": "mailto:yahordubrouski@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/yahor-dubrouski/",
+    "github": "https://github.com/YahorDubrouski"
+  },
+  "sourceIds": [],
+  "confidence": "verified",
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+## Steps
+
+1. Merge new facts into existing `record`; do not wipe unrelated fields.
+2. Store **audience-specific** copy in `taglines`, not only one generic line.
+3. Register source in `sources.json` when input is a file or long paste.
+
+## Rules
+
+- `taglines` are drafts for agents/site — not auto-published to `src/i18n/*`.
+- `avoid` is internal guidance (types of work to decline) — keep honest, not for public site by default.
+- Contacts should match `src/data/contactLinks.ts` when confirmed; note discrepancies in enrichment.

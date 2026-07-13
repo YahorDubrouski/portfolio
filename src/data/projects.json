@@ -1,21 +1,14 @@
 {
-  "generated_at": "2026-06-29T18:29:44+00:00",
-  "stale_after_days": 30,
-  "source": "/var/www/my-github/portfolio/ai-agents/database/projects.json",
-  "enrichment_model": "cursor",
+  "schema_version": 1,
+  "description": "Public site project catalog — curated copy, not the AI agent cache.",
+  "updated_at": "2026-07-08T23:01:04Z",
+  "sync_note": "Populate from ai-agents/database/projects.cache.json only when explicitly updating site content — never import cache at runtime.",
   "projects": [
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "certificates",
-      "path": "/var/www/my-github/Certificates",
       "type": "project",
       "parent_collection": null,
       "name": "Certificates Portfolio",
-      "last_commit_at": "2026-05-18T10:16:33+02:00",
-      "sub_project_ids": [],
       "summary": "Repository of professional certifications and course completions across DevOps, cloud, frontend, backend, architecture, QA, AI, and English — stored as PNG/PDF proofs.",
       "technologies": {
         "languages": [],
@@ -38,13 +31,18 @@
         "AWS Certified Solutions Architect – Associate",
         "Terraform Associate",
         "Udemy AWS Solutions Architect Associate 2025",
-        "Meta Frontend Development & JavaScript certificates",
+        "Meta Introduction to Front-End Development",
         "Meta Version Control",
+        "Meta Programming with JavaScript",
         "Adobe Certified Professional – Adobe Commerce Developer",
-        "Enterprise Patterns & GOF/GRASP Design Patterns",
+        "Enterprise Patterns",
+        "GOF and GRASP Design Patterns",
         "QA Automation Diploma",
         "AI Automations and AI Agents with n8n",
-        "Anthropic: Agent Skills, Claude API, MCP, Claude Code in Action",
+        "Anthropic: Agent Skills",
+        "Building with the Claude API",
+        "Introduction to Model Context Protocol",
+        "Claude Code in Action",
         "English Pre-Intermediate"
       ],
       "architecture": null,
@@ -94,20 +92,14 @@
       "related_projects": [
         "file-storage",
         "devops-portfolio"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "file-storage",
-      "path": "/var/www/my-github/File-storage",
       "type": "project",
       "parent_collection": null,
       "name": "File Storage (CV)",
-      "last_commit_at": "2025-08-07T03:46:25+02:00",
-      "sub_project_ids": [],
       "summary": "Git repository hosting CV/resume PDF files for Yahor Dubrouski — Full Stack Developer and Senior Backend & DevOps versions.",
       "technologies": {
         "languages": [],
@@ -155,20 +147,14 @@
       "related_projects": [
         "certificates",
         "devops-portfolio"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "end-to-end",
-      "path": "/var/www/my-github/YouTube/Logging/end-to-end",
       "type": "project",
       "parent_collection": null,
       "name": "End-to-end Request Logging",
-      "last_commit_at": null,
-      "sub_project_ids": [],
       "summary": "Node.js demo tracing HTTP requests through Express with correlation IDs on every log line using Pino and AsyncLocalStorage — no req passing everywhere.",
       "technologies": {
         "languages": [
@@ -231,23 +217,14 @@
       "related_projects": [
         "ci-showcase",
         "arch-decisions-backend"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "arch-decisions",
-      "path": "/var/www/my-github/arch-decisions",
       "type": "collection",
       "parent_collection": null,
       "name": "Architecture Decisions Platform",
-      "last_commit_at": "2026-06-15T09:16:09+02:00",
-      "sub_project_ids": [
-        "arch-decisions-backend",
-        "arch-decisions-frontend"
-      ],
       "summary": "Full-stack monorepo demonstrating architectural thinking, ADR workflows, and AI-assisted decision documentation. React + TypeScript frontend and Express + TypeScript + SQLite backend with OpenAI integration.",
       "technologies": {
         "languages": [
@@ -256,8 +233,7 @@
         ],
         "frameworks": [
           "react",
-          "express",
-          "zustand"
+          "express"
         ],
         "cloud": [],
         "tools": [
@@ -335,20 +311,17 @@
         "arch-decisions-backend",
         "arch-decisions-frontend",
         "certificates"
+      ],
+      "sub_project_ids": [
+        "arch-decisions-backend",
+        "arch-decisions-frontend"
       ]
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:18+00:00",
       "id": "arch-decisions-backend",
-      "path": "/var/www/my-github/arch-decisions/backend",
       "type": "project",
       "parent_collection": "arch-decisions",
       "name": "Architecture Decisions — Backend",
-      "last_commit_at": null,
-      "sub_project_ids": [],
       "summary": "Express + TypeScript API with OpenAI integration, Zod validation, SQLite persistence, and Jest tests.",
       "technologies": {
         "languages": [
@@ -420,20 +393,14 @@
         "arch-decisions",
         "arch-decisions-frontend",
         "aidesk-mini"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:18+00:00",
       "id": "arch-decisions-frontend",
-      "path": "/var/www/my-github/arch-decisions/frontend",
       "type": "project",
       "parent_collection": "arch-decisions",
       "name": "Architecture Decisions — Frontend",
-      "last_commit_at": null,
-      "sub_project_ids": [],
       "summary": "React 18 + TypeScript + Vite SPA with Zustand state management and Vitest testing.",
       "technologies": {
         "languages": [
@@ -503,20 +470,14 @@
         "arch-decisions",
         "arch-decisions-backend",
         "dziana-portfolio"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "devops-portfolio",
-      "path": "/var/www/my-github/devops-portfolio",
       "type": "project",
       "parent_collection": null,
       "name": "DevOps Portfolio",
-      "last_commit_at": "2025-11-03T00:14:57+01:00",
-      "sub_project_ids": [],
       "summary": "Markdown portfolio showcasing AWS, Terraform, and CI/CD projects with architecture diagrams and links to GitHub repositories.",
       "technologies": {
         "languages": [],
@@ -577,24 +538,14 @@
         "terraform-ci-cd",
         "ci-showcase",
         "certificates"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "aws",
-      "path": "/var/www/my-github/devops/aws",
       "type": "collection",
       "parent_collection": null,
       "name": "AWS Projects",
-      "last_commit_at": null,
-      "sub_project_ids": [
-        "aws-real-time-data-processing",
-        "aws-scalable-web-application",
-        "aws-serverless-application"
-      ],
       "summary": "Collection of three AWS architecture demos: real-time data processing, scalable web application, and serverless application.",
       "technologies": {
         "languages": [],
@@ -665,22 +616,18 @@
         "aws-scalable-web-application",
         "aws-serverless-application",
         "certificates"
+      ],
+      "sub_project_ids": [
+        "aws-real-time-data-processing",
+        "aws-scalable-web-application",
+        "aws-serverless-application"
       ]
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "aws-guides",
-      "path": "/var/www/my-github/devops/aws-guides",
       "type": "collection",
       "parent_collection": null,
       "name": "AWS Guides",
-      "last_commit_at": "2025-12-15T00:45:03+01:00",
-      "sub_project_ids": [
-        "aws-guides-aws-calculator"
-      ],
       "summary": "Collection of AWS guides. Contains aws-calculator: practical guide for estimating AWS costs using the Pricing Calculator (guest and console versions).",
       "technologies": {
         "languages": [],
@@ -737,20 +684,16 @@
         "aws-guides-aws-calculator",
         "aws",
         "devops-portfolio"
+      ],
+      "sub_project_ids": [
+        "aws-guides-aws-calculator"
       ]
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:18+00:00",
       "id": "aws-guides-aws-calculator",
-      "path": "/var/www/my-github/devops/aws-guides/aws-calculator",
       "type": "project",
       "parent_collection": "aws-guides",
       "name": "AWS Pricing Calculator Guide",
-      "last_commit_at": null,
-      "sub_project_ids": [],
       "summary": "Markdown guide with screenshots for using AWS Pricing Calculator — guest and console versions, share links, PDF export, and common mistakes.",
       "technologies": {
         "languages": [],
@@ -806,20 +749,14 @@
       "related_projects": [
         "aws-guides",
         "aws"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:18+00:00",
       "id": "aws-real-time-data-processing",
-      "path": "/var/www/my-github/devops/aws/real-time-data-processing",
       "type": "project",
       "parent_collection": "aws",
       "name": "Real-Time Data Processing",
-      "last_commit_at": null,
-      "sub_project_ids": [],
       "summary": "AWS demo: Kinesis Data Streams → Lambda → S3 → Glue → Athena → QuickSight for real-time data ingestion and analytics.",
       "technologies": {
         "languages": [
@@ -827,6 +764,7 @@
         ],
         "frameworks": [],
         "cloud": [
+          "aws",
           "kinesis",
           "lambda",
           "s3",
@@ -885,102 +823,114 @@
       "related_projects": [
         "aws",
         "aws-scalable-web-application"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:18+00:00",
       "id": "aws-scalable-web-application",
-      "path": "/var/www/my-github/devops/aws/scalable-web-application",
       "type": "project",
       "parent_collection": "aws",
       "name": "Scalable Web Application",
-      "last_commit_at": null,
-      "sub_project_ids": [],
-      "summary": "AWS demo: Application Load Balancer → Auto Scaling Group → EC2 → RDS for a fault-tolerant scalable web app.",
+      "summary": "End-to-end AWS demo: ALB → Auto Scaling Group → EC2 → RDS MySQL, with IAM, Secrets Manager, CloudWatch alarms, and load-test validation.",
       "technologies": {
         "languages": [],
         "frameworks": [],
         "cloud": [
+          "aws",
           "alb",
           "ec2",
           "rds",
           "cloudwatch",
-          "auto-scaling"
+          "auto-scaling",
+          "sns",
+          "secrets-manager",
+          "iam"
         ],
         "tools": [],
-        "databases": []
+        "databases": [
+          "mysql"
+        ]
       },
       "features": [
-        "High availability",
-        "Auto-scaling",
-        "Load balancing",
-        "RDS database",
-        "CloudWatch monitoring"
+        "Application Load Balancer with target group health checks",
+        "Auto Scaling Group (1–3 instances) on CPU utilization",
+        "Launch template with user-data bootstrapping",
+        "RDS MySQL with EC2 security group access",
+        "Secrets Manager for database credentials",
+        "CloudWatch alarm + SNS email on high CPU",
+        "Load testing with Apache Benchmark"
       ],
-      "architecture": "ALB → ASG → EC2 → RDS",
+      "architecture": "Internet-facing ALB routes to an Auto Scaling Group of EC2 instances (custom AMI + launch template). Each instance reads from RDS MySQL; credentials live in Secrets Manager. Security groups restrict DB access to the app tier. CloudWatch tracks CPU; SNS notifies when utilization exceeds threshold. Validated under simulated traffic.",
       "problems_solved": [
-        "Demonstrates production-style scalable web infrastructure on AWS."
+        "Shows how to scale a classic three-tier web app horizontally under load",
+        "Demonstrates ALB + ASG wiring with health checks and launch templates",
+        "Covers secure RDS access (security groups + Secrets Manager)",
+        "Proves monitoring and alerting with CloudWatch, SNS, and load tests"
       ],
       "use_cases": [
-        "High-traffic web apps",
-        "AWS scaling patterns"
+        "High-traffic web apps needing horizontal scale",
+        "Interview or portfolio proof of ALB/ASG/RDS patterns",
+        "Baseline before containerizing or moving to ECS/EKS"
       ],
-      "when_to_use": "Use when discussing scalable AWS web applications or ALB/ASG/RDS setups.",
+      "when_to_use": "Use when discussing scalable AWS web applications, auto-scaling proof, or subscriber-style reliability patterns.",
       "competencies": [
         "high availability",
         "auto-scaling",
         "load balancing",
-        "RDS"
+        "RDS",
+        "observability",
+        "security groups"
       ],
       "design_patterns": [
         "three-tier architecture",
-        "horizontal scaling via ASG"
+        "horizontal scaling via ASG",
+        "separation of web and data tiers"
       ],
       "best_practices": [
-        "ALB health checks",
-        "multi-AZ thinking",
-        "CloudWatch monitoring"
+        "ALB target group health checks before routing traffic",
+        "Least-privilege security groups between EC2 and RDS",
+        "Credentials in Secrets Manager, not user data",
+        "CloudWatch alarms with SNS for operator notification",
+        "Validate scale-out with load testing"
       ],
       "keywords": [
         "alb",
         "asg",
         "ec2",
         "rds",
-        "scalability"
+        "scalability",
+        "cloudwatch",
+        "auto-scaling"
       ],
       "trade_offs": [
-        "EC2 ASG vs containers — classic AWS pattern clarity"
+        "EC2 ASG vs containers — clearer for classic AWS hiring signals",
+        "Manual console steps vs Terraform — demo focuses on architecture, not IaC"
       ],
       "audience": [
         "cloud engineers",
-        "backend DevOps roles"
+        "backend DevOps roles",
+        "SRE and platform interviews"
       ],
       "complexity": "medium",
       "related_projects": [
         "aws",
+        "aws-real-time-data-processing",
+        "aws-serverless-application",
         "terraform-aws-infrastructure"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:18+00:00",
       "id": "aws-serverless-application",
-      "path": "/var/www/my-github/devops/aws/serverless-application",
       "type": "project",
       "parent_collection": "aws",
       "name": "Serverless Application",
-      "last_commit_at": null,
-      "sub_project_ids": [],
       "summary": "AWS demo: API Gateway → Lambda → DynamoDB & S3 for a serverless upload processing application.",
       "technologies": {
         "languages": [],
         "frameworks": [],
         "cloud": [
+          "aws",
           "api-gateway",
           "lambda",
           "dynamodb",
@@ -1038,20 +988,14 @@
       "related_projects": [
         "aws",
         "aws-real-time-data-processing"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "ci-showcase",
-      "path": "/var/www/my-github/devops/ci-showcase",
       "type": "project",
       "parent_collection": null,
       "name": "CI Showcase",
-      "last_commit_at": "2025-11-02T17:45:49+01:00",
-      "sub_project_ids": [],
       "summary": "Minimal Python Flask app with CI/CD pipelines on GitHub Actions and GitLab CI — demonstrates clean production-ready DevOps workflows.",
       "technologies": {
         "languages": [
@@ -1120,20 +1064,14 @@
         "jenkins-database-backup-pipelines",
         "terraform-ci-cd",
         "aidesk-mini"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "jenkins-database-backup-pipelines",
-      "path": "/var/www/my-github/devops/jenkins-database-backup-pipelines",
       "type": "project",
       "parent_collection": null,
       "name": "Jenkins Database Backup Pipelines",
-      "last_commit_at": "2025-11-02T17:19:24+01:00",
-      "sub_project_ids": [],
       "summary": "Jenkins Declarative Pipeline for automated MySQL backups: mysqldump → gzip → SHA-256 checksum → upload to S3-compatible storage.",
       "technologies": {
         "languages": [],
@@ -1143,8 +1081,7 @@
         ],
         "tools": [
           "jenkins",
-          "mysql",
-          "docker"
+          "mysql"
         ],
         "databases": []
       },
@@ -1196,20 +1133,14 @@
       "related_projects": [
         "ci-showcase",
         "terraform-aws-infrastructure"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "terraform-aws-infrastructure",
-      "path": "/var/www/my-github/devops/terraform-aws-infrastructure",
       "type": "project",
       "parent_collection": null,
       "name": "Terraform AWS Infrastructure",
-      "last_commit_at": "2026-02-01T13:44:31+01:00",
-      "sub_project_ids": [],
       "summary": "Production-grade modular Terraform for AWS: VPC, EC2, RDS, S3, IAM with multi-environment support and remote S3/DynamoDB state backend.",
       "technologies": {
         "languages": [
@@ -1279,20 +1210,14 @@
         "terraform-ci-cd",
         "aws-terraform-vpc-geocoder-example",
         "aws-scalable-web-application"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "terraform-ci-cd",
-      "path": "/var/www/my-github/devops/terraform-ci-cd",
       "type": "project",
       "parent_collection": null,
       "name": "Terraform CI/CD Pipeline",
-      "last_commit_at": "2025-09-28T22:21:13+02:00",
-      "sub_project_ids": [],
       "summary": "Automated Terraform plan/apply workflows with GitHub Actions, environment isolation, security warnings, and deployment notifications.",
       "technologies": {
         "languages": [
@@ -1354,20 +1279,14 @@
         "terraform-aws-infrastructure",
         "aws-terraform-vpc-geocoder-example",
         "ci-showcase"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "dziana-portfolio",
-      "path": "/var/www/my-github/dziana/dziana-portfolio",
       "type": "project",
       "parent_collection": null,
       "name": "Dziana Portfolio",
-      "last_commit_at": "2026-06-29T15:35:41+02:00",
-      "sub_project_ids": [],
       "summary": "Multilingual static portfolio site for brand manager Diana Veremeichyk, built with Astro and Tailwind CSS, deployed on Cloudflare Pages.",
       "technologies": {
         "languages": [
@@ -1431,21 +1350,103 @@
       ],
       "complexity": "medium",
       "related_projects": [
-        "arch-decisions-frontend"
-      ]
+        "arch-decisions-frontend",
+        "yahor-portfolio"
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
+      "id": "yahor-portfolio",
+      "type": "project",
+      "parent_collection": null,
+      "name": "Yahor Dubrouski Portfolio",
+      "summary": "Production Astro portfolio with role-based hire funnels, curated proof data, CV exports, Playwright smoke tests, and SEO — deployed on Cloudflare Pages.",
+      "technologies": {
+        "languages": [
+          "typescript",
+          "javascript"
+        ],
+        "frameworks": [
+          "astro"
+        ],
+        "cloud": [],
+        "tools": [
+          "tailwind",
+          "playwright",
+          "github-actions"
+        ],
+        "databases": []
+      },
+      "features": [
+        "Role landing pages (DevOps, Full Stack, Backend)",
+        "Curated projects, outcomes, reviews, and integrations",
+        "Web + PDF CV generation",
+        "i18n routing (EN/RU)",
+        "Playwright E2E smoke tests",
+        "Sitemap, robots.txt, and structured data"
+      ],
+      "architecture": "Astro SSG → static `dist/`; typed data layer in `src/data/`; templates compose shared UI components",
+      "problems_solved": [
+        "Single codebase serving multiple hire audiences without leaking unrelated proof.",
+        "Agent-readable cache kept separate from public site data."
+      ],
+      "use_cases": [
+        "Astro full-stack portfolio patterns",
+        "Role-scoped marketing pages",
+        "Static site SEO setup"
+      ],
+      "when_to_use": "Use when discussing this portfolio site, Astro delivery, or role-based proof pages.",
+      "competencies": [
+        "static site architecture",
+        "full-stack delivery",
+        "typed data layers",
+        "E2E testing",
+        "SEO"
+      ],
+      "design_patterns": [
+        "data-driven pages",
+        "role landing registry",
+        "template composition",
+        "service-style data modules"
+      ],
+      "best_practices": [
+        "Public site data decoupled from AI agent cache",
+        "Stable project IDs and curated copy in version control",
+        "Smoke tests on critical routes",
+        "Minimal head-only SEO changes",
+        "Cloudflare Pages static deploy"
+      ],
+      "keywords": [
+        "astro",
+        "portfolio",
+        "tailwind",
+        "playwright",
+        "hire-funnel",
+        "static-site",
+        "cloudflare"
+      ],
+      "trade_offs": [
+        "Curated JSON over runtime cache — safer publish, manual sync when projects change",
+        "Static export — no server-side forms; contact via external links"
+      ],
+      "audience": [
+        "potential clients",
+        "recruiters",
+        "full-stack hiring managers"
+      ],
+      "complexity": "high",
+      "related_projects": [
+        "dziana-portfolio",
+        "arch-decisions",
+        "aidesk-mini"
+      ],
+      "sub_project_ids": []
+    },
+    {
       "id": "ai-diary",
-      "path": "/var/www/my-github/learning/ai-diary",
       "type": "project",
       "parent_collection": null,
       "name": "AI Diary / Mental Health Assistant",
-      "last_commit_at": null,
-      "sub_project_ids": [],
       "summary": "n8n workflow template: Telegram voice/text → OpenAI transcription → Notion diary notes with confirmation replies.",
       "technologies": {
         "languages": [],
@@ -1509,20 +1510,14 @@
       "related_projects": [
         "ai-planner",
         "certificates"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "ai-planner",
-      "path": "/var/www/my-github/learning/ai-planner",
       "type": "project",
       "parent_collection": null,
       "name": "n8n Automation Collection",
-      "last_commit_at": "2026-01-08T20:31:54+01:00",
-      "sub_project_ids": [],
       "summary": "Collection of n8n automations including AI Planner (Telegram voice assistant → Notion tasks) and Prompt Hub (semantic prompt search with embeddings).",
       "technologies": {
         "languages": [],
@@ -1590,20 +1585,14 @@
       "related_projects": [
         "ai-diary",
         "atlassian-mcp"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "aws-terraform-vpc-geocoder-example",
-      "path": "/var/www/my-github/learning/aws-terraform-vpc-geocoder-example",
       "type": "project",
       "parent_collection": null,
       "name": "AWS Terraform VPC Geocoder Example",
-      "last_commit_at": "2025-09-28T21:42:22+02:00",
-      "sub_project_ids": [],
       "summary": "Reusable multi-environment Terraform project: VPC, Aurora PostgreSQL, S3, App Runner reverse geocoder, remote state, and GitHub Actions CI/CD.",
       "technologies": {
         "languages": [
@@ -1679,20 +1668,14 @@
         "terraform-aws-infrastructure",
         "terraform-ci-cd",
         "aws"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "aidesk-mini",
-      "path": "/var/www/my-github/money/aidesk-mini",
       "type": "project",
       "parent_collection": null,
       "name": "AIDesk Mini",
-      "last_commit_at": "2026-05-10T00:54:38+02:00",
-      "sub_project_ids": [],
       "summary": "Enterprise-grade Laravel 12 API for AI-powered support ticket triage with Docker, GitHub Actions CI, and OpenAPI documentation.",
       "technologies": {
         "languages": [
@@ -1700,8 +1683,7 @@
           "javascript"
         ],
         "frameworks": [
-          "laravel",
-          "react"
+          "laravel"
         ],
         "cloud": [],
         "tools": [
@@ -1709,7 +1691,9 @@
           "github-actions",
           "openai",
           "stripe",
-          "phpunit"
+          "phpunit",
+          "mysql",
+          "redis"
         ],
         "databases": []
       },
@@ -1773,20 +1757,14 @@
         "arch-decisions-backend",
         "ci-showcase",
         "certificates"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "ai-amotions",
-      "path": "/var/www/youtube/ai-amotions",
       "type": "project",
       "parent_collection": null,
       "name": "AI Voice Emotion Demo",
-      "last_commit_at": "2026-04-17T15:32:06+02:00",
-      "sub_project_ids": [],
       "summary": "YouTube Shorts demo: microphone → Hume prosody emotion analysis → top 3 emotions + narration + optional OpenAI TTS voiceover.",
       "technologies": {
         "languages": [
@@ -1850,20 +1828,14 @@
       "related_projects": [
         "ai-planner",
         "ai-diary"
-      ]
+      ],
+      "sub_project_ids": []
     },
     {
-      "enrichment_status": "complete",
-      "enriched_at": "2026-06-29T18:29:44+00:00",
-      "enriched_by": "cursor",
-      "updated_at": "2026-06-29T15:43:21+00:00",
       "id": "atlassian-mcp",
-      "path": "/var/www/youtube/atlassian-mcp",
       "type": "project",
       "parent_collection": null,
       "name": "Confluence ↔ Local Sync + Atlassian MCP",
-      "last_commit_at": "2026-06-03T22:21:05+02:00",
-      "sub_project_ids": [],
       "summary": "YouTube tutorial repo: sync selected Confluence pages with local markdown in git, plus Atlassian MCP integration in Cursor.",
       "technologies": {
         "languages": [],
@@ -1926,7 +1898,8 @@
       "related_projects": [
         "ai-planner",
         "arch-decisions"
-      ]
+      ],
+      "sub_project_ids": []
     }
   ]
 }

@@ -1,0 +1,76 @@
+---
+description: Profile database index — agent-readable career data (not the website). Routes enrichment tasks to specific rules.
+alwaysApply: true
+---
+
+# Profile Database (AI-only)
+
+Agent-readable knowledge about **Yahor Dubrouski** — separate from `projects.cache.json` (code repos).
+
+**This is a database, not the website.** Enrich here first; the site (`src/data/*`) is updated separately when building pages.
+
+## Auto-routing (no rule name needed from the user)
+
+When the user provides career data (text, image, PDF, link) or asks to "enrich database / save this / add this", **you** decide the flow — the user should never have to name a rule or file:
+
+1. **Detect the data type** from content and the trigger table below.
+2. **Read the matching task rule** in `.cursor/rules/profile-enrich-*.mdc` and follow it.
+3. **Register the input first** via `profile-enrich-sources.mdc` whenever a new file or long paste is involved.
+4. If the input spans multiple targets (e.g. a CV → experience + outcomes + profile + certs), run **each** relevant rule in turn.
+5. If the type is genuinely ambiguous, pick the best match and state your choice; only ask the user when the data could reasonably go to two unrelated targets.
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `ai-agents/database/profile.json` | Identity, taglines, bios, contacts, languages |
+| `ai-agents/database/experience.json` | Jobs and contracts |
+| `ai-agents/database/outcomes.json` | Measurable results |
+| `ai-agents/database/reviews.json` | Testimonials + proof links/images |
+| `ai-agents/database/certifications.json` | Certs and courses |
+| `ai-agents/database/capabilities.json` | Skills → evidence map |
+| `ai-agents/database/cvs.json` | CV versions + extracted bullets |
+| `ai-agents/database/sources.json` | Registry of every raw input |
+| `ai-agents/sources/` | Stored files (screenshots, PDFs, notes) |
+
+Code projects: see `portfolio-cache.mdc` → `projects.cache.json`.
+
+## Trigger phrases → rule
+
+| User says | Use rule |
+|-----------|----------|
+| "enrich database", new file/image/text provided | `profile-enrich-sources.mdc` first |
+| review, testimonial, feedback, Upwork, LinkedIn praise | `profile-enrich-reviews.mdc` |
+| CV, resume, curriculum vitae | `profile-enrich-cv.mdc` |
+| job, employment, work history, company, role | `profile-enrich-experience.mdc` |
+| outcome, metric, achievement, perf review result | `profile-enrich-outcomes.mdc` |
+| about me, tagline, bio, positioning, LinkedIn about | `profile-enrich-profile.mdc` |
+| certificate, certification, course completion | `profile-enrich-certifications.mdc` |
+| skill, competency, capability matrix | `profile-enrich-capabilities.mdc` |
+
+## Universal enrichment rules
+
+1. **Register the source first** (`sources.json`) unless updating an existing record with no new file.
+2. **Evidence only** — extract what is stated; mark uncertain fields `confidence: "draft"`.
+3. **Never** copy database records straight into `src/data/*` unless the user asks to update the site.
+4. Set `enriched_at` (UTC ISO) and `enriched_by: "cursor"` on every write.
+5. Use stable `id` (kebab-case); never reuse ids for different facts.
+6. Link records: `sourceIds[]`, `experienceIds[]`, `projectCacheIds[]` where applicable.
+7. `publicSafe: false` for internal perf reviews unless user confirms publishable.
+8. After enrichment, set the target file's top-level `updated_at`.
+
+## Record envelope (all `records[]` entries)
+
+```json
+{
+  "id": "kebab-case",
+  "enrichment_status": "complete",
+  "enriched_at": "2026-07-07T12:00:00Z",
+  "enriched_by": "cursor",
+  "confidence": "verified | draft",
+  "sourceIds": ["src-..."],
+  "publicSafe": true
+}
+```
+
+Add type-specific fields per task rule below.

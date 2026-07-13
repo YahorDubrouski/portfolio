@@ -1,0 +1,50 @@
+---
+description: Register raw profile inputs (text, images, PDFs) in sources.json before other profile enrichment
+alwaysApply: false
+---
+
+# Enrich — Sources (register input first)
+
+Apply when the user provides **any new file or pasted text** for the profile database.
+
+## Target file
+
+`ai-agents/database/sources.json` → `records[]`
+
+## Steps
+
+1. **Save the file** (if image/PDF) to `ai-agents/sources/{type}/` with a clear name, e.g. `reviews/upwork-client-2024.png`, `cvs/solution-architect-en-2025.pdf`.
+2. **Read the content** — OCR/read images, read PDFs, preserve pasted text.
+3. **Append a source record**:
+
+```json
+{
+  "id": "src-{type}-{slug}",
+  "type": "cv | linkedin | performance_review | review_screenshot | message | note | certificate | other",
+  "format": "text | pdf | png | jpg | docx",
+  "path": "ai-agents/sources/... or absolute path",
+  "language": "en | ru | pl | de | null",
+  "description": "What this file is",
+  "receivedAt": "UTC ISO date",
+  "extractionStatus": "pending",
+  "extractedInto": [],
+  "sensitive": false,
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+4. **Route to the right task rule** and enrich the target database file(s).
+5. **Update the source**: set `extractionStatus` to `partial` or `complete`, append to `extractedInto`:
+
+```json
+{ "file": "reviews.json", "recordIds": ["review-upwork-..."] }
+```
+
+## Rules
+
+- One source per distinct file or paste batch; do not merge unrelated inputs.
+- If content spans multiple targets (CV → experience + outcomes + profile), register **one** source, then run each target rule.
+- Mark `sensitive: true` for performance reviews and internal employer docs.
+- Do not delete sources when re-enriching; add a new source id if the user sends an updated file.

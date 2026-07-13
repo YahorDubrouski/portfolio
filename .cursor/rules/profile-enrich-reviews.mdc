@@ -1,0 +1,78 @@
+---
+description: Enrich profile database with client reviews — text, ratings, LinkedIn/Upwork links, review screenshots
+alwaysApply: false
+---
+
+# Enrich — Reviews
+
+Apply when the user provides testimonials, Upwork/LinkedIn feedback, review screenshots, or says "enrich database with this review".
+
+**Prerequisite:** register input in `sources.json` (`profile-enrich-sources.mdc`) if a new file or paste.
+
+## Target file
+
+`ai-agents/database/reviews.json` → `records[]`
+
+## Steps
+
+1. Read text from user message, image (OCR), or linked source file.
+2. **If screenshot image** — save to `ai-agents/sources/reviews/{id}.png` (or keep user path).
+3. **Dedupe** — match on quote snippet + source; update existing record if same review, new proof only.
+4. Append or update record:
+
+```json
+{
+  "id": "review-{source}-{slug}",
+  "source": "Upwork | LinkedIn | Direct | Internal",
+  "clientType": "e.g. DevOps / Cloud client",
+  "quote": "Exact testimonial text",
+  "rating": 5,
+  "date": "YYYY-MM or null",
+  "authorRole": "optional anonymized role",
+  "relatedRoles": ["devops", "backend"],
+  "relatedExperienceIds": [],
+  "relatedProjectCacheIds": [],
+  "proof": {
+    "type": "external",
+    "href": "https://www.linkedin.com/...",
+    "label": "View on LinkedIn"
+  },
+  "featured": false,
+  "publicSafe": true,
+  "confidence": "verified",
+  "sourceIds": ["src-..."],
+  "enrichment_status": "complete",
+  "enriched_at": "...",
+  "enriched_by": "cursor"
+}
+```
+
+## Proof field (required when link or image exists)
+
+**External link** (LinkedIn, Upwork public profile review):
+
+```json
+"proof": { "type": "external", "href": "https://...", "label": "View on LinkedIn" }
+```
+
+**Screenshot** (saved under `ai-agents/sources/reviews/`):
+
+```json
+"proof": {
+  "type": "image",
+  "src": "ai-agents/sources/reviews/upwork-client-2024.png",
+  "alt": "Upwork 5-star review from ...",
+  "label": "View review screenshot"
+}
+```
+
+Use `external` when the user gives a URL; use `image` when they provide only a screenshot. Both can exist only if you store link as primary and image as backup — prefer one `proof` object; add optional `proofImage` only if both are needed.
+
+## Rules
+
+- Quote must be **verbatim** from source; do not polish marketing language unless user asks.
+- `rating` only if visible in source (stars, "5.0", etc.).
+- `publicSafe: false` for internal colleague feedback unless user confirms.
+- `relatedProjectCacheIds` — ids from `projects.cache.json` when review mentions specific work.
+- Update `sources.json` → `extractedInto` after write.
+- Do **not** edit `src/data/reviews.ts` unless user asks to sync site.
