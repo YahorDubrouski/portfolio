@@ -1,0 +1,30 @@
+---
+interface Props {
+    code: string;
+    caption?: string;
+    githubHref?: string;
+    githubLabel?: string;
+    embedded?: boolean;
+}
+
+const { code, caption, githubHref, githubLabel = 'Full file on GitHub →', embedded = false } = Astro.props;
+const figureClass = embedded ? 'overflow-hidden' : 'card overflow-hidden p-0';
+---
+<figure class={figureClass}>
+    <pre class="overflow-x-auto whitespace-pre bg-stone-900 p-4 text-xs leading-relaxed text-stone-100 sm:text-sm"><code>{code}</code></pre>
+    {(caption || githubHref) && (
+        <figcaption class="flex flex-wrap items-center justify-between gap-2 border-t border-border px-4 py-3 text-xs text-stone-500">
+            {caption && <span class="max-w-3xl leading-relaxed">{caption}</span>}
+            {githubHref && (
+                <a
+                    href={githubHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="shrink-0 font-medium text-stone-600 hover:text-stone-900"
+                >
+                    {githubLabel}
+                </a>
+            )}
+        </figcaption>
+    )}
+</figure>

@@ -1,0 +1,7 @@
+---
+import CertificatesPage from '../../templates/CertificatesPage.astro';
+import { getSiteTranslations } from '../../i18n/translations/site';
+const locale = 'ru';
+const t = getSiteTranslations(locale);
+---
+<CertificatesPage locale={locale} t={t} />

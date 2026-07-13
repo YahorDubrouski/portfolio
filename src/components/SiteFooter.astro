@@ -1,0 +1,67 @@
+---
+import CvLink from './CvLink.astro';
+import { footerContactLinks, getCvForAudience, resolveCvAudience, resolveCvDownloadHref } from '../data/contactLinks';
+import { isNavActive, getProofNavItemsForPath, resolveHireContextPath } from '../data/navigation';
+import { getSiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getSiteTranslations(locale);
+const currentPath = Astro.url.pathname;
+const cv = getCvForAudience(resolveCvAudience(currentPath));
+const footerProofItems = getProofNavItemsForPath(currentPath);
+---
+<footer class="mt-auto border-t border-border bg-surface-muted/50" role="contentinfo">
+    <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-3">
+        <div>
+            <h2 class="text-xs font-semibold uppercase tracking-widest text-muted">{t.footer.proof}</h2>
+            <ul class="mt-3 space-y-2 text-sm">
+                {footerProofItems.map((item) => {
+                    const isActive = isNavActive(currentPath, item.path);
+                    return (
+                        <li>
+                            <a
+                                href={resolveHireContextPath(item.path, currentPath, locale)}
+                                class:list={[isActive ? 'font-medium text-heading' : 'text-body hover:text-accent']}
+                            >
+                                {t.nav[item.labelKey]}
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+
+        <div>
+            <h2 class="text-xs font-semibold uppercase tracking-widest text-muted">{t.ui.contactMe}</h2>
+            <ul class="mt-3 space-y-2 text-sm">
+                {footerContactLinks.map((link) => (
+                    <li>
+                        <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-body underline decoration-border underline-offset-2 hover:text-accent hover:decoration-accent"
+                        >
+                            {link.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+        <div>
+            <h2 class="text-xs font-semibold uppercase tracking-widest text-muted">{t.ui.downloadCv}</h2>
+            <div class="mt-3">
+                <CvLink href={resolveCvDownloadHref(cv)} label={cv.label} />
+            </div>
+        </div>
+    </div>
+    <p class="border-t border-border py-6 text-center text-xs text-muted">
+        © {new Date().getFullYear()} {t.meta.siteName}
+    </p>
+</footer>

@@ -1,0 +1,11 @@
+---
+import AiPlannerCaseStudyPage from '../../templates/AiPlannerCaseStudyPage.astro';
+import { caseStudySlugs } from '../../data/projects';
+
+export function getStaticPaths() {
+    return caseStudySlugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+---
+<AiPlannerCaseStudyPage locale="en" />

@@ -1,0 +1,124 @@
+---
+import HomeSectionHeader from './HomeSectionHeader.astro';
+
+export interface IntegrationCategoryView {
+    id: string;
+    label: string;
+    systems: string[];
+}
+
+interface Props {
+    categories: IntegrationCategoryView[];
+    title?: string;
+    subtitle?: string;
+    linkHref?: string;
+    linkLabel?: string;
+    /** Template with `{count}` placeholder, e.g. "+{count} more" */
+    moreLabelTemplate?: string;
+    lessLabel?: string;
+    visibleLimit?: number;
+    hideHeader?: boolean;
+}
+
+const {
+    categories,
+    title,
+    subtitle,
+    linkHref,
+    linkLabel,
+    moreLabelTemplate = '+{count} more',
+    lessLabel = 'Show less',
+    visibleLimit = 6,
+    hideHeader = false,
+} = Astro.props;
+
+function formatMoreLabel(count: number): string {
+    return moreLabelTemplate.replace('{count}', String(count));
+}
+---
+<section class="bg-surface py-16">
+    <div class="mx-auto max-w-6xl px-4">
+        {
+            !hideHeader && title && (
+                <HomeSectionHeader title={title} subtitle={subtitle} linkHref={linkHref} linkLabel={linkLabel} />
+            )
+        }
+        <div class="grid gap-5 md:grid-cols-2">
+            {categories.map((category) => {
+                const overflowCount = Math.max(0, category.systems.length - visibleLimit);
+                const useChipGrid = category.systems.length >= 4;
+
+                return (
+                    <article class="card-interactive" data-integration-card>
+                        <div class="flex items-baseline justify-between gap-2 border-b border-border pb-3">
+                            <h3 class="font-serif text-base font-semibold text-heading sm:text-lg">{category.label}</h3>
+                            <span class="rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium tabular-nums text-muted">
+                                {category.systems.length}
+                            </span>
+                        </div>
+                        <ul
+                            class:list={[
+                                'mt-4 gap-2',
+                                useChipGrid ? 'grid grid-cols-2' : 'flex flex-wrap',
+                            ]}
+                            aria-label={category.label}
+                        >
+                            {category.systems.map((system, index) => (
+                                <li
+                                    class:list={[index >= visibleLimit && 'hidden']}
+                                    data-integration-overflow={index >= visibleLimit ? 'true' : undefined}
+                                >
+                                    <span class="inline-block w-full rounded-md border border-border bg-surface-muted px-3 py-1.5 text-sm font-medium text-body">
+                                        {system}
+                                    </span>
+                                </li>
+                            ))}
+                            {
+                                overflowCount > 0 && (
+                                    <li class:list={[useChipGrid && 'col-span-2']}>
+                                        <button
+                                            type="button"
+                                            class="text-sm font-semibold text-accent hover:text-accent-hover"
+                                            data-integration-toggle
+                                            aria-expanded="false"
+                                            data-label-more={formatMoreLabel(overflowCount)}
+                                            data-label-less={lessLabel}
+                                        >
+                                            {formatMoreLabel(overflowCount)}
+                                        </button>
+                                    </li>
+                                )
+                            }
+                        </ul>
+                    </article>
+                );
+            })}
+        </div>
+    </div>
+</section>
+
+<script>
+    function initIntegrationExpand() {
+        document.querySelectorAll('[data-integration-card]').forEach((card) => {
+            const toggle = card.querySelector<HTMLButtonElement>('[data-integration-toggle]');
+            if (!toggle || toggle.dataset.bound === 'true') {
+                return;
+            }
+            toggle.dataset.bound = 'true';
+
+            const overflowItems = card.querySelectorAll<HTMLElement>('[data-integration-overflow="true"]');
+            const labelMore = toggle.dataset.labelMore ?? '';
+            const labelLess = toggle.dataset.labelLess ?? 'Show less';
+
+            toggle.addEventListener('click', () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                overflowItems.forEach((item) => item.classList.toggle('hidden', expanded));
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                toggle.textContent = expanded ? labelMore : labelLess;
+            });
+        });
+    }
+
+    initIntegrationExpand();
+    document.addEventListener('astro:page-load', initIntegrationExpand);
+</script>

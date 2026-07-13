@@ -1,0 +1,20 @@
+---
+interface Props {
+    kicker: string;
+    title: string;
+    description?: string;
+    headingLevel?: 'h1' | 'h2';
+    id?: string;
+}
+
+const { kicker, title, description, headingLevel = 'h2', id } = Astro.props;
+const HeadingTag = headingLevel;
+---
+<header class="max-w-3xl">
+    <p class="text-xs font-semibold uppercase tracking-widest text-stone-500">{kicker}</p>
+    <HeadingTag id={id} class="mt-2 text-2xl font-bold tracking-tight text-heading sm:text-3xl">
+        {title}
+    </HeadingTag>
+    {description && <p class="mt-3 text-sm leading-relaxed text-stone-500">{description}</p>}
+    <slot />
+</header>

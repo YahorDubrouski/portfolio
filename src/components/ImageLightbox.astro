@@ -1,0 +1,145 @@
+---
+interface Props {
+    src: string;
+    alt: string;
+    width?: number;
+    height?: number;
+    imageClass?: string;
+    block?: boolean;
+    wrapperClass?: string;
+}
+
+const {
+    src,
+    alt,
+    width,
+    height,
+    imageClass = 'w-full cursor-zoom-in rounded-md border border-stone-200 bg-stone-50 object-contain',
+    block = false,
+    wrapperClass,
+} = Astro.props;
+
+const resolvedWrapperClass =
+    wrapperClass ??
+    (block ? 'relative block w-full max-w-full' : 'relative inline-block w-fit max-w-full');
+---
+<div data-image-lightbox-root class="max-w-full">
+    <div class={resolvedWrapperClass}>
+        <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            class={imageClass}
+            loading="lazy"
+        />
+        <button
+            type="button"
+            data-image-lightbox-open
+            class="absolute right-2 bottom-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/60 bg-stone-900 text-white shadow-md transition hover:bg-stone-800 sm:h-9 sm:w-9"
+            aria-label={`Open ${alt} in full page`}
+        >
+            <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                    d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </button>
+    </div>
+
+    <div
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/92 p-2 sm:p-3"
+        data-image-lightbox-overlay
+        role="dialog"
+        aria-modal="true"
+        aria-label="Full size image preview"
+        hidden
+    >
+        <button
+            type="button"
+            class="fixed right-4 top-4 z-[110] flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white text-2xl font-light leading-none text-stone-900 shadow-lg transition hover:bg-stone-100 sm:right-6 sm:top-6"
+            data-image-lightbox-close
+            aria-label="Close full size image"
+        >
+            ×
+        </button>
+        <img
+            class="max-h-[96vh] max-w-[96vw] h-auto w-auto object-contain"
+            data-image-lightbox-fullscreen
+            alt=""
+        />
+    </div>
+</div>
+
+<script>
+    function initImageLightbox(root) {
+        if (root.dataset.imageLightboxReady === 'true') {
+            return;
+        }
+
+        const openButton = root.querySelector('[data-image-lightbox-open]');
+        const overlay = root.querySelector('[data-image-lightbox-overlay]');
+        const fullscreenImg = root.querySelector('[data-image-lightbox-fullscreen]');
+        const closeButton = root.querySelector('[data-image-lightbox-close]');
+        const previewImg = root.querySelector('img:not([data-image-lightbox-fullscreen])');
+
+        if (!openButton || !overlay || !fullscreenImg || !previewImg) {
+            return;
+        }
+
+        function openLightbox() {
+            fullscreenImg.src = previewImg.src;
+            fullscreenImg.alt = previewImg.alt;
+            overlay.hidden = false;
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            overlay.hidden = true;
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        openButton.addEventListener('click', openLightbox);
+        previewImg.addEventListener('click', openLightbox);
+
+        closeButton?.addEventListener('click', (event) => {
+            event.stopPropagation();
+            closeLightbox();
+        });
+
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (overlay.hidden) {
+                return;
+            }
+
+            if (event.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        root.dataset.imageLightboxReady = 'true';
+    }
+
+    function initAllLightboxes() {
+        document.querySelectorAll('[data-image-lightbox-root]').forEach((root) => {
+            initImageLightbox(root);
+        });
+    }
+
+    initAllLightboxes();
+    document.addEventListener('astro:page-load', initAllLightboxes);
+</script>

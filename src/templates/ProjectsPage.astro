@@ -1,0 +1,229 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import {
+    projectSections,
+    getProjectsForSection,
+    isProjectFilterExcluded,
+} from '../data/projects';
+import { getProjectsForRolePage, getProjectSectionsForRolePage } from '../data/roleLanding';
+import {
+    getGroupedTechnologyFilters,
+    getGroupedTechnologyFiltersForProjects,
+    getProjectTechnologySlugs,
+} from '../data/technologies';
+import { localizedPath } from '../i18n/paths';
+import { getPageTitle, type HireRole, type SiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+    /** When set, only role-matching projects and filters are shown (`/hire/{role}/projects`). */
+    role?: HireRole;
+}
+
+const { locale, t, role } = Astro.props;
+
+const roleProjects = role ? getProjectsForRolePage(role) : null;
+const roleProjectSections = role ? getProjectSectionsForRolePage(role) : null;
+const roleProjectIds = roleProjects ? new Set(roleProjects.map((project) => project.id)) : null;
+
+const displaySections = roleProjectSections
+    ? roleProjectSections.map((section) => ({ key: section.key, projects: section.projects }))
+    : projectSections
+          .map((section) => ({
+              key: section.key,
+              projects: getProjectsForSection(section).filter(
+                  (project) => !roleProjectIds || roleProjectIds.has(project.id),
+              ),
+          }))
+          .filter((section) => section.projects.length > 0);
+
+const technologyFilterGroups = roleProjects
+    ? getGroupedTechnologyFiltersForProjects(roleProjects)
+    : getGroupedTechnologyFilters();
+
+const landingCopy = role ? t.hire[role].landing : undefined;
+const pageTitle = landingCopy?.projectsPageTitle ?? t.projects.title;
+const pageSubtitle = landingCopy?.projectsSubtitle ?? t.projects.subtitle;
+const filterBasePath = role
+    ? localizedPath(`/hire/${role}/projects`, locale)
+    : localizedPath('/projects', locale);
+---
+<BaseLayout title={getPageTitle(locale, pageTitle)} locale={locale}>
+    <section class="py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <SectionHeader title={pageTitle} subtitle={pageSubtitle} />
+
+            <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-muted">
+                {t.projects.filterByTechnology}
+            </p>
+            <div class="mb-8 space-y-5" id="project-filters" role="toolbar" aria-label={t.projects.filterByTechnology}>
+                <div class="flex flex-wrap gap-2">
+                    <button
+                        type="button"
+                        data-filter="all"
+                        class="filter-btn rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white"
+                    >
+                        {t.ui.filterAll}
+                    </button>
+                </div>
+                {technologyFilterGroups.map((group) => (
+                    <div>
+                        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-muted">
+                            {t.projects.filterGroups[group.key]}
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            {group.filters.map(({ slug, label }) => (
+                                <button
+                                    type="button"
+                                    data-filter={slug}
+                                    data-label={label}
+                                    class="filter-btn rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-body hover:border-border-strong"
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <p id="project-filter-status" class="mb-6 text-sm text-muted" hidden></p>
+        </div>
+    </section>
+
+    {
+        displaySections.map((section) => (
+                <div class="project-section" data-project-section>
+                    <div class="project-section-header border-b border-border bg-surface-muted pt-2">
+                        <div class="mx-auto max-w-6xl px-4 pb-4">
+                            <h2 class="text-lg font-bold text-heading">{t.projects.sections[section.key]}</h2>
+                        </div>
+                    </div>
+                    <section class="project-section-body py-10">
+                        <div class="mx-auto max-w-6xl px-4">
+                            <div class="grid gap-6 md:grid-cols-2">
+                                {section.projects.map((project) => (
+                                    <div
+                                        data-slugs={getProjectTechnologySlugs(project).join(',')}
+                                        data-skip-filter={isProjectFilterExcluded(project.id) ? 'true' : undefined}
+                                        class="project-item"
+                                    >
+                                        <ProjectCard project={project} locale={locale} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            ))
+    }
+
+    <div class="mx-auto max-w-6xl px-4 pb-16">
+        <p id="project-empty-state" class="text-center text-sm text-muted" hidden>
+            {t.projects.noProjectsForTechnology}
+        </p>
+    </div>
+
+    <script define:vars={{ filterAllLabel: t.ui.filterAll, noProjectsMessage: t.projects.noProjectsForTechnology, filterBasePath }}>
+        const buttons = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.project-item');
+        const statusEl = document.getElementById('project-filter-status');
+        const emptyEl = document.getElementById('project-empty-state');
+        const urlParam = 'stack';
+
+        function getFilterFromUrl() {
+            return new URLSearchParams(window.location.search).get(urlParam) ?? 'all';
+        }
+
+        function setFilterInUrl(filter) {
+            const url = new URL(window.location.href);
+            url.pathname = filterBasePath;
+            if (filter === 'all') {
+                url.searchParams.delete(urlParam);
+            } else {
+                url.searchParams.set(urlParam, filter);
+            }
+            window.history.replaceState({}, '', url);
+        }
+
+        function setActiveButton(filter) {
+            buttons.forEach((btn) => {
+                const isActive = btn.getAttribute('data-filter') === filter;
+                btn.classList.toggle('bg-primary', isActive);
+                btn.classList.toggle('text-white', isActive);
+                btn.classList.toggle('border', !isActive);
+                btn.classList.toggle('border-border', !isActive);
+                btn.classList.toggle('bg-surface', !isActive);
+                btn.classList.toggle('text-body', !isActive);
+            });
+        }
+
+        function applyFilter(filter) {
+            const normalized = filter === 'all' ? 'all' : filter.toLowerCase();
+            let visibleCount = 0;
+            let activeLabel = filterAllLabel;
+
+            buttons.forEach((btn) => {
+                if (btn.getAttribute('data-filter') === normalized) {
+                    activeLabel =
+                        btn.getAttribute('data-label')?.trim() ??
+                        btn.textContent?.trim() ??
+                        activeLabel;
+                }
+            });
+
+            items.forEach((item) => {
+                const slugs = item.getAttribute('data-slugs') ?? '';
+                const slugList = slugs.split(',').filter(Boolean);
+                const skipFilter = item.getAttribute('data-skip-filter') === 'true';
+                const visible =
+                    normalized === 'all' ||
+                    (!skipFilter && slugList.includes(normalized));
+                item.classList.toggle('hidden', !visible);
+                if (visible) {
+                    visibleCount += 1;
+                }
+            });
+
+            document.querySelectorAll('[data-project-section]').forEach((section) => {
+                const sectionItems = section.querySelectorAll('.project-item');
+                const hasVisible = [...sectionItems].some(
+                    (item) => !item.classList.contains('hidden'),
+                );
+                section.classList.toggle('hidden', !hasVisible);
+            });
+
+            setActiveButton(normalized);
+            setFilterInUrl(normalized);
+
+            if (statusEl) {
+                if (normalized === 'all') {
+                    statusEl.hidden = true;
+                    statusEl.textContent = '';
+                } else {
+                    statusEl.hidden = false;
+                    statusEl.textContent = `${activeLabel} · ${visibleCount} project${visibleCount === 1 ? '' : 's'}`;
+                }
+            }
+
+            if (emptyEl) {
+                emptyEl.hidden = visibleCount > 0 || normalized === 'all';
+                if (!emptyEl.hidden) {
+                    emptyEl.textContent = noProjectsMessage.replace('{tech}', activeLabel);
+                }
+            }
+        }
+
+        buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+                applyFilter(button.getAttribute('data-filter') ?? 'all');
+            });
+        });
+
+        applyFilter(getFilterFromUrl());
+    </script>
+</BaseLayout>

@@ -1,0 +1,149 @@
+---
+import ContactIcon from './ContactIcon.astro';
+import { headerContactLinks } from '../data/contactLinks';
+import { isNavActive, mainNavItems, resolveBrandHref, resolveHireContextPath } from '../data/navigation';
+import { getSiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getSiteTranslations(locale);
+const currentPath = Astro.url.pathname;
+
+function navLinkClass(isActive: boolean): string {
+    return isActive
+        ? 'font-medium text-accent'
+        : 'text-body hover:text-accent';
+}
+---
+<header class="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur-sm">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <div class="mx-auto max-w-6xl px-4 py-3">
+        <div class="flex items-center gap-4">
+            <a
+                href={resolveBrandHref(currentPath, locale)}
+                class="shrink-0 font-serif text-lg font-semibold tracking-tight text-heading hover:text-accent"
+            >
+                {t.meta.siteName}
+            </a>
+
+            <nav
+                aria-label="Main navigation"
+                class="hidden flex-1 justify-center gap-6 text-sm lg:flex"
+            >
+                {mainNavItems.map((item) => {
+                    const href = resolveHireContextPath(item.path, currentPath, locale);
+                    const isActive = isNavActive(currentPath, item.path);
+                    return (
+                        <a href={href} class:list={['whitespace-nowrap py-1', navLinkClass(isActive)]}>
+                            {t.nav[item.labelKey]}
+                        </a>
+                    );
+                })}
+            </nav>
+
+            <div class="ml-auto flex shrink-0 items-center gap-1">
+                <nav aria-label="Contact links" class="flex items-center gap-1">
+                    {headerContactLinks.map((link) => (
+                        <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={link.label}
+                            title={link.label}
+                            class="inline-flex h-10 w-10 items-center justify-center rounded-md text-body transition hover:bg-surface-muted hover:text-accent"
+                        >
+                            <ContactIcon id={link.id} class="h-5 w-5" />
+                        </a>
+                    ))}
+                </nav>
+                <button
+                    type="button"
+                    id="mobile-nav-toggle"
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-md text-body hover:bg-surface-muted hover:text-accent lg:hidden"
+                    aria-expanded="false"
+                    aria-controls="mobile-nav-panel"
+                    aria-label="Open menu"
+                >
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <nav
+            id="mobile-nav-panel"
+            aria-label="Mobile navigation"
+            class="hidden border-t border-border pt-3 lg:hidden"
+            hidden
+        >
+            <ul class="flex flex-col gap-1 pb-1">
+                {mainNavItems.map((item) => {
+                    const href = resolveHireContextPath(item.path, currentPath, locale);
+                    const isActive = isNavActive(currentPath, item.path);
+                    return (
+                        <li>
+                            <a
+                                href={href}
+                                class:list={[
+                                    'block rounded-md px-3 py-2.5 text-sm',
+                                    isActive
+                                        ? 'bg-accent-muted font-medium text-accent'
+                                        : 'text-body hover:bg-surface-muted hover:text-accent',
+                                ]}
+                            >
+                                {t.nav[item.labelKey]}
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<script>
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const panel = document.getElementById('mobile-nav-panel');
+
+    toggle?.addEventListener('click', () => {
+        if (!panel || !toggle) {
+            return;
+        }
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        toggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+        panel.hidden = isOpen;
+        panel.classList.toggle('hidden', isOpen);
+    });
+</script>
+
+<style>
+    .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+    }
+
+    .skip-link:focus-visible {
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        z-index: 100;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        border-radius: 0.375rem;
+        background: var(--primary);
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        color: white;
+    }
+</style>

@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import HomeSectionHeader from '../components/HomeSectionHeader.astro';
+import OutcomeMetrics from '../components/OutcomeMetrics.astro';
+import WorkingPrinciples from '../components/WorkingPrinciples.astro';
+import HomeClosingCta from '../components/HomeClosingCta.astro';
+import IntegrationsChips from '../components/IntegrationsChips.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ReviewCarousel from '../components/ReviewCarousel.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { getHomeOutcomes } from '../data/outcomes';
+import { getHomeIntegrationCategories } from '../data/integrations';
+import { getFeaturedProjects } from '../data/projects';
+import { getHomeReviews, getReviews } from '../data/reviews';
+import { localizedPath } from '../i18n/paths';
+import { getSiteTranslations, type SiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+import { buildPersonJsonLd, getSiteOrigin } from '../data/seo';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+}
+
+const { locale, t } = Astro.props;
+const featuredProjects = getFeaturedProjects(4);
+const homeReviews = getHomeReviews(3, locale);
+const homeOutcomes = getHomeOutcomes();
+const integrationCategories = getHomeIntegrationCategories().map((category) => ({
+    id: category.id,
+    label: t.home.integrationCategories[category.id] ?? category.name,
+    systems: category.systems,
+}));
+
+const telegramUrl = 'https://t.me/YahorDubrouski';
+const projectsHref = localizedPath('/projects', locale);
+const certificatesHref = localizedPath('/certificates', locale);
+const integrationsHref = localizedPath('/integrations', locale);
+
+const heroProofBadges = [
+    { label: t.home.proofItems[0] },
+    { label: t.home.proofItems[1], href: certificatesHref },
+];
+
+const siteOrigin = getSiteOrigin();
+const personJsonLd = siteOrigin ? buildPersonJsonLd(siteOrigin) : undefined;
+---
+<BaseLayout
+    title={t.meta.homePageTitle}
+    description={t.meta.defaultDescription}
+    locale={locale}
+    jsonLd={personJsonLd}
+>
+    <Hero
+        identityLine={t.home.heroIdentityLine}
+        headline={t.home.heroHeadline}
+        proofBadges={heroProofBadges}
+        photoSrc="/images/yahor-dubrouski.png"
+        photoAlt="Yahor Dubrouski"
+    >
+        <div slot="actions" class="flex flex-wrap items-center gap-4">
+            <CTAButton href={telegramUrl} label={t.home.heroCtaTelegram} />
+            <a href={projectsHref} class="text-sm font-semibold text-accent hover:text-accent-hover">
+                {t.home.heroCtaProjects} →
+            </a>
+        </div>
+    </Hero>
+
+    <OutcomeMetrics
+        outcomes={homeOutcomes}
+        title={t.home.outcomesTitle}
+        subtitle={t.home.outcomesSubtitle}
+        allOutcomesHref={localizedPath('/outcomes', locale)}
+        allOutcomesLabel={t.ui.allOutcomes}
+        locale={locale}
+        preferHomeDetail={true}
+    />
+
+    <ReviewCarousel
+        reviews={homeReviews}
+        title={t.ui.reviewsTitle}
+        subtitle={t.home.reviewsSubtitle}
+        allReviewsHref={localizedPath('/reviews', locale)}
+        allReviewsLabel={t.ui.allReviews}
+        totalReviews={getReviews(locale).length}
+        locale={locale}
+        useHomeExcerpts={true}
+    />
+
+    <section class="border-b border-border bg-surface py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <HomeSectionHeader
+                title={t.ui.featuredProjects}
+                subtitle={t.home.projectsSubtitle}
+                linkHref={projectsHref}
+                linkLabel={t.ui.allProjects}
+            />
+            <div class="grid gap-5 md:grid-cols-2">
+                {featuredProjects.map((project) => (
+                    <ProjectCard project={project} locale={locale} />
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <WorkingPrinciples
+        title={t.home.principlesTitle}
+        subtitle={t.home.principlesSubtitle}
+        principles={t.home.principlesHome}
+    />
+
+    <IntegrationsChips
+        categories={integrationCategories}
+        title={t.home.integrationsTitle}
+        subtitle={t.home.integrationsSubtitle}
+        linkHref={integrationsHref}
+        linkLabel={t.home.integrationsLinkLabel}
+        moreLabelTemplate={t.home.integrationsMoreTemplate}
+        lessLabel={t.home.integrationsLessLabel}
+    />
+
+    <HomeClosingCta
+        title={t.home.closingTitle}
+        body={t.home.closingBody}
+        telegramHref={telegramUrl}
+        telegramLabel={t.home.heroCtaTelegram}
+    />
+</BaseLayout>

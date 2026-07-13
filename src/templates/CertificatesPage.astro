@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import CertificateGrid from '../components/CertificateGrid.astro';
+import { getCertificateCategories, getCertificateCategoriesForRole } from '../data/projects';
+import { getPageTitle, type HireRole, type SiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+    /** When set, only role-matching certificates are shown (`/hire/{role}/certificates`). */
+    role?: HireRole;
+}
+
+const { locale, t, role } = Astro.props;
+const landingCopy = role ? t.hire[role].landing : undefined;
+const pageTitle = landingCopy?.certificatesPageTitle ?? t.certificates.title;
+const pageSubtitle = landingCopy?.certificatesTitle ?? t.certificates.subtitle;
+const categories = role ? getCertificateCategoriesForRole(role) : getCertificateCategories();
+---
+<BaseLayout title={getPageTitle(locale, pageTitle)} locale={locale}>
+    <section class="py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <SectionHeader title={pageTitle} subtitle={pageSubtitle} />
+            <CertificateGrid categories={categories} />
+        </div>
+    </section>
+</BaseLayout>

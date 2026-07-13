@@ -1,1 +1,13 @@
 .idea
+node_modules
+dist
+.astro
+playwright-report
+test-results
+
+# Local-only: iteration plans, agent notes, drafts (not committed)
+.local/
+
+# Profile source files may contain sensitive CVs/reviews (JSON schemas in database/ are committed)
+ai-agents/sources/**
+!ai-agents/sources/README.md

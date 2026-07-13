@@ -52,6 +52,9 @@
       "path": "/var/www/my-github/devops/terraform-aws-infrastructure"
     },
     {
+      "path": "/var/www/my-github/portfolio"
+    },
+    {
       "path": "/var/www/my-github/devops/terraform-ci-cd"
     }
   ]

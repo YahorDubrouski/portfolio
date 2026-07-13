@@ -1,0 +1,46 @@
+---
+import HomeSectionHeader from './HomeSectionHeader.astro';
+import ReviewCard from './ReviewCard.astro';
+import type { Review } from '../data/reviews';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    reviews: Review[];
+    title: string;
+    subtitle?: string;
+    allReviewsHref?: string;
+    allReviewsLabel?: string;
+    /** When set, used to decide if “All reviews” is shown; defaults to `reviews.length`. */
+    totalReviews?: number;
+    locale?: Locale;
+    useHomeExcerpts?: boolean;
+}
+
+const {
+    reviews,
+    title,
+    subtitle,
+    allReviewsHref,
+    allReviewsLabel,
+    totalReviews,
+    locale = 'en',
+    useHomeExcerpts = false,
+} = Astro.props;
+const reviewCount = totalReviews ?? reviews.length;
+const showAllReviewsLink = Boolean(allReviewsHref && allReviewsLabel && reviewCount > 3);
+---
+<section class="border-b border-border bg-surface-muted py-16">
+    <div class="mx-auto max-w-6xl px-4">
+        <HomeSectionHeader
+            title={title}
+            subtitle={subtitle}
+            linkHref={showAllReviewsLink ? allReviewsHref : undefined}
+            linkLabel={showAllReviewsLink ? allReviewsLabel : undefined}
+        />
+        <div class="grid gap-5 md:grid-cols-3">
+            {reviews.map((review) => (
+                <ReviewCard review={review} locale={locale} useHomeExcerpt={useHomeExcerpts} />
+            ))}
+        </div>
+    </div>
+</section>

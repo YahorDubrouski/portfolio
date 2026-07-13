@@ -1,0 +1,62 @@
+---
+import ImageLightbox from './ImageLightbox.astro';
+import type { ProjectMediaGroup, ProjectMediaItem } from '../data/projectMedia';
+
+interface Props {
+    groups: ProjectMediaGroup[];
+    title?: string;
+}
+
+const { groups, title = 'Project media' } = Astro.props;
+
+function isWide(item: ProjectMediaItem): boolean {
+    return item.kind === 'diagram' || item.src.endsWith('.svg');
+}
+
+const wideImageClass = 'w-full cursor-zoom-in bg-stone-50 object-contain p-2';
+const tileImageClass = 'w-full cursor-zoom-in bg-stone-50 object-contain p-2';
+---
+{groups.length > 0 && (
+    <section class="mt-10">
+        <h2 class="text-lg font-semibold">{title}</h2>
+        <div class="mt-6 space-y-10">
+            {groups.map((group) => (
+                <div>
+                    {groups.length > 1 && (
+                        <h3 class="text-sm font-semibold uppercase tracking-widest text-stone-500">
+                            {group.title}
+                        </h3>
+                    )}
+                    <div
+                        class:list={[
+                            'grid gap-4',
+                            groups.length > 1 ? 'mt-4' : '',
+                            group.items.some(isWide) ? 'md:grid-cols-1' : 'sm:grid-cols-2 lg:grid-cols-3',
+                        ]}
+                    >
+                        {group.items.map((item) => (
+                            <figure
+                                class:list={[
+                                    'overflow-hidden rounded-lg border border-stone-200 bg-white',
+                                    isWide(item) ? 'md:col-span-full' : '',
+                                ]}
+                            >
+                                <ImageLightbox
+                                    src={item.src}
+                                    alt={item.alt}
+                                    block={true}
+                                    imageClass={isWide(item) ? wideImageClass : tileImageClass}
+                                />
+                                {(item.caption || item.alt) && (
+                                    <figcaption class="border-t border-stone-100 px-4 py-3 text-sm text-stone-600">
+                                        {item.caption ?? item.alt}
+                                    </figcaption>
+                                )}
+                            </figure>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    </section>
+)}

@@ -1,0 +1,36 @@
+---
+import CvLayout from '../../layouts/CvLayout.astro';
+import CvScreenBar from './shared/CvScreenBar.astro';
+import './shared/cv-preview-frame.css';
+import './shared/cv-print.css';
+import ClassicDocument from './templates/classic/ClassicDocument.astro';
+import './templates/classic/classic.css';
+import { buildPageDescription, buildPageTitle } from '../../data/cv/utils/formatters';
+import { getCvPdfDownload } from '../../data/cv/pdfs';
+import type { CvDocument } from '../../data/cv/types';
+import type { CvTemplateId } from '../../data/cv/templates';
+
+interface Props {
+    cv: CvDocument;
+    templateId: CvTemplateId;
+}
+
+const { cv, templateId } = Astro.props;
+
+const templateComponents = {
+    classic: ClassicDocument,
+} satisfies Record<CvTemplateId, typeof ClassicDocument>;
+
+const TemplateComponent = templateComponents[templateId];
+const pageTitle = buildPageTitle(cv);
+const pageDescription = buildPageDescription(cv);
+const downloadPdf = getCvPdfDownload(cv.id, templateId, cv);
+---
+<CvLayout title={pageTitle} description={pageDescription}>
+    <div class="cv-preview-frame">
+        <div class="cv-pdf-root">
+            <CvScreenBar downloadPdf={downloadPdf} />
+            {TemplateComponent ? <TemplateComponent cv={cv} /> : null}
+        </div>
+    </div>
+</CvLayout>

@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import ImageLightbox from '../components/ImageLightbox.astro';
+import ProofSectionHeader from '../components/proofs/ProofSectionHeader.astro';
+import { aiPlannerCaseStudy as content } from '../data/caseStudies/ai-planner';
+import { getGitHubUrl } from '../data/github';
+import { getProjectById } from '../data/projects';
+import { localizedPath } from '../i18n/paths';
+import { getPageTitle, getSiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getSiteTranslations(locale);
+const project = getProjectById('ai-planner');
+if (!project) {
+    throw new Error('ai-planner project not found');
+}
+
+const githubUrl = getGitHubUrl('ai-planner');
+const backHref = localizedPath('/projects', locale);
+const localePrefix = locale === 'ru' ? '/ru' : '';
+---
+<BaseLayout title={getPageTitle(locale, project.name)} locale={locale}>
+    <section class="case-study-hero border-b border-border py-12 sm:py-14">
+        <div class="mx-auto max-w-6xl px-4">
+            <a href={backHref} class="text-sm font-semibold text-accent hover:text-accent-hover">
+                ← {t.ui.backToProjects}
+            </a>
+
+            <div class="mt-6 flex flex-wrap items-start justify-between gap-4">
+                <ProofSectionHeader
+                    kicker="n8n automation collection"
+                    title={project.name}
+                    description={project.summary}
+                    headingLevel="h1"
+                >
+                    <ul class="mt-4 flex flex-wrap gap-2">
+                        {content.chips.map((chip) => (
+                            <li class="tag text-xs font-medium uppercase tracking-wide">{chip}</li>
+                        ))}
+                    </ul>
+                </ProofSectionHeader>
+                {project.complexity && (
+                    <span class="tag text-sm font-medium uppercase">{project.complexity}</span>
+                )}
+            </div>
+
+            {githubUrl && (
+                <div class="mt-6">
+                    <CTAButton href={githubUrl} label={t.ui.viewOnGitHub} />
+                </div>
+            )}
+        </div>
+    </section>
+
+    <section class="border-b border-border bg-surface py-14">
+        <div class="mx-auto max-w-6xl px-4">
+            <div class="mb-8 flex items-baseline gap-3">
+                <span class="text-xs font-semibold tabular-nums tracking-widest text-accent">01</span>
+                <div>
+                    <h2 class="text-2xl font-bold text-heading">{content.aiPlanner.title}</h2>
+                    <p class="mt-1 text-sm text-muted">{content.aiPlanner.tagline}</p>
+                </div>
+            </div>
+
+            <div class="mb-8 flex flex-wrap items-center gap-2 text-sm font-medium text-heading" aria-label="Data flow">
+                {content.aiPlanner.flowSteps.map((step, index) => (
+                    <span class="inline-flex items-center gap-2">
+                        <span class="rounded-md border border-border bg-surface-muted px-3 py-1.5">{step}</span>
+                        {index < content.aiPlanner.flowSteps.length - 1 && (
+                            <span class="text-muted" aria-hidden="true">→</span>
+                        )}
+                    </span>
+                ))}
+            </div>
+
+            <div class="grid gap-4 lg:grid-cols-3">
+                {content.aiPlanner.diagramParts.map((part) => (
+                    <div class="overflow-hidden rounded-xl border border-border bg-surface-muted">
+                        <ImageLightbox
+                            src={part.src}
+                            alt={part.alt}
+                            block={true}
+                            imageClass="w-full cursor-zoom-in object-contain p-2"
+                        />
+                    </div>
+                ))}
+            </div>
+
+            <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+                {content.aiPlanner.features.map((item) => (
+                    <li class="card border-l-4 border-l-accent text-sm leading-relaxed text-body">
+                        {item}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </section>
+
+    <section class="bg-surface-muted py-14">
+        <div class="mx-auto max-w-6xl px-4">
+            <div class="mb-8 flex items-baseline gap-3">
+                <span class="text-xs font-semibold tabular-nums tracking-widest text-accent">02</span>
+                <div>
+                    <h2 class="text-2xl font-bold text-heading">{content.promptHub.title}</h2>
+                    <p class="mt-1 text-sm text-muted">{content.promptHub.tagline}</p>
+                </div>
+            </div>
+
+            <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                <div class="overflow-hidden rounded-xl border border-border bg-surface">
+                    <ImageLightbox
+                        src={content.promptHub.demoSrc}
+                        alt={content.promptHub.demoAlt}
+                        block={true}
+                        imageClass="w-full cursor-zoom-in object-contain"
+                    />
+                </div>
+
+                <div class="space-y-6">
+                    <ul class="space-y-2 text-sm leading-relaxed text-body">
+                        {content.promptHub.features.map((item) => (
+                            <li class="flex gap-2">
+                                <span class="mt-2 h-px w-3 shrink-0 bg-accent" aria-hidden="true" />
+                                <span>{item}</span>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div class="rounded-xl border border-border bg-surface p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wide text-muted">Workflow</p>
+                        <ImageLightbox
+                            src={content.promptHub.workflowSrc}
+                            alt={content.promptHub.workflowAlt}
+                            block={true}
+                            imageClass="mt-3 w-full cursor-zoom-in rounded-md object-contain"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                {content.promptHub.screenshots.map((shot) => (
+                    <figure class="overflow-hidden rounded-xl border border-border bg-surface">
+                        <ImageLightbox
+                            src={shot.src}
+                            alt={shot.alt}
+                            block={true}
+                            imageClass="h-40 w-full cursor-zoom-in object-cover object-top sm:h-44"
+                        />
+                        {shot.caption && (
+                            <figcaption class="border-t border-border px-3 py-2 text-xs text-muted">
+                                {shot.caption}
+                            </figcaption>
+                        )}
+                    </figure>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <script define:vars={{ localePrefix }}>
+        const link = document.querySelector('a[href$="/projects"]');
+        const returnTo = new URLSearchParams(window.location.search).get('returnTo');
+        if (link && returnTo && /^\/hire\/[a-z-]+(\/projects)?$/.test(returnTo.replace(/^\/ru/, ''))) {
+            link.href = `${localePrefix}${returnTo}`;
+        }
+    </script>
+</BaseLayout>
+
+<style>
+    .case-study-hero {
+        background: linear-gradient(135deg, var(--surface-muted) 0%, var(--surface) 55%, var(--accent-muted) 100%);
+    }
+</style>

@@ -1,0 +1,131 @@
+---
+import ReviewProofLink from './ReviewProofLink.astro';
+import type { Review } from '../data/reviews';
+import type { Locale } from '../i18n/locales';
+import { getSiteTranslations } from '../i18n/translations/site';
+
+interface Props {
+    review: Review;
+    locale?: Locale;
+    /** When true, show `homeExcerpt` on home with expand to full `quote` */
+    useHomeExcerpt?: boolean;
+}
+
+const { review, locale = 'en', useHomeExcerpt = false } = Astro.props;
+const t = getSiteTranslations(locale);
+
+const curatedExcerpt = useHomeExcerpt && review.homeExcerpt ? review.homeExcerpt : undefined;
+const displayQuote = curatedExcerpt ?? review.quote;
+---
+<blockquote
+    class="card-interactive flex h-full flex-col"
+    data-review-card
+    data-curated-excerpt={curatedExcerpt ? 'true' : undefined}
+>
+    <div class="flex items-center justify-between gap-3">
+        <span class="rounded-full bg-accent-muted px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
+            {review.source}
+        </span>
+        {
+            review.rating && (
+                <span class="text-sm text-amber-600" aria-label={`${review.rating} out of 5`}>
+                    {'★'.repeat(review.rating)}
+                </span>
+            )
+        }
+    </div>
+    <div class="mt-4 flex-1">
+        <p
+            class:list={[
+                'review-quote font-serif text-sm leading-7 text-body',
+                !curatedExcerpt && 'line-clamp-6',
+            ]}
+            data-review-quote
+            data-short-quote={curatedExcerpt}
+            data-full-quote={curatedExcerpt ? review.quote : undefined}
+        >
+            “{displayQuote}”
+        </p>
+        <button
+            type="button"
+            class:list={[
+                'review-expand-btn mt-2 text-sm font-semibold text-accent hover:text-accent-hover',
+                !curatedExcerpt && 'hidden',
+            ]}
+            data-review-expand
+            data-label-more={t.ui.seeMore}
+            data-label-less={t.ui.seeLess}
+            aria-expanded="false"
+        >
+            {t.ui.seeMore}
+        </button>
+    </div>
+    <footer class="mt-4 space-y-3">
+        {review.authorRole && <p class="text-sm font-medium text-heading">{review.authorRole}</p>}
+        <p class="text-xs uppercase tracking-wide text-muted">{review.clientType}</p>
+        {review.proof && <ReviewProofLink proof={review.proof} />}
+    </footer>
+</blockquote>
+
+<script>
+    function setQuoteText(quote: HTMLElement, text: string) {
+        quote.textContent = `“${text}”`;
+    }
+
+    function initReviewExpand() {
+        document.querySelectorAll('[data-review-card]').forEach((card) => {
+            const quote = card.querySelector<HTMLElement>('[data-review-quote]');
+            const btn = card.querySelector<HTMLButtonElement>('[data-review-expand]');
+            if (!quote || !btn || btn.dataset.bound === 'true') {
+                return;
+            }
+            btn.dataset.bound = 'true';
+
+            const isCurated = card.getAttribute('data-curated-excerpt') === 'true';
+            const shortQuote = quote.dataset.shortQuote ?? '';
+            const fullQuote = quote.dataset.fullQuote ?? '';
+
+            if (isCurated && shortQuote && fullQuote) {
+                btn.classList.remove('hidden');
+                btn.addEventListener('click', () => {
+                    const expanded = btn.getAttribute('aria-expanded') === 'true';
+                    if (expanded) {
+                        setQuoteText(quote, shortQuote);
+                        quote.classList.remove('line-clamp-6');
+                        btn.setAttribute('aria-expanded', 'false');
+                        btn.textContent = btn.dataset.labelMore ?? 'See more';
+                    } else {
+                        setQuoteText(quote, fullQuote);
+                        quote.classList.remove('line-clamp-6');
+                        btn.setAttribute('aria-expanded', 'true');
+                        btn.textContent = btn.dataset.labelLess ?? 'See less';
+                    }
+                });
+                return;
+            }
+
+            if (quote.scrollHeight <= quote.clientHeight + 1) {
+                quote.classList.remove('line-clamp-6');
+                btn.remove();
+                return;
+            }
+
+            btn.classList.remove('hidden');
+            btn.addEventListener('click', () => {
+                const expanded = btn.getAttribute('aria-expanded') === 'true';
+                if (expanded) {
+                    quote.classList.add('line-clamp-6');
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.textContent = btn.dataset.labelMore ?? 'See more';
+                } else {
+                    quote.classList.remove('line-clamp-6');
+                    btn.setAttribute('aria-expanded', 'true');
+                    btn.textContent = btn.dataset.labelLess ?? 'See less';
+                }
+            });
+        });
+    }
+
+    initReviewExpand();
+    document.addEventListener('astro:page-load', initReviewExpand);
+</script>

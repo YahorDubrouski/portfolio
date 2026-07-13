@@ -1,0 +1,29 @@
+---
+import ImageLightbox from './ImageLightbox.astro';
+import type { ReviewProof } from '../data/reviews';
+
+interface Props {
+    proof: ReviewProof;
+}
+
+const { proof } = Astro.props;
+---
+{proof.type === 'external' && (
+    <a
+        href={proof.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-1 text-sm font-medium text-accent underline decoration-border underline-offset-2 hover:decoration-accent"
+    >
+        {proof.label}
+    </a>
+) }
+{proof.type === 'image' && (
+    <ImageLightbox
+        src={proof.src}
+        alt={proof.alt}
+        imageClass="max-h-48 w-full cursor-zoom-in rounded-md border border-border bg-surface-muted object-contain p-2"
+        wrapperClass="relative block w-full"
+    />
+    <p class="mt-2 text-xs text-muted">{proof.label}</p>
+) }

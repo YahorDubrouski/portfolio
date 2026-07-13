@@ -1,0 +1,7 @@
+---
+import CapabilitiesPage from '../../templates/CapabilitiesPage.astro';
+import { getSiteTranslations } from '../../i18n/translations/site';
+const locale = 'ru';
+const t = getSiteTranslations(locale);
+---
+<CapabilitiesPage locale={locale} t={t} />

@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import IntegrationsChips from '../components/IntegrationsChips.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getIntegrationCategoriesForRolePage } from '../data/roleLanding';
+import { getPublicIntegrationCategories } from '../data/integrations';
+import { getPageTitle, type HireRole, type SiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+    /** When set, only role-matching categories are shown (`/hire/{role}/integrations`). */
+    role?: HireRole;
+}
+
+const { locale, t, role } = Astro.props;
+
+const integrationCategories = role
+    ? getIntegrationCategoriesForRolePage(role, t)
+    : getPublicIntegrationCategories().map((category) => ({
+          id: category.id,
+          label: t.home.integrationCategories[category.id] ?? category.name,
+          systems: category.systems,
+      }));
+const landingCopy = role ? t.hire[role].landing : undefined;
+const pageTitle = landingCopy?.integrationsPageTitle ?? t.integrationsPage.title;
+const pageSubtitle = landingCopy?.integrationsSubtitle ?? t.integrationsPage.subtitle;
+---
+<BaseLayout title={getPageTitle(locale, pageTitle)} locale={locale}>
+    <section class="py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <SectionHeader title={pageTitle} subtitle={pageSubtitle} />
+            {!role && <p class="max-w-3xl text-sm leading-relaxed text-body">{t.integrationsPage.intro}</p>}
+        </div>
+    </section>
+
+    <IntegrationsChips
+        categories={integrationCategories}
+        hideHeader={true}
+        visibleLimit={999}
+    />
+</BaseLayout>

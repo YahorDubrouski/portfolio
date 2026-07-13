@@ -1,0 +1,85 @@
+---
+import HomeSectionHeader from './HomeSectionHeader.astro';
+import { resolveContextualInternalHref } from '../data/hireNavigation';
+import type { SiteOutcome } from '../data/outcomes';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    outcomes: SiteOutcome[];
+    title?: string;
+    subtitle?: string;
+    allOutcomesHref?: string;
+    allOutcomesLabel?: string;
+    numbered?: boolean;
+    startNumber?: number;
+    locale?: Locale;
+    hideHeader?: boolean;
+    preferHomeDetail?: boolean;
+}
+
+const {
+    outcomes,
+    title,
+    subtitle,
+    allOutcomesHref,
+    allOutcomesLabel,
+    numbered = false,
+    startNumber = 0,
+    locale = 'en',
+    hideHeader = false,
+    preferHomeDetail = false,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+function resolveProofHref(href: string): string {
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+        return href;
+    }
+    return resolveContextualInternalHref(href, currentPath, locale);
+}
+---
+<section class="border-b border-border bg-surface py-16">
+    <div class="mx-auto max-w-6xl px-4">
+        {
+            !hideHeader && title && (
+                <HomeSectionHeader
+                    title={title}
+                    subtitle={subtitle}
+                    linkHref={allOutcomesHref}
+                    linkLabel={allOutcomesLabel}
+                />
+            )
+        }
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {
+                outcomes.map((outcome, index) => (
+                    <article class="card-interactive flex flex-col">
+                        {
+                            numbered && (
+                                <p class="text-xs font-semibold uppercase tracking-widest text-muted">
+                                    #{startNumber + index + 1}
+                                </p>
+                            )
+                        }
+                        <p class="text-3xl font-bold tabular-nums tracking-tight text-heading">{outcome.value}</p>
+                        <h3 class="mt-2 font-serif text-lg font-semibold text-heading">{outcome.label}</h3>
+                        <p class="mt-2 flex-1 text-sm leading-relaxed text-muted">
+                            {preferHomeDetail && outcome.homeDetail ? outcome.homeDetail : outcome.detail}
+                        </p>
+                        {
+                            outcome.proofHref && outcome.proofLabel && (
+                                <a
+                                    href={resolveProofHref(outcome.proofHref)}
+                                    class="mt-4 inline-block text-sm font-semibold text-accent hover:text-accent-hover"
+                                >
+                                    {outcome.proofLabel} →
+                                </a>
+                            )
+                        }
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+</section>

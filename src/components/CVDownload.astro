@@ -1,0 +1,13 @@
+---
+import CvLink from './CvLink.astro';
+import { getCvForAudience, resolveCvDownloadHref, type CvAudience } from '../data/contactLinks';
+
+interface Props {
+    audience?: CvAudience;
+    label?: string;
+}
+
+const { audience = 'default' } = Astro.props;
+const cv = getCvForAudience(audience);
+---
+<CvLink href={resolveCvDownloadHref(cv)} label={cv.label} />

@@ -1,0 +1,220 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import SkillProofList from '../components/SkillProofList.astro';
+import { getPageTitle, type SiteTranslations } from '../i18n/translations/site';
+import { localizedPath } from '../i18n/paths';
+import { getSkillProofFilters, getSkillProofFilterMeta, skillProofs } from '../data/skillProofs';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+}
+
+const { locale, t } = Astro.props;
+const capabilitiesPath = localizedPath('/capabilities', locale);
+const projectsPath = localizedPath('/projects', locale);
+const skillFilters = getSkillProofFilters();
+const skillProofFilterMeta = JSON.stringify(getSkillProofFilterMeta());
+---
+<BaseLayout title={getPageTitle(locale, t.capabilities.title)} locale={locale}>
+    <section class="py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <SectionHeader title={t.capabilities.title} subtitle={t.capabilities.subtitle} />
+
+            <p class="mb-2 text-sm text-body">
+                {t.capabilities.filterHint}{' '}
+                <span class="whitespace-nowrap">{t.capabilities.filterHintMore}</span>
+            </p>
+            <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-muted">
+                {t.capabilities.filterBySkill}
+            </p>
+            <div class="mb-6 flex flex-wrap gap-2" id="skill-filters" role="toolbar" aria-label={t.capabilities.filterBySkill}>
+                {skillFilters.map(({ slug, label }) => (
+                    <button
+                        type="button"
+                        class="skill-filter-btn rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-body hover:border-border-strong"
+                        data-skill={slug}
+                    >
+                        {label}
+                    </button>
+                ))}
+            </div>
+
+            <p id="skill-filter-status" class="mb-6 text-sm text-body" hidden></p>
+
+            <SkillProofList proofs={skillProofs} locale={locale} heading={t.capabilities.proofsHeading} />
+
+            <p class="text-sm text-body">
+                {t.capabilities.moreSkills}{' '}
+                <a href={projectsPath} class="font-medium text-accent underline hover:text-accent-hover">
+                    {t.capabilities.moreSkillsLink}
+                </a>
+            </p>
+        </div>
+    </section>
+
+    <script define:vars={{ capabilitiesPath, noMatchLabel: t.capabilities.noMatch, skillProofFilterMeta }}>
+        const urlParam = 'skills';
+        const proofMeta = JSON.parse(skillProofFilterMeta);
+        const filterButtons = document.querySelectorAll('.skill-filter-btn');
+        const proofItems = document.querySelectorAll('.skill-proof-item');
+        const statusEl = document.getElementById('skill-filter-status');
+        const emptyEl = document.getElementById('skill-proof-empty-state');
+
+        function normalizeTag(value) {
+            return value.trim().toLowerCase();
+        }
+
+        function getSelectedSkills() {
+            return new URLSearchParams(window.location.search)
+                .get(urlParam)
+                ?.split(',')
+                .map(normalizeTag)
+                .filter(Boolean) ?? [];
+        }
+
+        function setSkillsInUrl(skills) {
+            const url = new URL(window.location.href);
+            if (skills.length === 0) {
+                url.searchParams.delete(urlParam);
+            } else {
+                url.searchParams.set(urlParam, skills.join(','));
+            }
+            window.history.replaceState({}, '', url);
+        }
+
+        function proofMatches(proofTags, selectedSkills) {
+            if (selectedSkills.length === 0) {
+                return true;
+            }
+
+            const tags = proofTags.split(',').map(normalizeTag).filter(Boolean);
+            return tags.some((tag) =>
+                selectedSkills.some((needle) => tag.includes(needle) || needle.includes(tag)),
+            );
+        }
+
+        function shouldShowProof(slug, proofTags, proofType, selectedSkills) {
+            if (selectedSkills.length === 0) {
+                return true;
+            }
+
+            if (!proofMatches(proofTags, selectedSkills)) {
+                return false;
+            }
+
+            if (proofType === 'hub') {
+                return true;
+            }
+
+            const activeHubs = proofMeta.filter(
+                (entry) => entry.type === 'hub' && proofMatches(entry.tags.join(','), selectedSkills),
+            );
+
+            if (activeHubs.length === 0) {
+                return true;
+            }
+
+            const claimedSelected = new Set();
+            const supersededSlugs = new Set();
+
+            for (const hub of activeHubs) {
+                for (const claim of hub.claimFilters ?? []) {
+                    for (const selected of selectedSkills) {
+                        if (claim.includes(selected) || selected.includes(claim)) {
+                            claimedSelected.add(selected);
+                        }
+                    }
+                }
+                for (const superseded of hub.supersedesDirectSlugs ?? []) {
+                    supersededSlugs.add(superseded);
+                }
+            }
+
+            if (supersededSlugs.has(slug)) {
+                return false;
+            }
+
+            const tags = proofTags.split(',').map(normalizeTag).filter(Boolean);
+            const matchesViaClaimed = selectedSkills.some(
+                (selected) =>
+                    claimedSelected.has(selected) &&
+                    tags.some((tag) => tag.includes(selected) || selected.includes(tag)),
+            );
+
+            if (!matchesViaClaimed) {
+                return true;
+            }
+
+            return selectedSkills.some(
+                (selected) =>
+                    !claimedSelected.has(selected) &&
+                    tags.some((tag) => tag.includes(selected) || selected.includes(tag)),
+            );
+        }
+
+        function updateFilterButtons(selectedSkills) {
+            filterButtons.forEach((button) => {
+                const skill = button.getAttribute('data-skill') ?? '';
+                const active = selectedSkills.includes(skill);
+                button.classList.toggle('bg-primary', active);
+                button.classList.toggle('text-white', active);
+                button.classList.toggle('border-primary', active);
+                button.classList.toggle('border-border', !active);
+                button.classList.toggle('bg-surface', !active);
+                button.classList.toggle('text-body', !active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+        }
+
+        function applyFilters() {
+            const selectedSkills = getSelectedSkills();
+            let visibleCount = 0;
+
+            proofItems.forEach((item) => {
+                const tags = item.getAttribute('data-tags') ?? '';
+                const slug = item.getAttribute('data-slug') ?? '';
+                const type = item.getAttribute('data-type') ?? 'direct';
+                const visible = shouldShowProof(slug, tags, type, selectedSkills);
+                item.classList.toggle('hidden', !visible);
+                if (visible) {
+                    visibleCount += 1;
+                }
+            });
+
+            updateFilterButtons(selectedSkills);
+
+            if (statusEl) {
+                if (selectedSkills.length === 0) {
+                    statusEl.hidden = true;
+                    statusEl.textContent = '';
+                } else {
+                    statusEl.hidden = false;
+                    statusEl.innerHTML = `Showing ${visibleCount} proof(s) for <span class="font-medium text-heading">${selectedSkills.join(', ')}</span> · <a href="${capabilitiesPath}" class="underline hover:text-stone-800">Clear</a>`;
+                }
+            }
+
+            if (emptyEl) {
+                emptyEl.hidden = visibleCount > 0;
+            }
+        }
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const skill = normalizeTag(button.getAttribute('data-skill') ?? '');
+                const selected = getSelectedSkills();
+                const next = selected.includes(skill)
+                    ? selected.filter((item) => item !== skill)
+                    : [...selected, skill];
+
+                setSkillsInUrl(next);
+                applyFilters();
+            });
+        });
+
+        window.addEventListener('popstate', applyFilters);
+        applyFilters();
+    </script>
+</BaseLayout>

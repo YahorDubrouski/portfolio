@@ -1,0 +1,18 @@
+---
+interface Props {
+    items: string[];
+    title: string;
+}
+
+const { items, title } = Astro.props;
+---
+<section class="border-y border-stone-200 bg-white py-8">
+    <div class="mx-auto max-w-6xl px-4">
+        <p class="text-xs font-semibold uppercase tracking-widest text-stone-500">{title}</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+            {items.map((item) => (
+                <span class="tag font-medium">{item}</span>
+            ))}
+        </div>
+    </div>
+</section>

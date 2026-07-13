@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OutcomeMetrics from '../components/OutcomeMetrics.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { outcomeSections, getOutcomesForSection, type OutcomeSection } from '../data/outcomes';
+import { getOutcomeSectionsForRolePage } from '../data/roleLanding';
+import { getPageTitle, type HireRole, type SiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+    /** When set, only role-matching outcomes are shown (`/hire/{role}/outcomes`). */
+    role?: HireRole;
+}
+
+const { locale, t, role } = Astro.props;
+
+const roleOutcomeSections = role ? getOutcomeSectionsForRolePage(role) : null;
+const displaySections = roleOutcomeSections ?? outcomeSections;
+const landingCopy = role ? t.hire[role].landing : undefined;
+const pageTitle = landingCopy?.outcomesPageTitle ?? t.outcomes.title;
+const pageSubtitle = landingCopy?.outcomesSubtitle ?? t.outcomes.subtitle;
+
+const outcomeGridClass = 'grid gap-5 sm:grid-cols-2 lg:grid-cols-3';
+
+function groupOutcomeSections(sections: OutcomeSection[]): OutcomeSection[][] {
+    const groups: OutcomeSection[][] = [];
+
+    for (let index = 0; index < sections.length; index += 1) {
+        const section = sections[index];
+        const nextSection = sections[index + 1];
+        const sectionCount = getOutcomesForSection(section).length;
+        const nextCount = nextSection ? getOutcomesForSection(nextSection).length : 0;
+
+        if (sectionCount === 1 && nextCount === 1) {
+            groups.push([section, nextSection]);
+            index += 1;
+            continue;
+        }
+
+        groups.push([section]);
+    }
+
+    return groups;
+}
+
+const sectionGroups = groupOutcomeSections(displaySections);
+---
+<BaseLayout title={getPageTitle(locale, pageTitle)} locale={locale}>
+    <section class="py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <SectionHeader title={pageTitle} subtitle={pageSubtitle} />
+            {!role && <p class="max-w-3xl text-sm text-body">{t.outcomes.intro}</p>}
+        </div>
+    </section>
+
+    {
+        sectionGroups.map((group) => {
+            const outcomes = group.flatMap((section) => getOutcomesForSection(section));
+
+            return (
+                <>
+                    <div class="border-b border-border bg-surface-muted pt-2">
+                        <div class={`mx-auto max-w-6xl px-4 pb-4 ${group.length > 1 ? outcomeGridClass : ''}`}>
+                            {
+                                group.length === 1 ? (
+                                    <h2 class="text-lg font-bold text-heading">
+                                        {t.outcomes.sections[group[0].key]}
+                                    </h2>
+                                ) : (
+                                    group.map((section) => (
+                                        <h2 class="text-lg font-bold text-heading">
+                                            {t.outcomes.sections[section.key]}
+                                        </h2>
+                                    ))
+                                )
+                            }
+                        </div>
+                    </div>
+                    <OutcomeMetrics outcomes={outcomes} locale={locale} hideHeader={true} />
+                </>
+            );
+        })
+    }
+</BaseLayout>

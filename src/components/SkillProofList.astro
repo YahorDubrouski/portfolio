@@ -1,0 +1,118 @@
+---
+import ImageLightbox from './ImageLightbox.astro';
+import {
+    getSkillProofGitHubUrl,
+    getSkillProofPath,
+    type SkillProof,
+    type SkillProofDirect,
+    type SkillProofHub,
+} from '../data/skillProofs';
+import { getSiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    proofs: SkillProof[];
+    locale: Locale;
+    heading?: string;
+    showWhenEmpty?: boolean;
+}
+
+const { proofs, locale, heading = 'Skill proofs', showWhenEmpty = false } = Astro.props;
+const t = getSiteTranslations(locale);
+---
+{(proofs.length > 0 || showWhenEmpty) && (
+    <div class="mb-10 space-y-4">
+        <h2 class="text-lg font-semibold text-heading">{heading}</h2>
+        {proofs.length === 0 ? (
+            <p class="text-sm text-body" id="skill-proof-empty" hidden>
+                No skill proofs match the selected filters.
+            </p>
+        ) : (
+            <ul class="grid gap-6 sm:grid-cols-2" id="skill-proof-list">
+                {proofs.map((proof) => {
+                    const hub = proof.type === 'hub' ? (proof as SkillProofHub) : null;
+                    const direct = proof.type === 'direct' ? (proof as SkillProofDirect) : null;
+                    const hubHref = hub ? getSkillProofPath(proof.slug, locale) : null;
+                    const thumb =
+                        hub?.thumbnail ??
+                        hub?.evidence[0]?.thumbnail ??
+                        hub?.diagram ??
+                        direct?.thumbnail ??
+                        '/favicon.svg';
+                    const thumbAlt = direct?.thumbnailAlt ?? proof.title;
+                    const githubUrl = getSkillProofGitHubUrl(proof);
+
+                    return (
+                        <li
+                            class="skill-proof-item"
+                            data-tags={proof.tags.join(',')}
+                            data-slug={proof.slug}
+                            data-type={proof.type}
+                        >
+                            <article class="card flex h-full flex-col overflow-hidden p-0">
+                                <div class="border-b border-border bg-surface-muted">
+                                    <ImageLightbox
+                                        src={thumb}
+                                        alt={thumbAlt}
+                                        block={true}
+                                        imageClass="h-48 w-full cursor-zoom-in object-contain p-4 sm:h-56"
+                                    />
+                                </div>
+                                <div class="flex flex-1 flex-col p-4">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <h3 class="font-semibold text-heading">{proof.title}</h3>
+                                        {proof.type === 'hub' && (
+                                            <span class="tag text-[10px] uppercase">Hub</span>
+                                        )}
+                                    </div>
+                                    <p class="mt-2 text-sm leading-relaxed text-body">{proof.pitch}</p>
+                                </div>
+                                <div class="mt-auto flex flex-nowrap items-center gap-1.5 overflow-x-auto border-t border-border px-4 py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                    {githubUrl && (
+                                        <a
+                                            href={githubUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border bg-surface text-body transition hover:border-border-strong hover:bg-surface-muted hover:text-accent"
+                                            aria-label={t.ui.viewOnGitHub}
+                                            title={t.ui.viewOnGitHub}
+                                        >
+                                            <img
+                                                src="/proof/tech-icons/github.svg"
+                                                alt=""
+                                                class="h-4 w-4"
+                                                width="16"
+                                                height="16"
+                                            />
+                                        </a>
+                                    )}
+                                    {hub && hubHref && (
+                                        <a
+                                            href={hubHref}
+                                            class="tag shrink-0 px-2.5 py-1 text-sm transition hover:border-border-strong hover:bg-surface hover:text-accent"
+                                        >
+                                            Proof page ↗
+                                        </a>
+                                    )}
+                                    {direct?.links.map((link) => (
+                                        <a
+                                            href={link.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="tag shrink-0 px-2.5 py-1 text-sm transition hover:border-border-strong hover:bg-surface hover:text-accent"
+                                        >
+                                            {link.label} ↗
+                                        </a>
+                                    ))}
+                                </div>
+                            </article>
+                        </li>
+                    );
+                })}
+            </ul>
+        )}
+        <p class="text-sm text-body" id="skill-proof-empty-state" hidden>
+            No skill proofs match the selected filters.
+        </p>
+    </div>
+)}

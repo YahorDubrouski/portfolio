@@ -104,6 +104,18 @@ Must exit 0 before reporting done.
 - `complexity`: `low` (single demo), `medium` (typical portfolio app), `high` (multi-service/monorepo)
 - `related_projects`: other cache entry ids that complement this one
 
+## Public site (separate from cache)
+
+The **live site must not import** `projects.cache.json`. It reads **`src/data/projects.json`** — a curated, public-safe copy.
+
+When the user asks to **update site project content** after cache enrichment:
+
+```bash
+python3 ai-agents/scripts/export_site_projects.py
+```
+
+Review the diff in `src/data/projects.json` before commit. Same pattern as profile DB → `src/data/*.ts`.
+
 ## What other agents should do
 
 - Read `projects.cache.json`, not `projects.json`

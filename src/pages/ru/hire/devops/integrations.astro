@@ -1,0 +1,7 @@
+---
+import IntegrationsPage from '../../../../templates/IntegrationsPage.astro';
+import { getSiteTranslations } from '../../../../i18n/translations/site';
+const locale = 'ru';
+const t = getSiteTranslations(locale);
+---
+<IntegrationsPage locale={locale} t={t} role="devops" />

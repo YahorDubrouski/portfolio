@@ -1,0 +1,8 @@
+---
+/** Home-style landing — see `src/data/roleLanding/index.ts` for how to add more roles. */
+import RoleLandingPage from '../../../templates/RoleLandingPage.astro';
+import { getSiteTranslations } from '../../../i18n/translations/site';
+const locale = 'ru';
+const t = getSiteTranslations(locale);
+---
+<RoleLandingPage locale={locale} t={t} role="backend" />

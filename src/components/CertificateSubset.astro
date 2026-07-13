@@ -1,0 +1,46 @@
+---
+import ImageLightbox from './ImageLightbox.astro';
+import { getCertificateImage } from '../data/projectMedia';
+
+interface Props {
+    items: string[];
+    title?: string;
+}
+
+const { items, title } = Astro.props;
+const withImages = items.filter((item) => getCertificateImage(item));
+const textOnly = items.filter((item) => !getCertificateImage(item));
+const certificateImageClass = 'w-full cursor-zoom-in bg-stone-50 object-contain p-2';
+---
+<section class="card">
+    {title && <h3 class="text-lg font-semibold">{title}</h3>}
+
+    {withImages.length > 0 && (
+        <div class:list={['grid gap-4 sm:grid-cols-2', title ? 'mt-4' : '']}>
+            {withImages.map((item) => (
+                <figure class="overflow-hidden rounded-lg border border-stone-200 bg-stone-50">
+                    <ImageLightbox
+                        src={getCertificateImage(item)!}
+                        alt={item}
+                        block={true}
+                        imageClass={certificateImageClass}
+                    />
+                    <figcaption class="border-t border-stone-200 px-3 py-2 text-xs text-stone-700">
+                        {item}
+                    </figcaption>
+                </figure>
+            ))}
+        </div>
+    )}
+
+    {textOnly.length > 0 && (
+        <ul class:list={['space-y-2 text-sm text-stone-700', withImages.length > 0 || title ? 'mt-4' : '']}>
+            {textOnly.map((item) => (
+                <li class="flex gap-2">
+                    <span class="mt-2 h-px w-3 shrink-0 bg-stone-400" aria-hidden="true" />
+                    <span>{item}</span>
+                </li>
+            ))}
+        </ul>
+    )}
+</section>

@@ -1,0 +1,30 @@
+---
+import CTAButton from './CTAButton.astro';
+
+interface Props {
+    title: string;
+    body: string;
+    telegramHref: string;
+    telegramLabel: string;
+}
+
+const { title, body, telegramHref, telegramLabel } = Astro.props;
+---
+<section class="home-closing border-t border-border py-14 sm:py-16">
+    <div class="mx-auto max-w-6xl px-4">
+        <div class="mx-auto max-w-2xl text-center">
+            <h2 class="text-2xl font-bold text-heading sm:text-3xl">{title}</h2>
+            <p class="mt-3 text-base leading-relaxed text-body">{body}</p>
+            <div class="mt-8 flex justify-center">
+                <CTAButton href={telegramHref} label={telegramLabel} />
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .home-closing {
+        background:
+            linear-gradient(160deg, var(--accent-muted) 0%, var(--surface) 45%, var(--surface-muted) 100%);
+    }
+</style>

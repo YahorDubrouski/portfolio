@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import ProjectMediaGallery from '../components/ProjectMediaGallery.astro';
+import { getGitHubUrl } from '../data/github';
+import { getProjectMediaGroups } from '../data/projectMedia';
+import { getProjectById, type CachedProject } from '../data/projects';
+import { localizedPath } from '../i18n/paths';
+import { getPageTitle, getSiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const t = getSiteTranslations(locale);
+const project = getProjectById(slug);
+
+if (!project) {
+    throw new Error(`Unknown project slug: ${slug}`);
+}
+
+const githubUrl = getGitHubUrl(project.id);
+const mediaGroups = getProjectMediaGroups(project.id);
+const defaultBackHref = localizedPath('/projects', locale);
+const localePrefix = locale === 'ru' ? '/ru' : '';
+const related = project.related_projects
+    .map((id) => getProjectById(id))
+    .filter((item): item is CachedProject => Boolean(item));
+
+function listSection(title: string, items: string[]) {
+    return items.length > 0 ? { title, items } : null;
+}
+
+const sections = [
+    listSection(t.ui.problemsSolved, project.problems_solved),
+    listSection(t.ui.features, project.features),
+    listSection(t.ui.competencies, project.competencies),
+    listSection(t.ui.designPatterns, project.design_patterns),
+    listSection(t.ui.bestPractices, project.best_practices),
+    listSection(t.ui.tradeOffs, project.trade_offs),
+    listSection(t.ui.useCases, project.use_cases),
+].filter(Boolean) as { title: string; items: string[] }[];
+---
+<BaseLayout title={getPageTitle(locale, project.name)} locale={locale}>
+    <section class="py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <a
+                id="back-to-projects"
+                href={defaultBackHref}
+                class="text-sm font-semibold text-stone-700 hover:text-stone-900"
+            >
+                ← {t.ui.backToProjects}
+            </a>
+
+            <div class="mt-6 flex flex-wrap items-start justify-between gap-4">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl font-bold tracking-tight">{project.name}</h1>
+                    <p class="mt-4 text-lg leading-8 text-stone-600">{project.summary}</p>
+                </div>
+                {project.complexity && (
+                    <span class="tag text-sm font-medium uppercase">{project.complexity}</span>
+                )}
+            </div>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+                {githubUrl && <CTAButton href={githubUrl} label={t.ui.viewOnGitHub} />}
+            </div>
+
+            <ProjectMediaGallery groups={mediaGroups} title={t.ui.projectMedia} />
+
+            {project.architecture && (
+                <section class="mt-10 card">
+                    <h2 class="text-lg font-semibold">{t.ui.architecture}</h2>
+                    <p class="mt-3 text-sm leading-7 text-stone-600">{project.architecture}</p>
+                </section>
+            )}
+
+            <section class="mt-8 card">
+                <h2 class="text-lg font-semibold">{t.ui.technologies}</h2>
+                <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                    {Object.entries(project.technologies).map(([group, values]) => (
+                        values.length > 0 && (
+                            <div>
+                                <h3 class="text-sm font-semibold capitalize text-stone-800">{group}</h3>
+                                <p class="mt-2 text-sm text-stone-600">{values.join(', ')}</p>
+                            </div>
+                        )
+                    ))}
+                </div>
+            </section>
+
+            <div class="mt-8 grid gap-6 md:grid-cols-2">
+                {sections.map((section) => (
+                    <section class="card">
+                        <h2 class="text-lg font-semibold">{section.title}</h2>
+                        <ul class="mt-4 space-y-2 text-sm text-stone-700">
+                            {section.items.map((item) => (
+                                <li class="flex gap-2">
+                                    <span class="mt-2 h-px w-3 shrink-0 bg-stone-400" aria-hidden="true" />
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                ))}
+            </div>
+
+            {related.length > 0 && (
+                <section class="mt-10">
+                    <h2 class="text-lg font-semibold">{t.ui.relatedProjects}</h2>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        {related.map((item) => (
+                            <span class="tag text-sm">{item.name}</span>
+                        ))}
+                    </div>
+                </section>
+            )}
+        </div>
+    </section>
+
+    <script define:vars={{ localePrefix }}>
+        const link = document.getElementById('back-to-projects');
+        const returnTo = new URLSearchParams(window.location.search).get('returnTo');
+        if (link && returnTo && /^\/hire\/[a-z-]+(\/projects)?$/.test(returnTo.replace(/^\/ru/, ''))) {
+            link.href = `${localePrefix}${returnTo}`;
+        }
+    </script>
+</BaseLayout>

@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ReviewCarousel from '../components/ReviewCarousel.astro';
+import CertificateSubset from '../components/CertificateSubset.astro';
+import CVDownload from '../components/CVDownload.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import { getProjectsForRole, getCertificatesForRole } from '../data/projects';
+import { getReviewsForRole } from '../data/reviews';
+import { getPageTitle, getSiteTranslations, type HireRole, type SiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+    role: HireRole;
+}
+
+const { locale, t, role } = Astro.props;
+const roleCopy = t.hire[role];
+const projects = getProjectsForRole(role);
+const reviews = getReviewsForRole(role, 3, locale);
+const certificates = getCertificatesForRole(role);
+---
+<BaseLayout title={getPageTitle(locale, roleCopy.title)} locale={locale}>
+    <section class="py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <SectionHeader title={roleCopy.title} subtitle={roleCopy.subtitle} />
+            <p class="max-w-3xl text-stone-600">{roleCopy.intro}</p>
+            <div class="mt-6">
+                <CVDownload locale={locale} audience={role} label={roleCopy.cvLabel} />
+            </div>
+        </div>
+    </section>
+
+    <section class="border-t border-stone-200 bg-white py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <SectionHeader title={t.ui.featuredProjects} />
+            <div class="grid gap-6 md:grid-cols-2">
+                {projects.slice(0, 6).map((project) => (
+                    <ProjectCard project={project} locale={locale} />
+                ))}
+            </div>
+        </div>
+    </section>
+
+    {certificates.length > 0 && (
+        <section class="py-16">
+            <div class="mx-auto max-w-6xl px-4">
+                <CertificateSubset title="Certificates" items={certificates} />
+            </div>
+        </section>
+    )}
+
+    <ReviewCarousel reviews={reviews} title={t.ui.reviewsTitle} locale={locale} />
+
+    <section class="pb-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <ContactLinks title={t.ui.contactMe} />
+        </div>
+    </section>
+</BaseLayout>

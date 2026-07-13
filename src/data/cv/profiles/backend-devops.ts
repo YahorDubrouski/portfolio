@@ -1,0 +1,162 @@
+import type { CvDocument } from '../types';
+
+export const backendDevopsProfile: CvDocument = {
+    id: 'backend-devops',
+    defaultTemplate: 'classic',
+    roleTitle: 'Senior Backend Developer & DevOps Engineer',
+    name: { first: 'YAHOR', last: 'DUBROUSKI' },
+    photoSrc: '/images/yahor-dubrouski-cv.png',
+    photoSrcWebp: '/images/yahor-dubrouski-cv.webp',
+    contact: [
+        { type: 'email', label: 'yahordubrouski@gmail.com', href: 'mailto:yahordubrouski@gmail.com' },
+        { type: 'phone', label: '+48 889 708 006', href: 'tel:+48889708006' },
+        { type: 'location', label: 'Poland, Warsaw' },
+        {
+            type: 'linkedin',
+            label: 'linkedin.com/in/yahor-dubrouski',
+            href: 'https://www.linkedin.com/in/yahor-dubrouski/',
+        },
+    ],
+    skillGroups: [
+        {
+            label: 'Backend',
+            items: ['PHP', 'Laravel', 'Magento', 'PostgreSQL', 'Redis'],
+        },
+        {
+            label: 'DevOps & Cloud',
+            items: ['AWS', 'Terraform', 'Docker', 'Jenkins'],
+        },
+        {
+            label: 'Frontend',
+            items: ['JavaScript', 'TypeScript', 'React', 'Vue.js'],
+        },
+    ],
+    languages: [
+        'Russian – Native',
+        'English – Upper Intermediate',
+        'Polish – Intermediate',
+        'German – Intermediate',
+    ],
+    summary:
+        'Experienced Backend Developer with strong DevOps expertise and over 6 years of hands-on experience delivering scalable web applications and infrastructure. Specializes in Laravel, microservices, AWS, CI/CD, and high-performance backend systems. Known for clean architecture, automation mindset, and deep involvement in system reliability, infrastructure migration, and development process optimization.',
+    experience: [
+        {
+            title: 'Senior Backend Developer / DevOps',
+            companyLine: 'ObjectFirst. Remote from Warsaw, Poland | Aug 2024 - Present',
+            project: 'Marketing & Infrastructure Platform for Enterprise Hardware Sales',
+            description:
+                'A marketing platform to promote and sell enterprise physical backup appliances. The site includes lead generation forms, product documentation, a blog, and a careers section, targeting both engineers and business decision-makers.',
+            responsibilitiesLabel: true,
+            bullets: [
+                'Led API and microservice development for key features, including a subscription module.',
+                'Built AI tools for automatic translation, spam/bot detection, and email validation, improving translation speed dozens of times through parallel processing.',
+                'Designed a full migration plan from DigitalOcean to AWS.',
+                'Developed and maintained CI/CD pipelines with Bitbucket and Jenkins, introducing unit tests to reduce manual QA time and improve release stability.',
+                'Managed Docker-based infrastructure for microservices.',
+                'Integrated Cloudflare automation for redirects, bot protection, header injection, and caching rules.',
+                'Accelerated releases with centralized secrets management for secure environment variable handling.',
+                'Reduced microservice support complexity by applying architectural principles that eliminate redundant logic.',
+                'Saved development time and infrastructure cost by reusing AWS/Cloudflare-native features instead of building custom solutions.',
+                'Built a Python-based offline documentation system that generates multi-thousand-page docs with embedded images into a 40MB PDF using parallel rendering and compression - later reused by other features.',
+            ],
+            tools: 'Laravel, PHP, MongoDB, MySQL, Elasticsearch, Redis, JavaScript, Docker, Bitbucket Pipelines, Jenkins, AWS (S3, ECS, RDS, CloudWatch), Sentry, Shell, workflow automation, Cloudflare, Python, Grafana.',
+        },
+        {
+            title: 'Full Stack Developer',
+            companyLine: 'Hidden Hint. Poland, Warsaw | Jan 2024 - Aug 2024',
+            project: 'E-commerce Platforms for Digital Products',
+            description:
+                'Worked on four e-commerce platforms including marketplaces for digital creative tools and online course sales. The goal was to provide seamless user experiences for purchasing digital goods with custom product types.',
+            responsibilitiesLabel: true,
+            bullets: [
+                'Acted as a Full Stack Developer across multiple concurrent projects, delivering backend APIs and interactive frontend components.',
+                'Built a highly customizable module for virtual product types with dynamic pricing rules and extensive configuration options.',
+                'Developed complex real-time pricing logic on both frontend and backend, adapting to multiple product options selected by the user.',
+                'Achieved high integration test coverage for critical pricing and checkout features, ensuring long-term platform stability.',
+                'Integrated third-party APIs to extend platform functionality (e.g., content delivery, payments).',
+                'Installed and configured custom payment modules across projects.',
+                'Proposed and introduced lightweight Scrum practices to improve delivery flow in a freelance-style remote environment.',
+            ],
+            tools: 'Magento 2, Laravel, PHP, MySQL, OpenSearch, Elasticsearch, JavaScript, Knockout.js, jQuery, SASS, Docker.',
+        },
+        {
+            title: 'Full Stack Developer / Scrum Master / Team Lead',
+            companyLine: 'Puravita - Online Pharmacy (Switzerland). Switzerland, st. Gallen | Apr 2022 - Dec 2023',
+            project: 'National Online Pharmacy (Switzerland)',
+            description:
+                'An e-commerce platform for selling pharmaceutical and everyday products across Switzerland. Built with Magento 2 and microservices, the platform supports delivery and Click & Collect orders via integrated partner pharmacies.',
+            responsibilitiesLabel: true,
+            bullets: [
+                'Held multiple roles across the project lifecycle: Developer, Team Lead, and Scrum Master.',
+                'Collaborated full-time in an international team, communicating daily in both German and English.',
+                'Designed and developed custom Magento 2 modules, including partner-specific pricing and checkout logic.',
+                'Designed and implemented Click & Collect functionality with Google Maps and partner API integration, allowing users to compare availability and prices across pharmacies.',
+                'Built a microservice for automated order fulfillment, integrated with a robotic warehouse partner system.',
+                'Integrated a third-party recommendation engine to deliver personalized product results in search and navigation.',
+                'Developed complex backend and frontend integrations that affected checkout, invoices, product pages, and order processing.',
+                'Participated in key architectural decisions around fault-tolerant microservices and modular Magento structure.',
+                'Led process improvements: defined GitFlow strategy, task lifecycle templates, QA requirements, and review standards.',
+                'Communicated directly with non-technical teams (warehouse, call center, back office) to align development with business operations and suggest product enhancements.',
+                'Migrated the codebase from multi-repo to monorepo, significantly reducing release complexity and deployment time.',
+            ],
+            tools: 'Magento 2, Laravel, PHP, MySQL, AWS, JavaScript, Knockout.js, Google Maps API, RabbitMQ, Elasticsearch, Docker.',
+        },
+        {
+            title: 'Senior Magento Developer / Team Lead',
+            companyLine: 'Lindenvalley (E-commerce websites). Belarus, Minsk | Feb 2021 - Apr 2022',
+            project: 'E-commerce Solutions (Outsourcing)',
+            description:
+                'Delivered Magento-based projects for international clients in various industries. Played a key role in scaling internal dev processes and raising code quality.',
+            responsibilitiesLabel: true,
+            bullets: [
+                'Led development of custom Magento modules, including AI-powered product search and checkout logic tailored to client needs.',
+                'Integrated Elasticsearch into Magento for advanced product indexing and personalized search.',
+                'Heavily modified checkout flows to support business-specific use cases and UX improvements.',
+                'Hosted internal tech meetups on SOLID principles, clean code, GitFlow, and Magento module architecture.',
+                'Introduced and standardized team processes: Jira workflows, status conventions, ticket templates, Git branching models, and formal code review practices.',
+                'Onboarded a centralized documentation platform, improving team alignment and knowledge sharing.',
+            ],
+            tools: 'Magento 2, PHP, MySQL, Elasticsearch, JavaScript, Knockout.js, Docker.',
+        },
+        {
+            title: 'PHP Developer',
+            companyLine: 'BelVG (Online Cosmetics Store). Belarus, Minsk | Jun 2020 - Feb 2021',
+            project: 'Online Store for Cosmetics',
+            responsibilitiesLabel: false,
+            bullets: [
+                'Maintained and extended e-commerce platforms.',
+                'Built custom checkout flows.',
+                'Integrated Payment gateway.',
+                'Participated in Magento-PrestaShop migration efforts.',
+            ],
+            tools: 'Magento 2, PrestaShop, PHP, MySQL, JavaScript, jQuery, Knockout.js, SASS',
+        },
+        {
+            title: 'PHP Developer',
+            companyLine: 'iTechArt Group (Surveys Generator). Belarus, Minsk | Mar 2019 - Mar 2020',
+            project: 'SaaS Platforms and Startups',
+            responsibilitiesLabel: false,
+            bullets: [
+                'Developed backend logic for early-stage SaaS startups.',
+                'Focused on performance optimizations.',
+                'Developed REST APIs.',
+                'Implemented UI with React with Redux.',
+            ],
+            tools: 'Laravel, PHP, MongoDB, MySQL, PostgreSQL, ReactJS, AngularJS, Vue.js, PHPUnit.',
+        },
+    ],
+    education: {
+        title: 'Programmer',
+        institutionLine: 'College of Business and Law. Belarus, Minsk | Sep 2016 - Jul 2019',
+        detail: 'Diploma in Programming',
+    },
+    certificates: [
+        'AWS Certified Solutions Architect - Associate certificate',
+        'Adobe Certified Professional Adobe Commerce Developer',
+        'Terraform Associate',
+        'Enterprise Patterns',
+        'GOF And Grasp Design Patterns',
+        'QA Automation Diploma',
+    ],
+    certificatesLink: 'https://github.com/YahorDubrouski/Certificates',
+};

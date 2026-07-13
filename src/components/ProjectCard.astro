@@ -1,0 +1,91 @@
+---
+import CTAButton from './CTAButton.astro';
+import ImageLightbox from './ImageLightbox.astro';
+import { getGitHubUrl } from '../data/github';
+import { getProjectCaseStudyHref } from '../data/hireNavigation';
+import { getProjectSitePath } from '../data/projectLinks';
+import { getProjectThumbnail } from '../data/projectMedia';
+import { isCaseStudySlug } from '../data/projects';
+import type { CachedProject } from '../data/projects';
+import type { Locale } from '../i18n/locales';
+import { localizedPath } from '../i18n/paths';
+import { getSiteTranslations } from '../i18n/translations/site';
+
+interface Props {
+    project: CachedProject;
+    locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const t = getSiteTranslations(locale);
+const currentPath = Astro.url.pathname;
+const githubUrl = getGitHubUrl(project.id);
+const portfolioSitePath = getProjectSitePath(project.id);
+const portfolioSiteHref = portfolioSitePath ? localizedPath(portfolioSitePath, locale) : undefined;
+const thumbnail = getProjectThumbnail(project.id);
+const caseStudyHref = isCaseStudySlug(project.id)
+    ? getProjectCaseStudyHref(project.id, currentPath, locale)
+    : undefined;
+const techTags = [
+    ...project.technologies.languages,
+    ...project.technologies.frameworks,
+    ...project.technologies.cloud,
+    ...project.technologies.tools,
+].slice(0, 6);
+---
+<article class="card-interactive flex h-full flex-col overflow-hidden p-0">
+    {thumbnail && (
+        <div class="border-b border-border bg-surface-muted">
+            <ImageLightbox
+                src={thumbnail.src}
+                alt={thumbnail.alt}
+                block={true}
+                imageClass="h-44 w-full cursor-zoom-in object-contain p-3"
+            />
+        </div>
+    )}
+    <div class="flex flex-1 flex-col p-6">
+        <div class="flex items-start justify-between gap-3">
+            <h3 class="font-serif text-xl font-semibold text-heading">{project.name}</h3>
+            {project.complexity && (
+                <span class="rounded-md border border-border bg-surface-muted px-2.5 py-1 text-xs font-medium uppercase text-muted">
+                    {project.complexity}
+                </span>
+            )}
+        </div>
+
+        <p class="mt-3 flex-1 text-sm leading-6 text-body">{project.summary}</p>
+
+        {techTags.length > 0 && (
+            <div class="mt-4 flex flex-wrap gap-2">
+                {techTags.map((tag) => (
+                    <span class="tag text-xs">{tag}</span>
+                ))}
+            </div>
+        )}
+
+        {project.competencies.length > 0 && (
+            <p class="mt-4 text-xs text-muted">
+                <span class="font-semibold text-heading">{t.ui.competencies}:</span>
+                {' '}
+                {project.competencies.slice(0, 3).join(', ')}
+            </p>
+        )}
+
+        <div class="mt-6 flex flex-wrap gap-2">
+            {portfolioSiteHref && (
+                <CTAButton href={portfolioSiteHref} label={t.ui.viewPortfolioSite} variant="primary" />
+            )}
+            {caseStudyHref && (
+                <CTAButton href={caseStudyHref} label={t.ui.seeMore} variant={portfolioSiteHref ? 'secondary' : 'primary'} />
+            )}
+            {githubUrl && (
+                <CTAButton
+                    href={githubUrl}
+                    label={t.ui.viewOnGitHub}
+                    variant={portfolioSiteHref || caseStudyHref ? 'secondary' : 'primary'}
+                />
+            )}
+        </div>
+    </div>
+</article>

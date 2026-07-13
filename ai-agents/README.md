@@ -1,48 +1,63 @@
 # AI Agents Database
 
-Portfolio project cache for Cursor agents. **No external API keys** — Cursor explores each project and writes the cache.
+Two agent-readable databases — **not** the website. Cursor enriches; site (`src/data/*`) is updated separately.
 
-## Workflow
+## 1. Projects (code repos)
 
 ```bash
-# Optional: add stubs for new paths in projects.json
 python3 ai-agents/scripts/sync_projects_cache.py
-
-# In Cursor chat:
-# "Update portfolio cache"
-
-# Verify all entries enriched:
+# In Cursor: "Update portfolio cache"
 python3 ai-agents/scripts/check_cache_stale.py
+# When updating the live site project list (explicit step):
+python3 ai-agents/scripts/export_site_projects.py
 ```
-
-## Files
 
 | File | Description |
 |------|-------------|
 | `database/projects.json` | Manual list of project paths |
-| `database/projects.cache.json` | **Agents read this** — Cursor-enriched |
-| `scripts/sync_projects_cache.py` | Stubs + git dates only |
-| `scripts/check_cache_stale.py` | Flags pending/stale entries |
+| `database/projects.cache.json` | Enriched repos — **agents read this** |
 
-## Cache entry fields
+Rule: `.cursor/rules/portfolio-cache.mdc`
 
-| Field | Description |
-|-------|-------------|
-| `enrichment_status` | `pending` \| `complete` \| `stale` |
-| `summary`, `technologies`, `features` | Core project description |
-| `when_to_use` | Agent routing hint |
-| `competencies` | Skills this project demonstrates |
-| `design_patterns` | Patterns found in code (with evidence) |
-| `best_practices` | Practices exemplified in the project |
-| `keywords` | Tags for search/routing |
-| `trade_offs` | Documented architectural decisions |
-| `audience` | Who this project targets (e.g. hiring managers) |
-| `complexity` | `low` \| `medium` \| `high` |
-| `related_projects` | Other cache entry ids |
-| `sub_project_ids` | For collections/monorepos |
+## 2. Profile (career & proof)
 
-## Rules
+JSON files in `database/` — identity, jobs, reviews, certs, CVs, outcomes.
 
-- Python does **not** interpret projects
-- Only Cursor marks entries `complete`
-- See `.cursor/rules/portfolio-cache.mdc` for full enrichment workflow
+| File | Content |
+|------|---------|
+| `profile.json` | Taglines, bios, contacts, languages |
+| `experience.json` | Work history |
+| `outcomes.json` | Measurable achievements |
+| `reviews.json` | Testimonials + proof links/images |
+| `certifications.json` | Certs and courses |
+| `capabilities.json` | Skills → evidence map |
+| `cvs.json` | CV versions + extracted bullets |
+| `sources.json` | Registry of every raw input |
+
+Raw files (PDFs, screenshots): `sources/` (gitignored — see `sources/README.md`).
+
+### How to enrich
+
+1. Provide data (text, image, PDF) in chat.
+2. Say e.g. **"enrich database with this review"** or **"enrich database with this CV"**.
+3. Cursor follows the matching rule in `.cursor/rules/profile-enrich-*.mdc`.
+
+Index rule: `.cursor/rules/profile-database.mdc`
+
+| Task | Rule |
+|------|------|
+| Any new file/paste | `profile-enrich-sources.mdc` |
+| Reviews | `profile-enrich-reviews.mdc` |
+| CV / resume | `profile-enrich-cv.mdc` |
+| Jobs | `profile-enrich-experience.mdc` |
+| Metrics / achievements | `profile-enrich-outcomes.mdc` |
+| Bio / positioning | `profile-enrich-profile.mdc` |
+| Certificates | `profile-enrich-certifications.mdc` |
+| Skills matrix | `profile-enrich-capabilities.mdc` |
+
+## Principles
+
+- **Database ≠ website** — enrich JSON first; copy to site only when building pages.
+- **Evidence only** — no invented metrics or skills.
+- **Sources first** — every input traceable in `sources.json`.
+- Projects: Python stubs only; Cursor marks `complete`. Profile: Cursor writes all enrichment.

@@ -1,0 +1,34 @@
+---
+import ImageLightbox from './ImageLightbox.astro';
+import { getCertificateImage } from '../data/projectMedia';
+
+interface Props {
+    categories: { category: string; items: string[] }[];
+}
+
+const { categories } = Astro.props;
+
+const certificateImageClass = 'w-full cursor-zoom-in bg-stone-50 object-contain p-2';
+---
+<div class="grid gap-8">
+    {categories.map((group) => (
+        <section>
+            <h3 class="text-lg font-semibold">{group.category}</h3>
+            <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {group.items.map((item) => {
+                    const imageSrc = getCertificateImage(item);
+                    return imageSrc ? (
+                        <figure class="overflow-hidden rounded-lg border border-stone-200 bg-white">
+                            <ImageLightbox src={imageSrc} alt={item} block={true} imageClass={certificateImageClass} />
+                            <figcaption class="border-t border-stone-100 px-4 py-3 text-sm text-stone-700">
+                                {item}
+                            </figcaption>
+                        </figure>
+                    ) : (
+                        <div class="card text-sm text-stone-700">{item}</div>
+                    );
+                })}
+            </div>
+        </section>
+    ))}
+</div>

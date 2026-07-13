@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" role="img" aria-labelledby="title desc">
+  <title id="title">Docker Swarm stack topology</title>
+  <desc id="desc">Manager node, published port, and worker nodes connect into an overlay network of replicated services with Redis queue flow.</desc>
+  <defs>
+    <style>
+      .box { fill: #fafaf9; stroke: #78716c; stroke-width: 1.5; }
+      .cluster { fill: #f5f5f4; stroke: #a8a29e; stroke-width: 1.5; }
+      .overlay { fill: #ffffff; stroke: #78716c; stroke-width: 1.5; stroke-dasharray: 6 4; }
+      .data { fill: #f5f5f4; stroke: #78716c; stroke-width: 1.5; }
+      .title { font: 600 14px "Source Sans 3", sans-serif; fill: #1c1917; }
+      .sub { font: 400 12px "Source Sans 3", sans-serif; fill: #57534e; }
+      .label { font: 600 13px "Source Sans 3", sans-serif; fill: #78716c; }
+      .edge-label { font: 600 10px "Source Sans 3", sans-serif; fill: #57534e; }
+      .control { stroke: #78716c; stroke-width: 1.3; fill: none; stroke-dasharray: 5 4; marker-end: url(#arrowhead-control); }
+      .push { stroke: #0369a1; stroke-width: 1.4; fill: none; marker-end: url(#arrowhead-push); }
+      .pull { stroke: #0369a1; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; marker-end: url(#arrowhead-pull); }
+    </style>
+    <marker id="arrowhead-control" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#78716c" />
+    </marker>
+    <marker id="arrowhead-push" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#0369a1" />
+    </marker>
+    <marker id="arrowhead-pull" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <polygon points="0 0, 7 3, 0 6" fill="#0369a1" />
+    </marker>
+  </defs>
+
+  <rect class="cluster" x="24" y="16" width="912" height="468" rx="10" />
+  <text class="label" x="480" y="42" text-anchor="middle">Docker Swarm cluster</text>
+
+  <!-- Control plane — one row, three aligned drops -->
+  <rect class="box" x="56" y="56" width="220" height="48" rx="6" />
+  <text class="title" x="166" y="78" text-anchor="middle">Manager node</text>
+  <text class="sub" x="166" y="94" text-anchor="middle">orchestrates cluster</text>
+
+  <rect class="box" x="370" y="56" width="220" height="48" rx="6" />
+  <text class="title" x="480" y="78" text-anchor="middle">Published port</text>
+  <text class="sub" x="480" y="94" text-anchor="middle">ingress</text>
+
+  <rect class="box" x="684" y="56" width="220" height="48" rx="6" />
+  <text class="title" x="794" y="78" text-anchor="middle">Worker nodes</text>
+  <text class="sub" x="794" y="94" text-anchor="middle">run service tasks</text>
+
+  <line class="control" x1="166" y1="104" x2="166" y2="176" />
+  <text class="edge-label" x="166" y="142" text-anchor="middle">stack state</text>
+
+  <line class="control" x1="480" y1="104" x2="480" y2="176" />
+  <text class="edge-label" x="480" y="142" text-anchor="middle">routes traffic</text>
+
+  <line class="control" x1="794" y1="104" x2="794" y2="176" />
+  <text class="edge-label" x="794" y="142" text-anchor="middle">tasks run here</text>
+
+  <!-- Overlay network -->
+  <rect class="overlay" x="48" y="176" width="864" height="292" rx="8" />
+  <text class="label" x="480" y="200" text-anchor="middle">overlay network</text>
+
+  <!-- Services -->
+  <rect class="box" x="96" y="220" width="220" height="72" rx="6" />
+  <text class="title" x="206" y="246" text-anchor="middle">Service: web</text>
+  <text class="sub" x="206" y="264" text-anchor="middle">Laravel API · replicas: 3</text>
+  <text class="sub" x="206" y="280" text-anchor="middle">push jobs to Redis</text>
+
+  <rect class="box" x="370" y="220" width="220" height="72" rx="6" />
+  <text class="title" x="480" y="246" text-anchor="middle">Service: scheduler</text>
+  <text class="sub" x="480" y="264" text-anchor="middle">artisan schedule · replicas: 1</text>
+  <text class="sub" x="480" y="280" text-anchor="middle">dispatch jobs to Redis</text>
+
+  <rect class="box" x="644" y="220" width="220" height="72" rx="6" />
+  <text class="title" x="754" y="246" text-anchor="middle">Service: queue-worker</text>
+  <text class="sub" x="754" y="264" text-anchor="middle">Horizon · replicas: 2</text>
+  <text class="sub" x="754" y="280" text-anchor="middle">pull jobs from Redis</text>
+
+  <!-- Ingress → web -->
+  <line class="control" x1="480" y1="176" x2="206" y2="220" />
+
+  <!-- Redis -->
+  <rect class="data" x="390" y="348" width="180" height="64" rx="6" />
+  <text class="title" x="480" y="376" text-anchor="middle">Redis</text>
+  <text class="sub" x="480" y="396" text-anchor="middle">queue backend · replicas: 1</text>
+
+  <path class="push" d="M 206 292 L 206 324 L 430 324 L 430 348" />
+  <text class="edge-label" x="214" y="316" text-anchor="start">push</text>
+  <path class="push" d="M 480 292 L 480 348" />
+  <text class="edge-label" x="488" y="326" text-anchor="start">dispatch</text>
+  <path class="pull" d="M 530 348 L 530 324 L 754 324 L 754 292" />
+  <text class="edge-label" x="538" y="340" text-anchor="start">pull</text>
+
+  <!-- Legend -->
+  <line class="push" x1="96" y1="456" x2="136" y2="456" />
+  <text class="edge-label" x="144" y="460" text-anchor="start">push / dispatch to Redis</text>
+  <line class="pull" x1="320" y1="456" x2="360" y2="456" />
+  <text class="edge-label" x="368" y="460" text-anchor="start">pull from Redis</text>
+  <line class="control" x1="520" y1="456" x2="560" y2="456" />
+  <text class="edge-label" x="568" y="460" text-anchor="start">Swarm control / ingress</text>
+</svg>

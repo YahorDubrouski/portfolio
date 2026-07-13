@@ -1,0 +1,146 @@
+---
+import type { CvDocument } from '../../../../data/cv/types';
+import { buildPhotoAlt, displayName, trackedHeading, trackedRoleTitle } from '../../../../data/cv/utils/formatters';
+import { contactIcons } from '../../../../data/cv/utils/contactIcons';
+
+interface Props {
+    cv: CvDocument;
+}
+
+const { cv } = Astro.props;
+const photoAlt = buildPhotoAlt(cv);
+---
+
+<article class="cv-page" id="cv-document">
+    <header class="cv-header">
+        <figure class="cv-photo-frame">
+            <img
+                class="cv-photo"
+                src={cv.photoSrc}
+                alt={photoAlt}
+                loading="eager"
+                decoding="sync"
+                fetchpriority="high"
+            />
+        </figure>
+        <div class="cv-header-main">
+            <p class="cv-role-title">{trackedRoleTitle(cv.roleTitle)}</p>
+            <h1 class="cv-name">{displayName(cv.name.first, cv.name.last)}</h1>
+            <ul class="cv-contact-row">
+                {
+                    cv.contact.map((item) => (
+                        <li class={`cv-contact-item cv-contact-item--${item.type}`}>
+                            <span class="cv-contact-icon" set:html={contactIcons[item.type]} />
+                            {item.href ? (
+                                <a href={item.href} target={item.type === 'linkedin' ? '_blank' : undefined} rel={item.type === 'linkedin' ? 'noopener noreferrer' : undefined}>
+                                    {item.label}
+                                </a>
+                            ) : (
+                                <span>{item.label}</span>
+                            )}
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </header>
+
+    <hr class="cv-band-rule" aria-hidden="true" />
+
+    <section class="cv-skills-band" aria-label="Skills">
+        <h2 class="cv-section-title cv-section-title--band">{trackedHeading('Skills')}</h2>
+        <div class="cv-skills-grid">
+            {cv.skillGroups.map((group) => (
+                <div class="cv-skill-group">
+                    <p class="cv-skill-group-label">{group.label}</p>
+                    <ul class="cv-skill-tags">
+                        {group.items.map((item) => (
+                            <li>{item}</li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <hr class="cv-band-rule" aria-hidden="true" />
+
+    <main class="cv-main">
+        <section class="cv-main-section">
+            <div class="cv-section-heading-block">
+                <h2 class="cv-section-title cv-section-title--main cv-section-title--tracked">{trackedHeading('Summary')}</h2>
+                <hr class="cv-section-rule" />
+            </div>
+            <p class="cv-summary">{cv.summary}</p>
+        </section>
+
+        <section class="cv-main-section">
+            <div class="cv-section-heading-block">
+                <h2 class="cv-section-title cv-section-title--main cv-section-title--tracked">{trackedHeading('Experience')}</h2>
+                <hr class="cv-section-rule" />
+            </div>
+            <div class="cv-job-list">
+            {
+                cv.experience.map((job) => (
+                    <article class="cv-job">
+                        <div class="cv-job-intro">
+                            <h3 class="cv-job-title">{job.title}</h3>
+                            <p class="cv-job-meta">{job.companyLine}</p>
+                            {job.project && (
+                                <p class="cv-job-project">
+                                    <span class="cv-job-label">Project:</span> {job.project}
+                                </p>
+                            )}
+                            {job.description && <p class="cv-job-description">{job.description}</p>}
+                        </div>
+                        {job.responsibilitiesLabel !== false && job.bullets.length > 0 && (
+                            <p class="cv-job-resp-label">Responsibilities</p>
+                        )}
+                        <ul class="cv-job-bullets">
+                            {job.bullets.map((bullet) => (
+                                <li>{bullet}</li>
+                            ))}
+                        </ul>
+                        {job.tools && (
+                            <p class="cv-job-tools">
+                                Tools &amp; Technologies: <span>{job.tools}</span>
+                            </p>
+                        )}
+                    </article>
+                ))
+            }
+            </div>
+        </section>
+
+        <div class="cv-bottom-band">
+            <div class="cv-bottom-col">
+                <div class="cv-section-heading-block">
+                    <h2 class="cv-section-title cv-section-title--main cv-section-title--tracked">{trackedHeading('Education')}</h2>
+                    <hr class="cv-section-rule" />
+                </div>
+                <p class="cv-education-title">{cv.education.title.toUpperCase()}</p>
+                <p class="cv-education-line">{cv.education.institutionLine}</p>
+                <p class="cv-education-detail">{cv.education.detail}</p>
+                <p class="cv-languages-footnote">
+                    <span class="cv-languages-footnote-label">Languages</span>
+                    {cv.languages.join(' · ')}
+                </p>
+            </div>
+
+            <div class="cv-bottom-col">
+                <div class="cv-section-heading-block">
+                    <h2 class="cv-section-title cv-section-title--main cv-section-title--tracked">{trackedHeading('Certificates')}</h2>
+                    <hr class="cv-section-rule" />
+                </div>
+                <ul class="cv-cert-list">
+                    {cv.certificates.map((cert) => (
+                        <li>{cert}</li>
+                    ))}
+                </ul>
+                <p class="cv-cert-link">
+                    Full List –{' '}<a href={cv.certificatesLink} target="_blank" rel="noopener noreferrer">{cv.certificatesLink.replace('https://', '')}</a>
+                </p>
+            </div>
+        </div>
+    </main>
+</article>

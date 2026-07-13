@@ -1,0 +1,13 @@
+---
+import SkillProofPage from '../../templates/SkillProofPage.astro';
+import { getAllSkillProofSlugs, getSkillProofBySlug } from '../../data/skillProofs';
+
+export function getStaticPaths() {
+    return getAllSkillProofSlugs()
+        .filter((slug) => getSkillProofBySlug(slug)?.type === 'hub')
+        .map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+---
+<SkillProofPage locale="en" slug={slug!} />

@@ -1,0 +1,24 @@
+---
+import CvPageShell from '../../../components/cv/CvPageShell.astro';
+import { getCvProfile, getCvTemplatePaths } from '../../../data/cv/registry';
+import { isCvTemplateId } from '../../../data/cv/templates';
+
+export function getStaticPaths() {
+    return getCvTemplatePaths().map(({ slug, template }) => ({
+        params: { slug, template },
+    }));
+}
+
+const { slug, template } = Astro.params;
+
+if (!slug || !template || !isCvTemplateId(template)) {
+    return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const cv = getCvProfile(slug);
+
+if (!cv) {
+    return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+---
+<CvPageShell cv={cv} templateId={template} />

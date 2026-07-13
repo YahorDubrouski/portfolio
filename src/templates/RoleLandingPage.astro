@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import HomeSectionHeader from '../components/HomeSectionHeader.astro';
+import OutcomeMetrics from '../components/OutcomeMetrics.astro';
+import WorkingPrinciples from '../components/WorkingPrinciples.astro';
+import HomeClosingCta from '../components/HomeClosingCta.astro';
+import IntegrationsChips from '../components/IntegrationsChips.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ReviewCarousel from '../components/ReviewCarousel.astro';
+import CertificateSubset from '../components/CertificateSubset.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { getCertificatesForRole } from '../data/projects';
+import { resolveRoleLanding, hasRoleCertificatesPage, hasRoleIntegrationsPage, hasRoleOutcomesPage, hasRoleProjectsPage, hasRoleReviewsPage, getRoleCertificatesPath, getRoleIntegrationsPath, getRoleOutcomesPath, getRoleProjectsPath, getRoleReviewsPath, getReviewsForRolePage } from '../data/roleLanding';
+import { localizedPath } from '../i18n/paths';
+import { getPageTitle, type HireRole, type SiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    t: SiteTranslations;
+    role: HireRole;
+}
+
+const { locale, t, role } = Astro.props;
+const landing = resolveRoleLanding(role, locale, t);
+const roleReviewsTotal = getReviewsForRolePage(landing.role, locale).length;
+const roleCertificatesTotal = getCertificatesForRole(landing.role).length;
+const showAllCertificatesLink =
+    hasRoleCertificatesPage(landing.role) && roleCertificatesTotal > landing.certificates.length;
+
+const telegramUrl = 'https://t.me/YahorDubrouski';
+const projectsHref = hasRoleProjectsPage(landing.role)
+    ? localizedPath(getRoleProjectsPath(landing.role)!, locale)
+    : localizedPath('/projects', locale);
+const certificatesHref = hasRoleCertificatesPage(landing.role)
+    ? localizedPath(getRoleCertificatesPath(landing.role)!, locale)
+    : localizedPath('/certificates', locale);
+const outcomesHref = hasRoleOutcomesPage(landing.role)
+    ? localizedPath(getRoleOutcomesPath(landing.role)!, locale)
+    : localizedPath('/outcomes', locale);
+const reviewsHref = hasRoleReviewsPage(landing.role)
+    ? localizedPath(getRoleReviewsPath(landing.role)!, locale)
+    : localizedPath('/reviews', locale);
+const integrationsHref = hasRoleIntegrationsPage(landing.role)
+    ? localizedPath(getRoleIntegrationsPath(landing.role)!, locale)
+    : localizedPath('/integrations', locale);
+
+const heroProofBadges = landing.copy.proofItems.map((item) => ({
+    label: item.label,
+    href: item.linkCertificates ? certificatesHref : undefined,
+}));
+---
+<BaseLayout
+    title={getPageTitle(locale, landing.roleTitle)}
+    description={landing.roleIntro}
+    locale={locale}
+>
+    <Hero
+        identityLine={landing.copy.heroIdentityLine}
+        headline={landing.copy.heroHeadline}
+        proofBadges={heroProofBadges}
+        photoSrc="/images/yahor-dubrouski.png"
+        photoAlt="Yahor Dubrouski"
+    >
+        <div slot="actions">
+            <CTAButton href={telegramUrl} label={t.home.heroCtaTelegram} />
+        </div>
+    </Hero>
+
+    <OutcomeMetrics
+        outcomes={landing.outcomes}
+        title={t.home.outcomesTitle}
+        subtitle={landing.copy.outcomesSubtitle}
+        allOutcomesHref={outcomesHref}
+        allOutcomesLabel={t.ui.allOutcomes}
+        locale={locale}
+        preferHomeDetail={true}
+    />
+
+    <ReviewCarousel
+        reviews={landing.reviews}
+        title={t.ui.reviewsTitle}
+        subtitle={landing.copy.reviewsSubtitle}
+        allReviewsHref={reviewsHref}
+        allReviewsLabel={t.ui.allReviews}
+        totalReviews={roleReviewsTotal}
+        locale={locale}
+        useHomeExcerpts={true}
+    />
+
+    <section class="border-b border-border bg-surface py-16">
+        <div class="mx-auto max-w-6xl px-4">
+            <HomeSectionHeader
+                title={t.ui.featuredProjects}
+                subtitle={landing.copy.projectsSubtitle}
+                linkHref={projectsHref}
+                linkLabel={t.ui.allProjects}
+            />
+            <div class="grid gap-5 md:grid-cols-2">
+                {landing.projects.map((project) => (
+                    <ProjectCard project={project} locale={locale} />
+                ))}
+            </div>
+        </div>
+    </section>
+
+    {
+        landing.config.showPrinciples && (
+            <WorkingPrinciples
+                title={landing.copy.principlesTitle}
+                subtitle={landing.copy.principlesSubtitle}
+                principles={landing.copy.principles}
+            />
+        )
+    }
+
+    {
+        landing.config.showIntegrations && landing.integrationCategories.length > 0 && (
+            <IntegrationsChips
+                categories={landing.integrationCategories}
+                title={t.home.integrationsTitle}
+                subtitle={landing.copy.integrationsSubtitle}
+                linkHref={integrationsHref}
+                linkLabel={t.home.integrationsLinkLabel}
+                moreLabelTemplate={t.home.integrationsMoreTemplate}
+                lessLabel={t.home.integrationsLessLabel}
+            />
+        )
+    }
+
+    {
+        landing.certificates.length > 0 && (
+            <section class="border-b border-border bg-surface py-16">
+                <div class="mx-auto max-w-6xl px-4">
+                    <HomeSectionHeader
+                        title={landing.copy.certificatesTitle ?? 'Certificates'}
+                        linkHref={showAllCertificatesLink ? certificatesHref : undefined}
+                        linkLabel={showAllCertificatesLink ? t.ui.allCertificates : undefined}
+                    />
+                    <CertificateSubset items={landing.certificates} />
+                </div>
+            </section>
+        )
+    }
+
+    <HomeClosingCta
+        title={landing.copy.closingTitle}
+        body={landing.copy.closingBody}
+        telegramHref={telegramUrl}
+        telegramLabel={t.home.heroCtaTelegram}
+    />
+</BaseLayout>

@@ -1,0 +1,85 @@
+---
+import ProofSectionHeader from './ProofSectionHeader.astro';
+
+interface Props {
+    kicker: string;
+    heading: string;
+    intro: string;
+    categories: {
+        title: string;
+        icon: string;
+        tint: string;
+        items: {
+            label: string;
+            href: string;
+            icon: string;
+        }[];
+    }[];
+}
+
+const { kicker, heading, intro, categories } = Astro.props;
+---
+<section
+    class="border-t-2 border-border-strong bg-surface-muted py-12 sm:py-14"
+    id="public-docker"
+    aria-labelledby="public-docker-heading"
+>
+    <div class="mx-auto max-w-6xl px-4">
+        <ProofSectionHeader
+            kicker={kicker}
+            title={heading}
+            description={intro}
+            headingLevel="h2"
+            id="public-docker-heading"
+        />
+
+        <div class="mt-8 grid gap-5 sm:grid-cols-2">
+            {
+                categories.map((category) => (
+                    <article class="overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
+                        <div
+                            class="flex items-center gap-3 border-b border-border px-4 py-3"
+                            style={`background: linear-gradient(135deg, ${category.tint}14 0%, transparent 100%)`}
+                        >
+                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-surface">
+                                <img src={category.icon} alt="" class="h-5 w-5" loading="lazy" />
+                            </span>
+                            <h3 class="text-sm font-semibold text-heading">{category.title}</h3>
+                        </div>
+                        <ul class="divide-y divide-border/70 p-2">
+                            {category.items.map((item) => (
+                                <li>
+                                    <a
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="group flex items-center gap-3 rounded-md px-2 py-2.5 transition hover:bg-surface-muted"
+                                    >
+                                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border bg-white p-1.5 shadow-sm">
+                                            <img
+                                                src={item.icon}
+                                                alt=""
+                                                class="h-full w-full object-contain"
+                                                loading="eager"
+                                                decoding="async"
+                                            />
+                                        </span>
+                                        <span class="min-w-0 flex-1 text-sm leading-snug text-body group-hover:text-heading">
+                                            {item.label}
+                                        </span>
+                                        <span
+                                            aria-hidden="true"
+                                            class="shrink-0 text-xs text-stone-400 group-hover:text-stone-600"
+                                        >
+                                            ↗
+                                        </span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+</section>

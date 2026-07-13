@@ -1,0 +1,27 @@
+---
+import './cv-screen-bar.css';
+
+interface Props {
+    backHref?: string;
+    downloadPdf?: {
+        href: string;
+        filename: string;
+    };
+}
+---
+<div class="cv-screen-bar">
+    <a href={Astro.props.backHref ?? '/'}>← Back to portfolio</a>
+    {
+        Astro.props.downloadPdf && (
+            <div class="cv-screen-bar__actions">
+                <a
+                    class="cv-download-pdf"
+                    href={Astro.props.downloadPdf.href}
+                    download={Astro.props.downloadPdf.filename}
+                >
+                    Download PDF
+                </a>
+            </div>
+        )
+    }
+</div>

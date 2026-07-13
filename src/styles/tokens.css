@@ -1,0 +1,28 @@
+/**
+ * Site palette — change colors here only.
+ * Theme: Cool minimal — clean, modern, not flat gray/black.
+ */
+:root {
+    /* Surfaces */
+    --background: #f7f8fa;
+    --surface: #ffffff;
+    --surface-muted: #eef1f5;
+
+    /* Borders */
+    --border: #e2e6ed;
+    --border-strong: #c8ced8;
+
+    /* Text */
+    --text: #434c5e;
+    --text-muted: #6f7a8c;
+    --heading: #121a26;
+
+    /* Accent — links, active nav (muted periwinkle) */
+    --accent: #5568a8;
+    --accent-hover: #455894;
+    --accent-muted: #edf0f8;
+
+    /* Primary actions — buttons */
+    --primary: #121a26;
+    --primary-hover: #0a0f16;
+}

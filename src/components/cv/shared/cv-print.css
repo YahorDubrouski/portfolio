@@ -1,0 +1,115 @@
+/**
+ * Shared PDF / print pagination rules for all CV templates.
+ * Imported once from CvPageShell — not duplicated per template.
+ */
+@media print {
+    /* Continuation pages: small top inset when content breaks mid-section */
+    @page {
+        size: letter;
+        margin: 22px 0 0;
+        background: #fff;
+    }
+
+    /* First page top margin — half of previous 36px */
+    @page :first {
+        margin-top: 18px;
+    }
+
+    html,
+    body.cv-print-body,
+    .cv-preview-frame,
+    .cv-pdf-root {
+        margin: 0;
+        padding: 0;
+        background: #fff !important;
+        background-color: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .cv-page {
+        --cv-padding-bottom: 32px;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0 var(--cv-padding-x) var(--cv-padding-bottom);
+        background: #fff !important;
+        background-color: #fff !important;
+        box-shadow: none !important;
+    }
+
+    /* Keep section titles with the content that follows */
+    .cv-section-heading-block {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .cv-job-list > .cv-job:first-child {
+        break-before: avoid;
+        page-break-before: avoid;
+    }
+
+    /* Jobs may span pages; keep compact intro blocks intact */
+    .cv-job {
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    .cv-job-intro {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-job-title,
+    .cv-job-resp-label {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .cv-job-bullets li,
+    .cv-job-tools,
+    .cv-summary {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-skills-band {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-skill-group {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-languages-footnote {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-bottom-col {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-cert-list li {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-main-section + .cv-main-section {
+        margin-top: 1.25rem;
+    }
+
+    .cv-job + .cv-job {
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+    }
+
+    p,
+    li {
+        orphans: 2;
+        widows: 2;
+    }
+}
