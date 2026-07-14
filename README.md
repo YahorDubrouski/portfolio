@@ -2,6 +2,8 @@
 
 Personal portfolio site — Astro static export with role-based hire funnels, curated proof pages, and CV exports.
 
+**Live site:** https://portfolio.yahordubrouski.com/
+
 ## Stack
 
 - Astro 5 (SSG)
