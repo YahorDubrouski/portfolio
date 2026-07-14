@@ -87,3 +87,4 @@ After export, re-review `src/data/projects.json` and section order in `src/data/
 ```bash
 CV_SLUG=backend-devops npm run cv:regenerate-pdf
 ```
+
