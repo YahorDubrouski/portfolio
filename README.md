@@ -79,10 +79,11 @@ public/           # Static assets
 The live site never imports the agent cache at runtime. Refresh site projects from cache only when explicitly updating content:
 
 ```bash
-python3 ai-agents/scripts/export_site_projects.py
+python3 ai-agents/scripts/export_site_projects.py <project-id> [more-ids...]
 ```
 
-After export, re-review `src/data/projects.json` and section order in `src/data/projects.ts`.
+Selective by default — only listed ids are merged. Use `--all` only when replacing the whole catalog. After export, re-review `src/data/projects.json` and section order in `src/data/projects.ts`.
+
 
 ## CV PDFs
 

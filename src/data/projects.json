@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "description": "Public site project catalog — curated copy, not the AI agent cache.",
-  "updated_at": "2026-07-08T23:01:04Z",
+  "updated_at": "2026-07-18T20:54:15Z",
   "sync_note": "Populate from ai-agents/database/projects.cache.json only when explicitly updating site content — never import cache at runtime.",
   "projects": [
     {
@@ -225,67 +225,99 @@
       "type": "collection",
       "parent_collection": null,
       "name": "Architecture Decisions Platform",
-      "summary": "Full-stack monorepo demonstrating architectural thinking, ADR workflows, and AI-assisted decision documentation. React + TypeScript frontend and Express + TypeScript + SQLite backend with OpenAI integration.",
+      "summary": "Portfolio monorepo that turns project context into infrastructure recommendations and ADRs. React 19 SPA (Vite) with Express 5 and FastAPI twins sharing one HTTP contract (202 + job poll); live demo on Cloudflare Workers with VITE_DATA_SOURCE=local.",
       "technologies": {
         "languages": [
           "typescript",
-          "javascript"
+          "javascript",
+          "python"
         ],
         "frameworks": [
           "react",
-          "express"
+          "express",
+          "fastapi",
+          "vite"
         ],
-        "cloud": [],
+        "cloud": [
+          "cloudflare-workers"
+        ],
         "tools": [
           "docker",
-          "vite",
           "openai",
+          "bullmq",
+          "celery",
+          "redis",
+          "zod",
+          "pydantic",
           "jest",
           "vitest",
-          "zod",
-          "winston"
+          "pytest",
+          "swagger",
+          "tanstack-query",
+          "awilix",
+          "knex",
+          "sqlalchemy",
+          "alembic",
+          "winston",
+          "structlog"
         ],
         "databases": [
-          "sqlite"
+          "sqlite",
+          "postgresql",
+          "redis"
         ]
       },
       "features": [
-        "Context Builder — multi-step project requirements form",
-        "Decision Engine — infrastructure recommendations with trade-offs",
-        "AI-Assisted ADR Generation via OpenAI",
-        "Monorepo with separate frontend/backend Docker compose",
-        "Feature-based React structure with domain layer"
+        "Context wizard — structured multi-step project requirements",
+        "Recommendations — compute, secrets, CI/CD options with trade-offs",
+        "ADR workflow — generate, store, view, copy, export markdown",
+        "Dual backends — Express + FastAPI with identical API contract",
+        "Async jobs — BullMQ (Node) / Celery (Python) off the request path",
+        "Provider matrix — mock/OpenAI, template/OpenAI, sqlite|postgres|memory; fail-loud misconfig",
+        "Frontend gateways — VITE_DATA_SOURCE=http|local without UI branching",
+        "Code-first OpenAPI — Zod→Swagger (Express) and Pydantic (FastAPI)",
+        "Live demo — https://arch-decisions.yahordubrouski.com/",
+        "Tests — 122 frontend + 47 Express + 26 Python"
       ],
-      "architecture": "React SPA (Vite) → Express API → SQLite + OpenAI; Docker Compose monorepo",
+      "architecture": "Browser → React gateways → Express (:3001) or FastAPI (:3002) → Redis queue (BullMQ/Celery) → worker → providers + SQLite|memory / PostgreSQL|memory",
       "problems_solved": [
-        "Helps engineers capture context and produce Architecture Decision Records with rationale and alternatives."
+        "Captures architecture context as structured input instead of free-text requirements.",
+        "Produces ADRs with recommendations and trade-offs for hiring/portfolio review.",
+        "Demonstrates parallel senior Node and Python backends behind one frontend contract."
       ],
       "use_cases": [
-        "Solution architect portfolio",
-        "ADR and trade-off discussions",
-        "React/TypeScript system design examples"
+        "Solution architect portfolio with ADR proof",
+        "Compare Express vs FastAPI layered backends",
+        "React feature-folder + gateway patterns",
+        "Async LLM job polling design"
       ],
-      "when_to_use": "Use for architecture decisions, ADRs, full-stack React/Node design, or AI-assisted technical documentation.",
+      "when_to_use": "Use for ADR workflows, dual-stack Node/Python APIs, React gateway architecture, or portfolio demos of fail-loud provider configuration.",
       "competencies": [
         "architectural thinking",
         "ADR writing",
         "trade-off analysis",
         "full-stack system design",
+        "async job design",
+        "OpenAPI-first APIs",
+        "provider/strategy configuration",
         "AI-assisted documentation"
       ],
       "design_patterns": [
         "feature-based folders",
-        "domain layer",
-        "separation of concerns",
-        "service layer (backend)",
-        "component composition (React)"
+        "gateway / adapter for data source",
+        "layered backend (routes→services→integrations)",
+        "factory for providers",
+        "composition root / DI (Awilix, FastAPI Depends)",
+        "CQRS-lite async jobs (202 + poll)",
+        "domain models separate from persistence"
       ],
       "best_practices": [
-        "monorepo with isolated frontend/backend",
-        "Docker Compose for local dev",
-        "TypeScript end-to-end",
-        "Zustand over Redux for appropriate scope",
-        "SQLite for portfolio-appropriate persistence"
+        "explicit env-driven providers; no silent fallback to mock",
+        "Helmet, rate limits, correlation IDs on APIs",
+        "Docker Compose + Makefile for local stack",
+        "provider matrix verification scripts",
+        "reviewer-oriented docs (practices.md, for-reviewers.md)",
+        "TypeScript + Python typed contracts"
       ],
       "keywords": [
         "portfolio",
@@ -293,27 +325,37 @@
         "adr",
         "architecture",
         "decision-records",
-        "ai"
+        "fastapi",
+        "express",
+        "react",
+        "openai",
+        "cloudflare",
+        "bullmq",
+        "celery"
       ],
       "trade_offs": [
-        "SQLite over PostgreSQL — portfolio scope vs production scale",
-        "React 18 over 19 — stability over bleeding edge",
-        "Zustand over Redux — simplicity vs enterprise state tooling",
-        "Node.js 24 Active LTS over Current — production pragmatism"
+        "Dual backends increase maintenance for one HTTP contract — portfolio breadth vs single-stack focus",
+        "SQLite (Express) vs PostgreSQL (Python) — demo ops simplicity vs classical relational server",
+        "Optional OpenAI vs mock/template defaults — demo reliability without API keys",
+        "Frontend local mode — hire demos without backend vs full integration path"
       ],
       "audience": [
         "solution architects",
         "platform architects",
-        "senior engineering managers"
+        "senior engineering managers",
+        "backend hiring managers"
       ],
       "complexity": "high",
       "related_projects": [
         "arch-decisions-backend",
+        "arch-decisions-backend-python",
         "arch-decisions-frontend",
+        "aidesk-mini",
         "certificates"
       ],
       "sub_project_ids": [
         "arch-decisions-backend",
+        "arch-decisions-backend-python",
         "arch-decisions-frontend"
       ]
     },
@@ -321,8 +363,8 @@
       "id": "arch-decisions-backend",
       "type": "project",
       "parent_collection": "arch-decisions",
-      "name": "Architecture Decisions — Backend",
-      "summary": "Express + TypeScript API with OpenAI integration, Zod validation, SQLite persistence, and Jest tests.",
+      "name": "Architecture Decisions — Express Backend",
+      "summary": "Express 5 + TypeScript API: recommendations and ADR generation via BullMQ jobs, Zod/OpenAPI Swagger, Awilix DI, SQLite (Knex) or memory storage, optional OpenAI — ~47 Jest tests including Supertest HTTP.",
       "technologies": {
         "languages": [
           "typescript",
@@ -335,62 +377,183 @@
         "tools": [
           "docker",
           "openai",
-          "jest",
+          "bullmq",
+          "redis",
           "zod",
-          "winston"
+          "zod-to-openapi",
+          "awilix",
+          "knex",
+          "jest",
+          "supertest",
+          "winston",
+          "helmet",
+          "swagger-ui-express"
         ],
         "databases": [
-          "sqlite"
+          "sqlite",
+          "redis"
         ]
       },
       "features": [
-        "REST API for decisions and ADRs",
-        "OpenAI ADR generation",
-        "SQLite via better-sqlite3",
-        "Jest test suite"
+        "POST /api/recommendations/evaluate → 202 + job poll",
+        "POST /api/architecture-decisions/generate → 202 + persist",
+        "List/get decisions with search and status filters",
+        "Swagger UI at /api-docs from Zod schemas",
+        "BullMQ worker process separate from API",
+        "Provider factories — mock|openai, template|openai, sqlite|memory",
+        "verify:providers matrix script"
       ],
-      "architecture": "Express API → SQLite + OpenAI",
+      "architecture": "routes → controllers → services → integrations; BullMQ worker for LLM/jobs",
       "problems_solved": [
-        "Backend for architecture decision workflows and ADR storage."
+        "Keeps LLM work off the request thread via async jobs.",
+        "Fails loud on invalid provider config instead of silent mock fallback."
       ],
       "use_cases": [
-        "Express + TypeScript API patterns",
-        "OpenAI integration examples"
+        "Senior Node/Express portfolio API",
+        "BullMQ + Redis job patterns",
+        "Code-first OpenAPI with Zod"
       ],
-      "when_to_use": "Use when discussing the arch-decisions API layer or Express + OpenAI backend.",
+      "when_to_use": "Use for the Express twin of arch-decisions — BullMQ, Zod OpenAPI, Awilix, SQLite.",
       "competencies": [
         "REST API design",
+        "async job queues",
         "OpenAI integration",
         "TypeScript backend",
-        "input validation"
+        "input validation",
+        "dependency injection"
       ],
       "design_patterns": [
         "layered architecture",
         "service layer",
-        "repository-style data access"
+        "repository/factory for storage providers",
+        "composition root (Awilix)"
       ],
       "best_practices": [
-        "Zod schema validation",
-        "structured logging (Winston)",
-        "Jest unit tests",
-        "Express middleware pipeline"
+        "Zod schema validation + sibling *.openapi.ts",
+        "Helmet, rate limit, x-request-id",
+        "Winston structured logging",
+        "Jest unit + Supertest HTTP tests",
+        "SQLite WAL + busy_timeout when API and worker share DB"
       ],
       "keywords": [
         "express",
+        "bullmq",
         "openai",
         "api",
-        "backend"
+        "backend",
+        "swagger",
+        "zod"
       ],
       "trade_offs": [
-        "SQLite file DB — zero ops for demo vs managed DB"
+        "SQLite file DB — zero ops for demo vs managed PostgreSQL",
+        "Express twin of Python API — duplicated contract for portfolio breadth"
       ],
       "audience": [
         "backend hiring managers",
         "technical leads"
       ],
-      "complexity": "medium",
+      "complexity": "high",
       "related_projects": [
         "arch-decisions",
+        "arch-decisions-backend-python",
+        "arch-decisions-frontend",
+        "aidesk-mini"
+      ],
+      "sub_project_ids": []
+    },
+    {
+      "id": "arch-decisions-backend-python",
+      "type": "project",
+      "parent_collection": "arch-decisions",
+      "name": "Architecture Decisions — FastAPI Backend",
+      "summary": "FastAPI + Python 3.12 twin of the Express API: same 202+job contract for recommendations and ADRs. SQLAlchemy 2 + Alembic + PostgreSQL (or memory), Celery + Redis, Pydantic v2 OpenAPI, structlog, slowapi — ~26 pytest tests.",
+      "technologies": {
+        "languages": [
+          "python"
+        ],
+        "frameworks": [
+          "fastapi"
+        ],
+        "cloud": [],
+        "tools": [
+          "docker",
+          "celery",
+          "redis",
+          "pydantic",
+          "sqlalchemy",
+          "alembic",
+          "openai",
+          "uvicorn",
+          "pytest",
+          "structlog",
+          "slowapi",
+          "ruff"
+        ],
+        "databases": [
+          "postgresql",
+          "redis"
+        ]
+      },
+      "features": [
+        "Same HTTP contract as Express (evaluate/generate → 202 + poll)",
+        "Swagger at /docs from Pydantic schemas",
+        "Celery worker for async evaluate/generate",
+        "PostgreSQL via SQLAlchemy/Alembic or memory storage",
+        "Fail-loud provider factories (mock|openai, template|openai, postgres|memory)",
+        "verify_provider_matrix.py"
+      ],
+      "architecture": "api/routes → services → infrastructure; Celery workers for LLM/jobs",
+      "problems_solved": [
+        "Shows senior FastAPI patterns parallel to the Node twin.",
+        "Separates domain (Pydantic) from SQLAlchemy table models."
+      ],
+      "use_cases": [
+        "Senior FastAPI portfolio backend",
+        "Celery + Redis async jobs",
+        "Pydantic/OpenAPI code-first APIs"
+      ],
+      "when_to_use": "Use for the FastAPI twin of arch-decisions — Celery, SQLAlchemy, Pydantic OpenAPI.",
+      "competencies": [
+        "FastAPI API design",
+        "async job queues (Celery)",
+        "SQLAlchemy / Alembic",
+        "Pydantic validation",
+        "OpenAI integration"
+      ],
+      "design_patterns": [
+        "layered architecture",
+        "composition root + Depends",
+        "factory for providers",
+        "domain ≠ persistence models"
+      ],
+      "best_practices": [
+        "src-layout package (arch_decisions)",
+        "Alembic on API boot; SKIP_DB_MIGRATIONS on worker",
+        "structlog JSON logging",
+        "rate limiting (slowapi)",
+        "pytest unit + TestClient HTTP"
+      ],
+      "keywords": [
+        "fastapi",
+        "celery",
+        "python",
+        "openai",
+        "api",
+        "backend",
+        "postgresql"
+      ],
+      "trade_offs": [
+        "PostgreSQL default — more realistic than SQLite, heavier local ops",
+        "Twin of Express API — duplicated surface for portfolio breadth"
+      ],
+      "audience": [
+        "backend hiring managers",
+        "Python engineering leads"
+      ],
+      "complexity": "high",
+      "related_projects": [
+        "arch-decisions",
+        "arch-decisions-backend",
         "arch-decisions-frontend",
         "aidesk-mini"
       ],
@@ -401,7 +564,7 @@
       "type": "project",
       "parent_collection": "arch-decisions",
       "name": "Architecture Decisions — Frontend",
-      "summary": "React 18 + TypeScript + Vite SPA with Zustand state management and Vitest testing.",
+      "summary": "React 19 + TypeScript + Vite SPA: context wizard, recommendations, ADR documents. TanStack Query, React Router, Zod; gateways swap http vs local (sessionStorage) without UI branching. Live on Cloudflare Workers; ~122 Vitest tests.",
       "technologies": {
         "languages": [
           "typescript",
@@ -410,56 +573,72 @@
         "frameworks": [
           "react",
           "vite",
-          "zustand"
+          "react-router"
         ],
-        "cloud": [],
+        "cloud": [
+          "cloudflare-workers"
+        ],
         "tools": [
           "docker",
-          "vitest"
+          "vitest",
+          "tanstack-query",
+          "zod",
+          "react-markdown",
+          "testing-library",
+          "css-modules"
         ],
         "databases": []
       },
       "features": [
-        "Multi-step context builder UI",
-        "Decision results and ADR views",
-        "Feature-based folder structure",
-        "CSS Modules styling"
+        "Multi-step validated context wizard",
+        "Recommendations UI with trade-offs",
+        "ADR list/detail — filters, URL pagination, export",
+        "VITE_DATA_SOURCE=http|local gateway factories",
+        "Works against Express (:3001) or FastAPI (:3002)",
+        "Thin pages — loading → error → empty → success"
       ],
-      "architecture": "React SPA (Vite) consuming backend REST API",
+      "architecture": "pages → feature hooks → gateways → HTTP API or local adapters",
       "problems_solved": [
-        "Frontend for guided architecture decision workflows."
+        "Lets reviewers demo the full UI without a backend (local mode).",
+        "Keeps env branching in gateways, not pages/hooks."
       ],
       "use_cases": [
-        "React architecture portfolio",
-        "Feature-based React structure"
+        "Senior React portfolio structure",
+        "Feature-folder + gateway patterns",
+        "Cloudflare Workers static SPA demo"
       ],
-      "when_to_use": "Use when discussing the arch-decisions UI or React + Vite patterns.",
+      "when_to_use": "Use for arch-decisions UI, React 19 + TanStack Query, or gateway/local-data demos.",
       "competencies": [
         "React architecture",
-        "state management",
+        "state ownership (form/Query/URL/session)",
         "feature-based structure",
-        "TypeScript frontend"
+        "TypeScript frontend",
+        "API client design"
       ],
       "design_patterns": [
         "feature folders",
+        "gateway/adapter",
         "CSS Modules",
         "thin pages composing features",
-        "shared API client layer"
+        "shared domain Zod types"
       ],
       "best_practices": [
-        "Vite for fast dev/build",
-        "Vitest + jest-dom",
-        "co-located styles",
-        "domain types separated from UI"
+        "Vite for fast build",
+        "Vitest + Testing Library",
+        "correct state ownership documented in practices.md",
+        "no page-level env branching"
       ],
       "keywords": [
         "react",
         "vite",
         "frontend",
-        "spa"
+        "spa",
+        "tanstack-query",
+        "cloudflare"
       ],
       "trade_offs": [
-        "CSS Modules over Tailwind — explicit scoping vs utility speed"
+        "CSS Modules over Tailwind — explicit scoping vs utility speed",
+        "Local data source — hire demos without backend vs full API fidelity"
       ],
       "audience": [
         "frontend leads",
@@ -469,7 +648,9 @@
       "related_projects": [
         "arch-decisions",
         "arch-decisions-backend",
-        "dziana-portfolio"
+        "arch-decisions-backend-python",
+        "dziana-portfolio",
+        "yahor-portfolio"
       ],
       "sub_project_ids": []
     },

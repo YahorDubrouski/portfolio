@@ -53,7 +53,7 @@ const media = {
                     src: '/projects/arch-decisions/architecture.svg',
                     alt: 'Architecture Decisions Platform system diagram',
                     caption:
-                        'React SPA (Vite) → Express API → SQLite and OpenAI, orchestrated with Docker Compose.',
+                        'React SPA → Express or FastAPI → Redis jobs (BullMQ/Celery) → SQLite/PostgreSQL and optional OpenAI.',
                     kind: 'diagram',
                 },
             ],

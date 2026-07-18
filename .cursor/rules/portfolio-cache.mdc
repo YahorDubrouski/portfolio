@@ -111,10 +111,14 @@ The **live site must not import** `projects.cache.json`. It reads **`src/data/pr
 When the user asks to **update site project content** after cache enrichment:
 
 ```bash
-python3 ai-agents/scripts/export_site_projects.py
+# Selective — only the ids that changed (preferred)
+python3 ai-agents/scripts/export_site_projects.py <project-id> [more-ids...]
+# Full catalog replace only when the user explicitly asks for it
+# python3 ai-agents/scripts/export_site_projects.py --all
 ```
 
-Review the diff in `src/data/projects.json` before commit. Same pattern as profile DB → `src/data/*.ts`.
+**Never** run a full export that overwrites unrelated curated projects unless the user asks. Review the diff in `src/data/projects.json` before commit. Same pattern as profile DB → `src/data/*.ts`.
+
 
 ## What other agents should do
 

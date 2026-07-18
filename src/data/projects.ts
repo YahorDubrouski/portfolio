@@ -55,6 +55,7 @@ export const hiddenProjectIds = [
     'aws-terraform-vpc-geocoder-example',
     'atlassian-mcp',
     'arch-decisions-backend',
+    'arch-decisions-backend-python',
     'arch-decisions-frontend',
     'aws',
     'aws-guides',
