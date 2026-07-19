@@ -47,6 +47,17 @@ const media = {
     ],
     'arch-decisions': [
         {
+            title: 'Product',
+            items: [
+                {
+                    src: '/projects/arch-decisions/home.png',
+                    alt: 'Architecture Decisions Platform home screen',
+                    caption: 'Monorepo demo — React UI with Express and FastAPI backends.',
+                    kind: 'screenshot',
+                },
+            ],
+        },
+        {
             title: 'Architecture',
             items: [
                 {
@@ -55,6 +66,51 @@ const media = {
                     caption:
                         'React SPA → Express or FastAPI → Redis jobs (BullMQ/Celery) → SQLite/PostgreSQL and optional OpenAI.',
                     kind: 'diagram',
+                },
+            ],
+        },
+    ],
+    'arch-decisions-frontend': [
+        {
+            title: 'UI',
+            items: [
+                {
+                    src: '/projects/arch-decisions-frontend/home.png',
+                    alt: 'Architecture Decisions React frontend — home',
+                    caption: 'React 19 SPA — context wizard entry and product home.',
+                    kind: 'screenshot',
+                },
+                {
+                    src: '/projects/arch-decisions-frontend/recommendations.png',
+                    alt: 'Architecture Decisions recommendations screen',
+                    caption: 'Infrastructure recommendations with trade-offs.',
+                    kind: 'screenshot',
+                },
+            ],
+        },
+    ],
+    'arch-decisions-backend': [
+        {
+            title: 'API',
+            items: [
+                {
+                    src: '/projects/arch-decisions-backend/swagger.png',
+                    alt: 'Express OpenAPI Swagger for Architecture Decisions',
+                    caption: 'Code-first OpenAPI (Zod) at /api-docs on the Express API.',
+                    kind: 'screenshot',
+                },
+            ],
+        },
+    ],
+    'arch-decisions-backend-python': [
+        {
+            title: 'API',
+            items: [
+                {
+                    src: '/projects/arch-decisions-backend-python/swagger.png',
+                    alt: 'FastAPI Swagger for Architecture Decisions',
+                    caption: 'Pydantic OpenAPI at /docs on the FastAPI twin.',
+                    kind: 'screenshot',
                 },
             ],
         },
@@ -389,6 +445,26 @@ const projectCardThumbnails: Record<string, ProjectMediaItem> = {
     'aidesk-mini': {
         src: '/projects/aidesk-mini/documentation/payment/stripe/images/step-01.png',
         alt: 'AIDesk Mini landing page — AI-powered ticket triage API',
+        kind: 'screenshot',
+    },
+    'arch-decisions': {
+        src: '/projects/arch-decisions/home.png',
+        alt: 'Architecture Decisions Platform — React monorepo with Express and FastAPI',
+        kind: 'screenshot',
+    },
+    'arch-decisions-frontend': {
+        src: '/projects/arch-decisions-frontend/home.png',
+        alt: 'Architecture Decisions React frontend home',
+        kind: 'screenshot',
+    },
+    'arch-decisions-backend': {
+        src: '/projects/arch-decisions-backend/swagger.png',
+        alt: 'Architecture Decisions Express Swagger UI',
+        kind: 'screenshot',
+    },
+    'arch-decisions-backend-python': {
+        src: '/projects/arch-decisions-backend-python/swagger.png',
+        alt: 'Architecture Decisions FastAPI Swagger UI',
         kind: 'screenshot',
     },
     'yahor-portfolio': {

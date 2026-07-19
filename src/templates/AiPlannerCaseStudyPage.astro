@@ -5,8 +5,8 @@ import ImageLightbox from '../components/ImageLightbox.astro';
 import ProofSectionHeader from '../components/proofs/ProofSectionHeader.astro';
 import { aiPlannerCaseStudy as content } from '../data/caseStudies/ai-planner';
 import { getGitHubUrl } from '../data/github';
+import { resolveCaseStudyBackHref } from '../data/hireNavigation';
 import { getProjectById } from '../data/projects';
-import { localizedPath } from '../i18n/paths';
 import { getPageTitle, getSiteTranslations } from '../i18n/translations/site';
 import type { Locale } from '../i18n/locales';
 
@@ -22,13 +22,12 @@ if (!project) {
 }
 
 const githubUrl = getGitHubUrl('ai-planner');
-const backHref = localizedPath('/projects', locale);
-const localePrefix = locale === 'ru' ? '/ru' : '';
+const backHref = resolveCaseStudyBackHref(Astro.url.pathname, locale);
 ---
 <BaseLayout title={getPageTitle(locale, project.name)} locale={locale}>
     <section class="case-study-hero border-b border-border py-12 sm:py-14">
         <div class="mx-auto max-w-6xl px-4">
-            <a href={backHref} class="text-sm font-semibold text-accent hover:text-accent-hover">
+            <a id="back-to-projects" href={backHref} class="text-sm font-semibold text-accent hover:text-accent-hover">
                 ← {t.ui.backToProjects}
             </a>
 
@@ -163,14 +162,6 @@ const localePrefix = locale === 'ru' ? '/ru' : '';
             </div>
         </div>
     </section>
-
-    <script define:vars={{ localePrefix }}>
-        const link = document.querySelector('a[href$="/projects"]');
-        const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-        if (link && returnTo && /^\/hire\/[a-z-]+(\/projects)?$/.test(returnTo.replace(/^\/ru/, ''))) {
-            link.href = `${localePrefix}${returnTo}`;
-        }
-    </script>
 </BaseLayout>
 
 <style>

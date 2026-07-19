@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "description": "Public site project catalog — curated copy, not the AI agent cache.",
-  "updated_at": "2026-07-18T20:54:15Z",
+  "updated_at": "2026-07-19T18:42:03Z",
   "sync_note": "Populate from ai-agents/database/projects.cache.json only when explicitly updating site content — never import cache at runtime.",
   "projects": [
     {
@@ -225,7 +225,7 @@
       "type": "collection",
       "parent_collection": null,
       "name": "Architecture Decisions Platform",
-      "summary": "Portfolio monorepo that turns project context into infrastructure recommendations and ADRs. React 19 SPA (Vite) with Express 5 and FastAPI twins sharing one HTTP contract (202 + job poll); live demo on Cloudflare Workers with VITE_DATA_SOURCE=local.",
+      "summary": "Portfolio monorepo that turns project context into infrastructure recommendations and Architecture Decision Records. React 19 SPA (Vite) with Express 5 and FastAPI twins sharing one HTTP contract; live demo on Cloudflare Workers.",
       "technologies": {
         "languages": [
           "typescript",
@@ -270,11 +270,11 @@
       "features": [
         "Context wizard — structured multi-step project requirements",
         "Recommendations — compute, secrets, CI/CD options with trade-offs",
-        "ADR workflow — generate, store, view, copy, export markdown",
+        "Architecture Decision Record workflow — generate, store, view, copy, export markdown",
         "Dual backends — Express + FastAPI with identical API contract",
         "Async jobs — BullMQ (Node) / Celery (Python) off the request path",
         "Provider matrix — mock/OpenAI, template/OpenAI, sqlite|postgres|memory; fail-loud misconfig",
-        "Frontend gateways — VITE_DATA_SOURCE=http|local without UI branching",
+        "Frontend gateways — HTTP or local data gateways without UI branching",
         "Code-first OpenAPI — Zod→Swagger (Express) and Pydantic (FastAPI)",
         "Live demo — https://arch-decisions.yahordubrouski.com/",
         "Tests — 122 frontend + 47 Express + 26 Python"
@@ -282,25 +282,22 @@
       "architecture": "Browser → React gateways → Express (:3001) or FastAPI (:3002) → Redis queue (BullMQ/Celery) → worker → providers + SQLite|memory / PostgreSQL|memory",
       "problems_solved": [
         "Captures architecture context as structured input instead of free-text requirements.",
-        "Produces ADRs with recommendations and trade-offs for hiring/portfolio review.",
+        "Produces Architecture Decision Records with recommendations and trade-offs for hiring/portfolio review.",
         "Demonstrates parallel senior Node and Python backends behind one frontend contract."
       ],
       "use_cases": [
-        "Solution architect portfolio with ADR proof",
+        "Solution architect portfolio with Architecture Decision Record proof",
         "Compare Express vs FastAPI layered backends",
         "React feature-folder + gateway patterns",
         "Async LLM job polling design"
       ],
-      "when_to_use": "Use for ADR workflows, dual-stack Node/Python APIs, React gateway architecture, or portfolio demos of fail-loud provider configuration.",
+      "when_to_use": "Use for Architecture Decision Record workflows, dual-stack Node/Python APIs, React gateway architecture, or portfolio demos of fail-loud provider configuration.",
       "competencies": [
-        "architectural thinking",
-        "ADR writing",
-        "trade-off analysis",
-        "full-stack system design",
-        "async job design",
-        "OpenAPI-first APIs",
-        "provider/strategy configuration",
-        "AI-assisted documentation"
+        "full-stack delivery",
+        "React",
+        "Express",
+        "FastAPI",
+        "design patterns"
       ],
       "design_patterns": [
         "feature-based folders",
@@ -363,12 +360,13 @@
       "id": "arch-decisions-backend",
       "type": "project",
       "parent_collection": "arch-decisions",
-      "name": "Architecture Decisions — Express Backend",
-      "summary": "Express 5 + TypeScript API: recommendations and ADR generation via BullMQ jobs, Zod/OpenAPI Swagger, Awilix DI, SQLite (Knex) or memory storage, optional OpenAI — ~47 Jest tests including Supertest HTTP.",
+      "name": "Architecture Decisions · Express",
+      "summary": "Express 5 + TypeScript API: recommendations and Architecture Decision Record generation via BullMQ jobs, Zod/OpenAPI Swagger, Awilix DI, SQLite (Knex) or memory storage, optional OpenAI — ~47 Jest tests including Supertest HTTP.",
       "technologies": {
         "languages": [
           "typescript",
-          "javascript"
+          "javascript",
+          "node.js"
         ],
         "frameworks": [
           "express"
@@ -465,8 +463,8 @@
       "id": "arch-decisions-backend-python",
       "type": "project",
       "parent_collection": "arch-decisions",
-      "name": "Architecture Decisions — FastAPI Backend",
-      "summary": "FastAPI + Python 3.12 twin of the Express API: same 202+job contract for recommendations and ADRs. SQLAlchemy 2 + Alembic + PostgreSQL (or memory), Celery + Redis, Pydantic v2 OpenAPI, structlog, slowapi — ~26 pytest tests.",
+      "name": "Architecture Decisions · FastAPI",
+      "summary": "FastAPI + Python 3.12 API for recommendations and Architecture Decision Records. SQLAlchemy 2 + Alembic + PostgreSQL (or memory), Celery + Redis, Pydantic v2 OpenAPI, structlog, slowapi — ~26 pytest tests.",
       "technologies": {
         "languages": [
           "python"
@@ -563,8 +561,8 @@
       "id": "arch-decisions-frontend",
       "type": "project",
       "parent_collection": "arch-decisions",
-      "name": "Architecture Decisions — Frontend",
-      "summary": "React 19 + TypeScript + Vite SPA: context wizard, recommendations, ADR documents. TanStack Query, React Router, Zod; gateways swap http vs local (sessionStorage) without UI branching. Live on Cloudflare Workers; ~122 Vitest tests.",
+      "name": "Architecture Decisions · Frontend",
+      "summary": "React 19 + TypeScript + Vite SPA: context wizard, recommendations, Architecture Decision Record documents. TanStack Query, React Router, Zod. Gateways swap API or local sessionStorage without UI branching; live on Cloudflare Workers; ~122 Vitest tests.",
       "technologies": {
         "languages": [
           "typescript",
@@ -572,8 +570,7 @@
         ],
         "frameworks": [
           "react",
-          "vite",
-          "react-router"
+          "vite"
         ],
         "cloud": [
           "cloudflare-workers"
@@ -592,7 +589,7 @@
       "features": [
         "Multi-step validated context wizard",
         "Recommendations UI with trade-offs",
-        "ADR list/detail — filters, URL pagination, export",
+        "Architecture Decision Record list/detail — filters, URL pagination, export",
         "VITE_DATA_SOURCE=http|local gateway factories",
         "Works against Express (:3001) or FastAPI (:3002)",
         "Thin pages — loading → error → empty → success"
@@ -1477,7 +1474,9 @@
         "frameworks": [
           "astro"
         ],
-        "cloud": [],
+        "cloud": [
+          "cloudflare-pages"
+        ],
         "tools": [
           "tailwind",
           "cloudinary"
@@ -1550,7 +1549,9 @@
         "frameworks": [
           "astro"
         ],
-        "cloud": [],
+        "cloud": [
+          "cloudflare-pages"
+        ],
         "tools": [
           "tailwind",
           "playwright",
@@ -1580,7 +1581,6 @@
       "competencies": [
         "static site architecture",
         "full-stack delivery",
-        "typed data layers",
         "E2E testing",
         "SEO"
       ],

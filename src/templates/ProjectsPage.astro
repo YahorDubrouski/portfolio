@@ -6,12 +6,17 @@ import {
     projectSections,
     getProjectsForSection,
     isProjectFilterExcluded,
+    filterFlagshipByStack,
 } from '../data/projects';
 import { getProjectsForRolePage, getProjectSectionsForRolePage } from '../data/roleLanding';
 import {
     getGroupedTechnologyFilters,
     getGroupedTechnologyFiltersForProjects,
+    getFilterGroupOrderForRole,
     getProjectTechnologySlugs,
+    filterChipCollapseLimit,
+    techFilterChipByMember,
+    techFilterFamilyMembers,
 } from '../data/technologies';
 import { localizedPath } from '../i18n/paths';
 import { getPageTitle, type HireRole, type SiteTranslations } from '../i18n/translations/site';
@@ -42,7 +47,9 @@ const displaySections = roleProjectSections
           .filter((section) => section.projects.length > 0);
 
 const technologyFilterGroups = roleProjects
-    ? getGroupedTechnologyFiltersForProjects(roleProjects)
+    ? getGroupedTechnologyFiltersForProjects(roleProjects, {
+          groupOrder: getFilterGroupOrderForRole(role),
+      })
     : getGroupedTechnologyFilters();
 
 const landingCopy = role ? t.hire[role].landing : undefined;
@@ -70,25 +77,61 @@ const filterBasePath = role
                         {t.ui.filterAll}
                     </button>
                 </div>
-                {technologyFilterGroups.map((group) => (
-                    <div>
-                        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-muted">
-                            {t.projects.filterGroups[group.key]}
-                        </p>
-                        <div class="flex flex-wrap gap-2">
-                            {group.filters.map(({ slug, label }) => (
-                                <button
-                                    type="button"
-                                    data-filter={slug}
-                                    data-label={label}
-                                    class="filter-btn rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-body hover:border-border-strong"
-                                >
-                                    {label}
-                                </button>
-                            ))}
+                {technologyFilterGroups.map((group) => {
+                    const overflow = group.filters.length > filterChipCollapseLimit;
+                    return (
+                        <div
+                            data-filter-group
+                            data-expanded="false"
+                            data-hidden-by-default={group.hiddenByDefault ? 'true' : undefined}
+                            class:list={[group.hiddenByDefault && 'hidden']}
+                        >
+                            <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-muted">
+                                {t.projects.filterGroups[group.key]}
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                {group.filters.map(({ slug, label }, index) => {
+                                    const isOverflow = index >= filterChipCollapseLimit;
+                                    return (
+                                        <button
+                                            type="button"
+                                            data-filter={slug}
+                                            data-label={label}
+                                            data-filter-overflow={isOverflow ? 'true' : undefined}
+                                            class:list={[
+                                                'filter-btn rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium text-body hover:border-border-strong',
+                                                isOverflow && 'hidden',
+                                            ]}
+                                        >
+                                            {label}
+                                        </button>
+                                    );
+                                })}
+                                {overflow && (
+                                    <button
+                                        type="button"
+                                        data-expand-group
+                                        class="rounded-md border border-dashed border-border px-4 py-2 text-sm font-medium text-muted hover:border-border-strong hover:text-body"
+                                    >
+                                        {t.ui.seeMore}
+                                    </button>
+                                )}
+                            </div>
                         </div>
+                    );
+                })}
+                {technologyFilterGroups.some((group) => group.hiddenByDefault) && (
+                    <div class="pt-1">
+                        <button
+                            type="button"
+                            id="project-filters-show-all"
+                            data-expanded="false"
+                            class="rounded-md border border-dashed border-border px-4 py-2 text-sm font-medium text-muted hover:border-border-strong hover:text-body"
+                        >
+                            {t.projects.showAllFilters}
+                        </button>
                     </div>
-                ))}
+                )}
             </div>
 
             <p id="project-filter-status" class="mb-6 text-sm text-muted" hidden></p>
@@ -97,29 +140,30 @@ const filterBasePath = role
 
     {
         displaySections.map((section) => (
-                <div class="project-section" data-project-section>
-                    <div class="project-section-header border-b border-border bg-surface-muted pt-2">
-                        <div class="mx-auto max-w-6xl px-4 pb-4">
-                            <h2 class="text-lg font-bold text-heading">{t.projects.sections[section.key]}</h2>
+            <div class="project-section" data-project-section data-section-key={section.key}>
+                <div class="project-section-header border-b border-border bg-surface-muted pt-2">
+                    <div class="mx-auto max-w-6xl px-4 pb-4">
+                        <h2 class="text-lg font-bold text-heading">{t.projects.sections[section.key]}</h2>
+                    </div>
+                </div>
+                <section class="project-section-body py-10">
+                    <div class="mx-auto max-w-6xl px-4">
+                        <div class="grid gap-6 md:grid-cols-2" data-section-grid={section.key}>
+                            {section.projects.map((project) => (
+                                <div
+                                    data-project-id={project.id}
+                                    data-slugs={getProjectTechnologySlugs(project).join(',')}
+                                    data-skip-filter={isProjectFilterExcluded(project.id) ? 'true' : undefined}
+                                    class="project-item"
+                                >
+                                    <ProjectCard project={project} locale={locale} />
+                                </div>
+                            ))}
                         </div>
                     </div>
-                    <section class="project-section-body py-10">
-                        <div class="mx-auto max-w-6xl px-4">
-                            <div class="grid gap-6 md:grid-cols-2">
-                                {section.projects.map((project) => (
-                                    <div
-                                        data-slugs={getProjectTechnologySlugs(project).join(',')}
-                                        data-skip-filter={isProjectFilterExcluded(project.id) ? 'true' : undefined}
-                                        class="project-item"
-                                    >
-                                        <ProjectCard project={project} locale={locale} />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            ))
+                </section>
+            </div>
+        ))
     }
 
     <div class="mx-auto max-w-6xl px-4 pb-16">
@@ -128,31 +172,75 @@ const filterBasePath = role
         </p>
     </div>
 
-    <script define:vars={{ filterAllLabel: t.ui.filterAll, noProjectsMessage: t.projects.noProjectsForTechnology, filterBasePath }}>
+    <script
+        define:vars={{
+            filterAllLabel: t.ui.filterAll,
+            noProjectsMessage: t.projects.noProjectsForTechnology,
+            filterBasePath,
+            filterFlagshipByStack,
+            techFilterFamilyMembers,
+            techFilterChipByMember,
+            seeMoreLabel: t.ui.seeMore,
+            seeLessLabel: t.ui.seeLess,
+            showAllFiltersLabel: t.projects.showAllFilters,
+            showFewerFiltersLabel: t.projects.showFewerFilters,
+        }}
+    >
         const buttons = document.querySelectorAll('.filter-btn');
-        const items = document.querySelectorAll('.project-item');
         const statusEl = document.getElementById('project-filter-status');
         const emptyEl = document.getElementById('project-empty-state');
         const urlParam = 'stack';
+        /** @type {Map<string, { parent: Element, nextSibling: ChildNode | null }>} */
+        const homeSlots = new Map();
+
+        document.querySelectorAll('.project-item[data-project-id]').forEach((item) => {
+            const id = item.getAttribute('data-project-id');
+            if (!id || homeSlots.has(id)) {
+                return;
+            }
+            homeSlots.set(id, {
+                parent: item.parentElement,
+                nextSibling: item.nextSibling,
+            });
+        });
 
         function getFilterFromUrl() {
             return new URLSearchParams(window.location.search).get(urlParam) ?? 'all';
         }
 
+        /** Map Workers/Pages URL aliases onto the Cloudflare chip slug. */
+        function chipSlugFor(filter) {
+            if (filter === 'all') {
+                return 'all';
+            }
+            const normalized = filter.toLowerCase();
+            return techFilterChipByMember[normalized] ?? normalized;
+        }
+
+        function matchSlugsFor(filter) {
+            if (filter === 'all') {
+                return null;
+            }
+            const normalized = filter.toLowerCase();
+            return techFilterFamilyMembers[normalized] ?? [normalized];
+        }
+
         function setFilterInUrl(filter) {
             const url = new URL(window.location.href);
             url.pathname = filterBasePath;
-            if (filter === 'all') {
+            const chip = chipSlugFor(filter);
+            if (chip === 'all') {
                 url.searchParams.delete(urlParam);
             } else {
-                url.searchParams.set(urlParam, filter);
+                url.searchParams.set(urlParam, chip);
             }
             window.history.replaceState({}, '', url);
         }
 
         function setActiveButton(filter) {
+            const chip = chipSlugFor(filter);
             buttons.forEach((btn) => {
-                const isActive = btn.getAttribute('data-filter') === filter;
+                const isActive = btn.getAttribute('data-filter') === chip;
                 btn.classList.toggle('bg-primary', isActive);
                 btn.classList.toggle('text-white', isActive);
                 btn.classList.toggle('border', !isActive);
@@ -162,13 +250,45 @@ const filterBasePath = role
             });
         }
 
+        function restoreHomeSlots() {
+            homeSlots.forEach(({ parent, nextSibling }, id) => {
+                const item = document.querySelector(`.project-item[data-project-id="${CSS.escape(id)}"]`);
+                if (!item || !parent) {
+                    return;
+                }
+                if (nextSibling && nextSibling.parentNode === parent) {
+                    parent.insertBefore(item, nextSibling);
+                } else {
+                    parent.appendChild(item);
+                }
+            });
+        }
+
+        function promoteFilterFlagships(filter) {
+            const chip = chipSlugFor(filter);
+            const flagshipIds = filterFlagshipByStack[chip] ?? filterFlagshipByStack[filter] ?? [];
+            const flagshipGrid = document.querySelector('[data-section-grid="flagship"]');
+            if (!flagshipGrid || flagshipIds.length === 0) {
+                return;
+            }
+
+            // Prepend stack flagships into Flagship (map order)
+            [...flagshipIds].reverse().forEach((id) => {
+                const item = document.querySelector(`.project-item[data-project-id="${CSS.escape(id)}"]`);
+                if (item) {
+                    flagshipGrid.insertBefore(item, flagshipGrid.firstChild);
+                }
+            });
+        }
+
         function applyFilter(filter) {
-            const normalized = filter === 'all' ? 'all' : filter.toLowerCase();
+            const chip = chipSlugFor(filter);
+            const matchSlugs = matchSlugsFor(filter);
             let visibleCount = 0;
             let activeLabel = filterAllLabel;
 
             buttons.forEach((btn) => {
-                if (btn.getAttribute('data-filter') === normalized) {
+                if (btn.getAttribute('data-filter') === chip) {
                     activeLabel =
                         btn.getAttribute('data-label')?.trim() ??
                         btn.textContent?.trim() ??
@@ -176,13 +296,35 @@ const filterBasePath = role
                 }
             });
 
+            restoreHomeSlots();
+            if (chip !== 'all') {
+                promoteFilterFlagships(chip);
+            }
+
+            const flagshipIds = new Set(
+                filterFlagshipByStack[chip] ?? filterFlagshipByStack[String(filter).toLowerCase()] ?? [],
+            );
+            const items = document.querySelectorAll('.project-item');
+
             items.forEach((item) => {
                 const slugs = item.getAttribute('data-slugs') ?? '';
                 const slugList = slugs.split(',').filter(Boolean);
                 const skipFilter = item.getAttribute('data-skip-filter') === 'true';
-                const visible =
-                    normalized === 'all' ||
-                    (!skipFilter && slugList.includes(normalized));
+                const projectId = item.getAttribute('data-project-id') ?? '';
+                const inFlagshipSection = item.closest('[data-section-key="flagship"]') != null;
+                const matchesStack =
+                    matchSlugs == null ||
+                    (!skipFilter && matchSlugs.some((slug) => slugList.includes(slug)));
+
+                // When a stack has designated flagships, demote other Flagship cards that
+                // merely mention the stack (e.g. monorepo for Python) so the FastAPI card leads.
+                const demoteDefaultFlagship =
+                    chip !== 'all' &&
+                    flagshipIds.size > 0 &&
+                    inFlagshipSection &&
+                    !flagshipIds.has(projectId);
+
+                const visible = matchesStack && !demoteDefaultFlagship;
                 item.classList.toggle('hidden', !visible);
                 if (visible) {
                     visibleCount += 1;
@@ -197,11 +339,11 @@ const filterBasePath = role
                 section.classList.toggle('hidden', !hasVisible);
             });
 
-            setActiveButton(normalized);
-            setFilterInUrl(normalized);
+            setActiveButton(chip);
+            setFilterInUrl(chip);
 
             if (statusEl) {
-                if (normalized === 'all') {
+                if (chip === 'all') {
                     statusEl.hidden = true;
                     statusEl.textContent = '';
                 } else {
@@ -211,10 +353,67 @@ const filterBasePath = role
             }
 
             if (emptyEl) {
-                emptyEl.hidden = visibleCount > 0 || normalized === 'all';
+                emptyEl.hidden = visibleCount > 0 || chip === 'all';
                 if (!emptyEl.hidden) {
                     emptyEl.textContent = noProjectsMessage.replace('{tech}', activeLabel);
                 }
+            }
+        }
+
+        function setGroupExpanded(group, expanded) {
+            group.dataset.expanded = expanded ? 'true' : 'false';
+            group.querySelectorAll('[data-filter-overflow]').forEach((el) => {
+                el.classList.toggle('hidden', !expanded);
+            });
+            const toggle = group.querySelector('[data-expand-group]');
+            if (toggle) {
+                toggle.textContent = expanded ? seeLessLabel : seeMoreLabel;
+            }
+        }
+
+        function setExtraFiltersVisible(visible) {
+            document.querySelectorAll('[data-filter-group][data-hidden-by-default]').forEach((group) => {
+                group.classList.toggle('hidden', !visible);
+            });
+            const showAllBtn = document.getElementById('project-filters-show-all');
+            if (showAllBtn) {
+                showAllBtn.dataset.expanded = visible ? 'true' : 'false';
+                showAllBtn.textContent = visible ? showFewerFiltersLabel : showAllFiltersLabel;
+            }
+        }
+
+        document.querySelectorAll('[data-expand-group]').forEach((toggle) => {
+            toggle.addEventListener('click', () => {
+                const group = toggle.closest('[data-filter-group]');
+                if (!group) {
+                    return;
+                }
+                setGroupExpanded(group, group.dataset.expanded !== 'true');
+            });
+        });
+
+        const showAllFiltersBtn = document.getElementById('project-filters-show-all');
+        if (showAllFiltersBtn) {
+            showAllFiltersBtn.addEventListener('click', () => {
+                setExtraFiltersVisible(showAllFiltersBtn.dataset.expanded !== 'true');
+            });
+        }
+
+        function expandGroupForActiveFilter(filter) {
+            const chip = chipSlugFor(filter);
+            if (chip === 'all') {
+                return;
+            }
+            const activeBtn = document.querySelector(`.filter-btn[data-filter="${CSS.escape(chip)}"]`);
+            const group = activeBtn?.closest('[data-filter-group]');
+            if (!group) {
+                return;
+            }
+            if (group.hasAttribute('data-hidden-by-default')) {
+                setExtraFiltersVisible(true);
+            }
+            if (activeBtn?.hasAttribute('data-filter-overflow')) {
+                setGroupExpanded(group, true);
             }
         }
 
@@ -224,6 +423,8 @@ const filterBasePath = role
             });
         });
 
-        applyFilter(getFilterFromUrl());
+        const initialFilter = getFilterFromUrl();
+        expandGroupForActiveFilter(initialFilter);
+        applyFilter(initialFilter);
     </script>
 </BaseLayout>

@@ -5,11 +5,16 @@ const pages = [
     '/experience',
     '/projects',
     '/projects/ai-planner',
+    '/projects/arch-decisions',
+    '/projects/arch-decisions-frontend',
+    '/projects/arch-decisions-backend',
+    '/projects/arch-decisions-backend-python',
     '/capabilities',
     '/certificates',
     '/reviews',
     '/hire/backend',
     '/hire/backend/projects',
+    '/hire/backend/projects/arch-decisions-backend',
     '/hire/backend/outcomes',
     '/hire/backend/integrations',
     '/hire/backend/certificates',
@@ -85,6 +90,135 @@ test('case study pages show project media with lightbox', async ({ page }) => {
     await page.getByRole('button', { name: /Prompt Hub demo/i }).click();
     await expect(page.getByRole('dialog', { name: 'Full size image preview' })).toBeVisible();
     await page.getByRole('button', { name: 'Close full size image' }).click();
+});
+
+test('arch-decisions overview links to package case studies', async ({ page }) => {
+    await page.goto('/projects/arch-decisions');
+    await expect(page.getByRole('heading', { name: 'Architecture Decisions Platform' })).toBeVisible();
+    for (const name of [
+        'Tech stack',
+        'UI journey',
+        'Project structure',
+        'Architecture at a glance',
+        'Backend and frontend subprojects',
+    ]) {
+        await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
+    }
+
+    await page.getByRole('link', { name: /Frontend · React/i }).click();
+    await expect(page).toHaveURL(/\/projects\/arch-decisions-frontend/);
+    await expect(page.getByRole('heading', { name: 'Architecture Decisions · Frontend' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Architecture decisions', exact: true })).toBeVisible();
+});
+
+test('arch-decisions monorepo case study shows diagram and package links', async ({ page }) => {
+    await page.goto('/projects/arch-decisions');
+    await expect(
+        page.getByRole('img', { name: /Architecture Decisions|Express or FastAPI/i }),
+    ).toBeVisible();
+    await expect(page.getByRole('link', { name: /Backend · Express · Node/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Backend · FastAPI · Python/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'architecture.md →' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Next photos' })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Home screen — start/i })).toBeVisible();
+    await page.getByRole('button', { name: /Architecture Decisions|Express or FastAPI/i }).click();
+    await expect(page.getByRole('dialog', { name: 'Full size image preview' })).toBeVisible();
+});
+
+test('arch-decisions backend case studies render practices', async ({ page }) => {
+    await page.goto('/projects/arch-decisions-backend');
+    await expect(page.getByRole('heading', { name: 'Architecture Decisions · Express' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Architecture decisions', exact: true })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Swagger UI/i })).toBeVisible();
+
+    await page.goto('/projects/arch-decisions-backend-python');
+    await expect(page.getByRole('heading', { name: 'Architecture Decisions · FastAPI' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Architecture decisions', exact: true })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Swagger UI/i })).toBeVisible();
+});
+
+test('arch-decisions express case study shows agreed sections', async ({ page }) => {
+    await page.goto('/projects/arch-decisions-backend');
+    for (const name of [
+        'Tech stack',
+        'Project structure',
+        'Architecture decisions',
+        'Async request flow',
+        'OpenAPI / Swagger',
+        'Tests',
+        'Hardening',
+    ]) {
+        await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
+    }
+    await expect(page.getByRole('link', { name: 'Read more →' })).toBeVisible();
+    await expect(page.getByRole('img', { name: /async jobs|BullMQ|Client posts/i })).toBeVisible();
+    await page.getByRole('button', { name: /Swagger UI/i }).click();
+    await expect(page.getByRole('dialog', { name: 'Full size image preview' })).toBeVisible();
+});
+
+test('arch-decisions frontend case study shows agreed sections', async ({ page }) => {
+    await page.goto('/projects/arch-decisions-frontend');
+    for (const name of [
+        'Tech stack',
+        'Project structure',
+        'Architecture decisions',
+        'User actions flow',
+        'UI journey',
+        'Documents grid',
+        'Tests',
+        'Hardening',
+    ]) {
+        await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
+    }
+    await expect(page.getByRole('link', { name: 'Read more →' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Form (useState) →' })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Home to Context|User flow/i })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Home screen — start/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Next photos' })).toBeVisible();
+    await expect(page.getByRole('img', { name: /filters and pagination/i })).toBeVisible();
+    await page.getByRole('button', { name: /Open .*recommendations/i }).click();
+    await expect(page.getByRole('dialog', { name: 'Full size image preview' })).toBeVisible();
+});
+
+test('frontend case study from backend keeps hire home and backend CV', async ({ page }) => {
+    await page.goto('/hire/backend/projects/arch-decisions-frontend');
+
+    await expect(
+        page.getByRole('contentinfo').getByRole('link', { name: /Senior Backend/i }),
+    ).toBeVisible();
+
+    await page.getByRole('banner').getByRole('link', { name: 'Projects' }).click();
+    await expect(page).toHaveURL(/\/hire\/backend\/projects\/?$/);
+});
+
+test('arch-decisions fastapi case study shows agreed sections', async ({ page }) => {
+    await page.goto('/projects/arch-decisions-backend-python');
+    for (const name of [
+        'Tech stack',
+        'Project structure',
+        'Architecture decisions',
+        'Async request flow',
+        'OpenAPI / Swagger',
+        'Tests',
+        'Hardening',
+    ]) {
+        await expect(page.getByRole('heading', { name, exact: true })).toBeVisible();
+    }
+    await expect(page.getByRole('link', { name: 'Read more →' })).toBeVisible();
+    await expect(page.getByRole('img', { name: /async jobs|Celery|Client posts/i })).toBeVisible();
+    await page.getByRole('button', { name: /Swagger UI/i }).click();
+    await expect(page.getByRole('dialog', { name: 'Full size image preview' })).toBeVisible();
+});
+
+test('fastapi case study from backend keeps hire home and backend CV', async ({ page }) => {
+    await page.goto('/hire/backend/projects/arch-decisions-backend-python');
+
+    await expect(
+        page.getByRole('contentinfo').getByRole('link', { name: /Senior Backend/i }),
+    ).toBeVisible();
+
+    await page.getByRole('banner').getByRole('link', { name: 'Projects' }).click();
+    await expect(page).toHaveURL(/\/hire\/backend\/projects\/?$/);
 });
 
 test('certificates page shows credential images', async ({ page }) => {
@@ -198,9 +332,22 @@ test('devops hire context scopes reviews navigation', async ({ page }) => {
 });
 
 test('case study opened from devops projects returns to role projects', async ({ page }) => {
-    await page.goto('/hire/devops/projects');
-    await page.getByRole('link', { name: 'See more' }).first().click();
-    await expect(page).toHaveURL(/\/projects\/.*returnTo=/);
+    await page.goto('/hire/devops/projects/arch-decisions');
     await page.getByRole('link', { name: /Back to projects/i }).click();
-    await expect(page).toHaveURL(/\/hire\/devops\/projects/);
+    await expect(page).toHaveURL(/\/hire\/devops\/projects\/?$/);
+});
+
+test('case study from backend keeps hire home and backend CV', async ({ page }) => {
+    await page.goto('/hire/backend/projects/arch-decisions-backend');
+
+    await expect(
+        page.getByRole('contentinfo').getByRole('link', { name: /Senior Backend/i }),
+    ).toBeVisible();
+
+    await page.getByRole('banner').getByRole('link', { name: 'Projects' }).click();
+    await expect(page).toHaveURL(/\/hire\/backend\/projects\/?$/);
+
+    await page.goto('/hire/backend/projects/arch-decisions-backend');
+    await page.getByRole('banner').getByRole('link', { name: 'Yahor Dubrouski' }).click();
+    await expect(page).toHaveURL(/\/hire\/backend\/?$/);
 });

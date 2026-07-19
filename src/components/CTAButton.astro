@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { href, label, variant = 'primary' } = Astro.props;
+const isExternal = /^https?:\/\//i.test(href);
 ---
 <a
     href={href}
@@ -15,6 +16,7 @@ const { href, label, variant = 'primary' } = Astro.props;
             ? 'bg-primary text-white hover:bg-primary-hover'
             : 'border border-border bg-surface text-heading hover:border-border-strong',
     ]}
+    {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
 >
     {label}
 </a>

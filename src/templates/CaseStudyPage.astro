@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CTAButton from '../components/CTAButton.astro';
 import ProjectMediaGallery from '../components/ProjectMediaGallery.astro';
 import { getGitHubUrl } from '../data/github';
+import { resolveCaseStudyBackHref } from '../data/hireNavigation';
 import { getProjectMediaGroups } from '../data/projectMedia';
 import { getProjectById, type CachedProject } from '../data/projects';
-import { localizedPath } from '../i18n/paths';
 import { getPageTitle, getSiteTranslations } from '../i18n/translations/site';
 import type { Locale } from '../i18n/locales';
 
@@ -24,8 +24,7 @@ if (!project) {
 
 const githubUrl = getGitHubUrl(project.id);
 const mediaGroups = getProjectMediaGroups(project.id);
-const defaultBackHref = localizedPath('/projects', locale);
-const localePrefix = locale === 'ru' ? '/ru' : '';
+const backHref = resolveCaseStudyBackHref(Astro.url.pathname, locale);
 const related = project.related_projects
     .map((id) => getProjectById(id))
     .filter((item): item is CachedProject => Boolean(item));
@@ -49,7 +48,7 @@ const sections = [
         <div class="mx-auto max-w-6xl px-4">
             <a
                 id="back-to-projects"
-                href={defaultBackHref}
+                href={backHref}
                 class="text-sm font-semibold text-stone-700 hover:text-stone-900"
             >
                 ← {t.ui.backToProjects}
@@ -120,12 +119,4 @@ const sections = [
             )}
         </div>
     </section>
-
-    <script define:vars={{ localePrefix }}>
-        const link = document.getElementById('back-to-projects');
-        const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-        if (link && returnTo && /^\/hire\/[a-z-]+(\/projects)?$/.test(returnTo.replace(/^\/ru/, ''))) {
-            link.href = `${localePrefix}${returnTo}`;
-        }
-    </script>
 </BaseLayout>

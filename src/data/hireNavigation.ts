@@ -88,6 +88,11 @@ export function resolveContextualInternalHref(href: string, pathname: string, lo
         return resolveHireContextPath(normalizedHref, pathname, locale);
     }
 
+    const projectMatch = normalizedHref.match(/^\/projects\/([^/?#]+)$/);
+    if (projectMatch) {
+        return getProjectCaseStudyHref(projectMatch[1], pathname, locale);
+    }
+
     if (normalizedHref === '/outcomes' || normalizedHref.startsWith('/outcomes?')) {
         return resolveHireContextPath(normalizedHref, pathname, locale);
     }
@@ -117,7 +122,11 @@ export function isHireContextNavActive(pathname: string, navPath: string): boole
     if (navPath === '/projects' && role) {
         const roleProjectsPath = getRoleProjectsPath(role);
         if (roleProjectsPath) {
-            return normalized === roleProjectsPath || normalized.startsWith(`${roleProjectsPath}?`);
+            return (
+                normalized === roleProjectsPath ||
+                normalized.startsWith(`${roleProjectsPath}/`) ||
+                normalized.startsWith(`${roleProjectsPath}?`)
+            );
         }
     }
 
@@ -160,32 +169,18 @@ export function getProofNavItemsForPath(pathname: string): NavItem[] {
 }
 
 export function getProjectCaseStudyHref(projectId: string, pathname: string, locale: Locale): string {
-    const base = localizedPath(`/projects/${projectId}`, locale);
     const role = getHireRoleFromPath(pathname);
-    if (!role || !hasRoleProjectsPage(role)) {
-        return base;
+    if (role && hasRoleProjectsPage(role)) {
+        return localizedPath(`/hire/${role}/projects/${projectId}`, locale);
     }
-
-    const returnTo = getRoleProjectsPath(role);
-    if (!returnTo) {
-        return base;
-    }
-
-    return `${base}?returnTo=${encodeURIComponent(returnTo)}`;
+    return localizedPath(`/projects/${projectId}`, locale);
 }
 
-export function resolveCaseStudyBackHref(searchParams: URLSearchParams, locale: Locale): string {
-    const returnTo = searchParams.get('returnTo');
-    if (returnTo && /^\/hire\/[a-z-]+(\/projects)?$/.test(stripLocale(returnTo))) {
-        return localizedPath(returnTo, locale);
+export function resolveCaseStudyBackHref(pathname: string, locale: Locale): string {
+    const role = getHireRoleFromPath(pathname);
+    const roleProjectsPath = role ? getRoleProjectsPath(role) : null;
+    if (roleProjectsPath) {
+        return localizedPath(roleProjectsPath, locale);
     }
     return localizedPath('/projects', locale);
-}
-
-export function appendReturnTo(href: string, returnTo: string | null): string {
-    if (!returnTo || !/^\/hire\/[a-z-]+(\/projects)?$/.test(stripLocale(returnTo))) {
-        return href;
-    }
-    const separator = href.includes('?') ? '&' : '?';
-    return `${href}${separator}returnTo=${encodeURIComponent(returnTo)}`;
 }

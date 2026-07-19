@@ -1,0 +1,280 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import ImageLightbox from '../components/ImageLightbox.astro';
+import { archDecisionsFastapiCaseStudy as content } from '../data/caseStudies/arch-decisions-fastapi';
+import { getGitHubUrl } from '../data/github';
+import { resolveCaseStudyBackHref } from '../data/hireNavigation';
+import { getPageTitle, getSiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getSiteTranslations(locale);
+const githubUrl = getGitHubUrl('arch-decisions-backend-python');
+const backHref = resolveCaseStudyBackHref(Astro.url.pathname, locale);
+const { hero, techStack, structure, decisions, asyncFlow, swagger, tests, hardening } =
+    content;
+---
+<BaseLayout title={getPageTitle(locale, hero.title)} locale={locale}>
+    <article class="fastapi-case">
+        <header class="border-b border-border bg-surface px-4 py-12 sm:py-14">
+            <div class="mx-auto max-w-3xl">
+                <nav class="mb-6 text-sm text-muted">
+                    <a id="back-to-projects" href={backHref} class="font-medium text-heading hover:text-accent">
+                        ← {t.ui.backToProjects}
+                    </a>
+                </nav>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">{hero.kicker}</p>
+                <div class="mt-4 flex flex-wrap items-center gap-4">
+                    <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-muted p-3">
+                        <img src={hero.logo.src} alt={hero.logo.alt} class="h-full w-full object-contain" />
+                    </span>
+                    <h1 class="font-serif text-3xl font-semibold tracking-tight text-heading sm:text-4xl">
+                        {hero.title}
+                    </h1>
+                </div>
+                <p class="mt-4 text-base leading-relaxed text-body sm:text-lg">{hero.lead}</p>
+                <p class="mt-4 rounded-md border border-border bg-surface-muted px-4 py-3 font-mono text-xs leading-relaxed text-muted sm:text-sm">
+                    {hero.runLocal}
+                </p>
+                {githubUrl && (
+                    <div class="mt-6">
+                        <CTAButton href={githubUrl} label={t.ui.viewOnGitHub} />
+                    </div>
+                )}
+            </div>
+        </header>
+
+        <section class="border-b border-border px-4 py-12" aria-labelledby="tech-stack-heading">
+            <div class="mx-auto max-w-3xl">
+                <h2 id="tech-stack-heading" class="text-xl font-semibold text-heading">{techStack.heading}</h2>
+                <dl class="mt-6 space-y-5">
+                    {techStack.groups.map((group) => (
+                        <div class="grid gap-2 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                            <dt class="text-xs font-semibold uppercase tracking-widest text-muted">{group.label}</dt>
+                            <dd class="flex flex-wrap gap-2">
+                                {group.items.map((item) => (
+                                    <span class="rounded-md border border-border bg-surface-muted px-2.5 py-1 text-sm text-body">
+                                        {item}
+                                    </span>
+                                ))}
+                            </dd>
+                        </div>
+                    ))}
+                </dl>
+            </div>
+        </section>
+
+        <section class="border-b border-border bg-surface-muted px-4 py-12" aria-labelledby="structure-heading">
+            <div class="mx-auto max-w-3xl">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                    <h2 id="structure-heading" class="text-xl font-semibold text-heading">{structure.heading}</h2>
+                    <a
+                        href={structure.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-accent hover:text-accent-hover"
+                    >
+                        Browse on GitHub →
+                    </a>
+                </div>
+                <p class="mt-2 text-sm text-muted">{structure.caption}</p>
+                <pre class="mt-5 overflow-x-auto rounded-lg border border-border bg-stone-950 px-4 py-4 text-xs leading-relaxed text-stone-100 sm:text-sm"><code>{structure.tree}</code></pre>
+            </div>
+        </section>
+
+        <section class="border-b border-border px-4 py-12" aria-labelledby="decisions-heading">
+            <div class="mx-auto max-w-3xl overflow-hidden rounded-lg border border-border bg-surface">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-surface-muted px-5 py-4">
+                    <h2 id="decisions-heading" class="text-xl font-semibold text-heading">{decisions.heading}</h2>
+                    <a
+                        href={decisions.readMore.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-accent hover:text-accent-hover"
+                    >
+                        {decisions.readMore.label} →
+                    </a>
+                </div>
+                <ul class="divide-y divide-border">
+                    {decisions.items.map((item) => (
+                        <li class="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                            <div class="min-w-0">
+                                <h3 class="font-semibold text-heading">{item.title}</h3>
+                                <p class="mt-1 text-sm leading-relaxed text-body">{item.summary}</p>
+                            </div>
+                            <a
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="shrink-0 text-sm font-semibold text-accent hover:text-accent-hover"
+                            >
+                                Code →
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+
+        <section class="border-b border-border bg-surface-muted px-4 py-12" aria-labelledby="async-heading">
+            <div class="mx-auto max-w-3xl">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                    <h2 id="async-heading" class="text-xl font-semibold text-heading">{asyncFlow.heading}</h2>
+                    <a
+                        href={asyncFlow.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-accent hover:text-accent-hover"
+                    >
+                        Jobs route →
+                    </a>
+                </div>
+
+                <figure class="mt-6 overflow-hidden rounded-lg border border-border bg-surface p-5 sm:p-6">
+                    <svg
+                        viewBox="0 0 640 280"
+                        class="mx-auto h-auto w-full max-w-2xl"
+                        role="img"
+                        aria-label="Client posts to FastAPI, job goes to Celery, worker runs adapters, client polls job status"
+                    >
+                        <defs>
+                            <marker
+                                id="fastapi-async-arrow"
+                                markerWidth="8"
+                                markerHeight="8"
+                                refX="6"
+                                refY="3"
+                                orient="auto"
+                            >
+                                <path d="M0,0 L6,3 L0,6 Z" fill="currentColor" class="text-stone-400" />
+                            </marker>
+                        </defs>
+
+                        <!-- Client -->
+                        <rect x="20" y="20" width="140" height="64" rx="8" class="fill-stone-100 stroke-stone-300" stroke-width="1.5" />
+                        <text x="90" y="46" text-anchor="middle" class="fill-stone-800" style="font: 600 13px system-ui,sans-serif">Client</text>
+                        <text x="90" y="66" text-anchor="middle" class="fill-stone-500" style="font: 11px system-ui,sans-serif">POST evaluate / generate</text>
+
+                        <!-- API -->
+                        <rect x="250" y="20" width="140" height="64" rx="8" class="fill-stone-100 stroke-stone-300" stroke-width="1.5" />
+                        <text x="320" y="46" text-anchor="middle" class="fill-stone-800" style="font: 600 13px system-ui,sans-serif">FastAPI</text>
+                        <text x="320" y="66" text-anchor="middle" class="fill-stone-500" style="font: 11px system-ui,sans-serif">Validate &amp; enqueue</text>
+
+                        <!-- Queue -->
+                        <rect x="480" y="20" width="140" height="64" rx="8" class="fill-stone-100 stroke-stone-300" stroke-width="1.5" />
+                        <text x="550" y="46" text-anchor="middle" class="fill-stone-800" style="font: 600 13px system-ui,sans-serif">Celery / Redis</text>
+                        <text x="550" y="66" text-anchor="middle" class="fill-stone-500" style="font: 11px system-ui,sans-serif">Job waiting</text>
+
+                        <!-- Worker -->
+                        <rect x="480" y="160" width="140" height="64" rx="8" class="fill-stone-100 stroke-stone-300" stroke-width="1.5" />
+                        <text x="550" y="186" text-anchor="middle" class="fill-stone-800" style="font: 600 13px system-ui,sans-serif">Worker</text>
+                        <text x="550" y="206" text-anchor="middle" class="fill-stone-500" style="font: 11px system-ui,sans-serif">Run AI / adapters</text>
+
+                        <!-- Poll -->
+                        <rect x="20" y="160" width="140" height="64" rx="8" class="fill-stone-100 stroke-stone-300" stroke-width="1.5" />
+                        <text x="90" y="186" text-anchor="middle" class="fill-stone-800" style="font: 600 13px system-ui,sans-serif">Client poll</text>
+                        <text x="90" y="206" text-anchor="middle" class="fill-stone-500" style="font: 11px system-ui,sans-serif">GET /api/jobs/:id</text>
+
+                        <!-- 202 response note -->
+                        <rect x="250" y="160" width="140" height="64" rx="8" class="fill-amber-50 stroke-amber-200" stroke-width="1.5" />
+                        <text x="320" y="186" text-anchor="middle" class="fill-stone-800" style="font: 600 13px system-ui,sans-serif">202 + jobId</text>
+                        <text x="320" y="206" text-anchor="middle" class="fill-stone-500" style="font: 11px system-ui,sans-serif">Immediate response</text>
+
+                        <!-- Arrows -->
+                        <g class="text-stone-400" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#fastapi-async-arrow)">
+                            <path d="M160 52 H245" />
+                            <path d="M390 52 H475" />
+                            <path d="M550 84 V155" />
+                            <path d="M480 192 H395" />
+                            <path d="M250 192 H165" />
+                        </g>
+                    </svg>
+                    <figcaption class="mt-4 text-center text-xs text-muted">
+                        Heavy work stays off the HTTP thread — the client polls until the job completes.
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="border-b border-border px-4 py-12" aria-labelledby="swagger-heading">
+            <div class="mx-auto max-w-3xl">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                    <h2 id="swagger-heading" class="text-xl font-semibold text-heading">{swagger.heading}</h2>
+                    <a
+                        href={swagger.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-accent hover:text-accent-hover"
+                    >
+                        OpenAPI app →
+                    </a>
+                </div>
+                <p class="mt-2 text-sm text-muted">{swagger.caption}</p>
+                <div class="mt-5 overflow-hidden rounded-lg border border-border bg-surface-muted">
+                    <ImageLightbox
+                        src={swagger.src}
+                        alt={swagger.alt}
+                        block={true}
+                        imageClass="w-full cursor-zoom-in object-contain object-top"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="border-b border-border bg-surface-muted px-4 py-12" aria-labelledby="tests-heading">
+            <div class="mx-auto max-w-3xl">
+                <h2 id="tests-heading" class="text-xl font-semibold text-heading">{tests.heading}</h2>
+                <p class="mt-3 text-sm leading-relaxed text-body">{tests.summary}</p>
+                <ul class="mt-4 list-disc space-y-1 pl-5 text-sm text-body">
+                    {tests.bullets.map((item) => (
+                        <li>{item}</li>
+                    ))}
+                </ul>
+                <ul class="mt-5 flex flex-wrap gap-x-4 gap-y-2">
+                    {tests.links.map((link) => (
+                        <li>
+                            <a
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent-hover"
+                            >
+                                <img src={link.icon} alt="" class="h-4 w-4" loading="lazy" />
+                                {link.label} →
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+
+        <section class="border-b border-border px-4 py-12" aria-labelledby="hardening-heading">
+            <div class="mx-auto max-w-3xl">
+                <h2 id="hardening-heading" class="text-xl font-semibold text-heading">{hardening.heading}</h2>
+                <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+                    {hardening.items.map((item) => (
+                        <li>
+                            <a
+                                href={item.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex items-center gap-3 rounded-md border border-border bg-surface px-4 py-3 text-sm font-medium text-heading transition hover:border-border-strong"
+                            >
+                                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-surface-muted">
+                                    <img src={item.icon} alt="" class="h-4 w-4" loading="lazy" />
+                                </span>
+                                <span class="min-w-0 flex-1">{item.label}</span>
+                                <span aria-hidden="true" class="text-xs text-muted">↗</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    </article>
+</BaseLayout>

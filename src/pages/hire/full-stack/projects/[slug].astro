@@ -1,6 +1,6 @@
 ---
-import CaseStudyRouter from '../../../components/CaseStudyRouter.astro';
-import { caseStudySlugs } from '../../../data/projects';
+import CaseStudyRouter from '../../../../components/CaseStudyRouter.astro';
+import { caseStudySlugs } from '../../../../data/projects';
 
 export function getStaticPaths() {
     return caseStudySlugs.map((slug) => ({ params: { slug } }));
@@ -11,4 +11,4 @@ if (!slug) {
     throw new Error('Missing project slug');
 }
 ---
-<CaseStudyRouter locale="ru" slug={slug} />
+<CaseStudyRouter locale="en" slug={slug} />

@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import ImageLightbox from '../components/ImageLightbox.astro';
+import PhotoCarousel from '../components/PhotoCarousel.astro';
+import { archDecisionsMonorepoCaseStudy as content } from '../data/caseStudies/arch-decisions-monorepo';
+import { getGitHubUrl } from '../data/github';
+import { getProjectCaseStudyHref, resolveCaseStudyBackHref } from '../data/hireNavigation';
+import { getPageTitle, getSiteTranslations } from '../i18n/translations/site';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getSiteTranslations(locale);
+const githubUrl = getGitHubUrl('arch-decisions');
+const backHref = resolveCaseStudyBackHref(Astro.url.pathname, locale);
+const currentPath = Astro.url.pathname;
+const { hero, techStack, structure, caseStudies, architecture, uiJourney } = content;
+---
+<BaseLayout title={getPageTitle(locale, hero.title)} locale={locale}>
+    <article class="monorepo-case">
+        <header class="border-b border-border bg-surface px-4 py-12 sm:py-14">
+            <div class="mx-auto max-w-3xl">
+                <nav class="mb-6 text-sm text-muted">
+                    <a id="back-to-projects" href={backHref} class="font-medium text-heading hover:text-accent">
+                        ← {t.ui.backToProjects}
+                    </a>
+                </nav>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">{hero.kicker}</p>
+                <div class="mt-4 flex flex-wrap items-center gap-4">
+                    <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-muted p-3">
+                        <img src={hero.logo.src} alt={hero.logo.alt} class="h-full w-full object-contain" />
+                    </span>
+                    <h1 class="font-serif text-3xl font-semibold tracking-tight text-heading sm:text-4xl">
+                        {hero.title}
+                    </h1>
+                </div>
+                <p class="mt-4 text-base leading-relaxed text-body sm:text-lg">{hero.lead}</p>
+                <p class="mt-4 rounded-md border border-border bg-surface-muted px-4 py-3 font-mono text-xs leading-relaxed text-muted sm:text-sm">
+                    {hero.runLocal}
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    {hero.demoHref && <CTAButton href={hero.demoHref} label={t.ui.viewDemo} />}
+                    {githubUrl && <CTAButton href={githubUrl} label={t.ui.viewOnGitHub} variant="secondary" />}
+                </div>
+            </div>
+        </header>
+
+        <section class="border-b border-border px-4 py-12" aria-labelledby="tech-stack-heading">
+            <div class="mx-auto max-w-3xl">
+                <h2 id="tech-stack-heading" class="text-xl font-semibold text-heading">{techStack.heading}</h2>
+                <dl class="mt-6 space-y-5">
+                    {techStack.groups.map((group) => (
+                        <div class="grid gap-2 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                            <dt class="text-xs font-semibold uppercase tracking-widest text-muted">{group.label}</dt>
+                            <dd class="flex flex-wrap gap-2">
+                                {group.items.map((item) => (
+                                    <span class="rounded-md border border-border bg-surface-muted px-2.5 py-1 text-sm text-body">
+                                        {item}
+                                    </span>
+                                ))}
+                            </dd>
+                        </div>
+                    ))}
+                </dl>
+            </div>
+        </section>
+
+        <section class="border-b border-border bg-surface-muted px-4 py-12" aria-labelledby="ui-journey-heading">
+            <div class="mx-auto max-w-5xl">
+                <h2 id="ui-journey-heading" class="text-xl font-semibold text-heading">{uiJourney.heading}</h2>
+                <p class="mt-2 text-sm text-muted">{uiJourney.caption}</p>
+                <div class="mt-5">
+                    <PhotoCarousel
+                        id="arch-decisions-monorepo-ui-journey"
+                        slides={uiJourney.items.map((shot) => ({
+                            src: shot.src,
+                            alt: shot.alt,
+                            caption: shot.caption,
+                        }))}
+                        lightbox={true}
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="border-b border-border px-4 py-12" aria-labelledby="structure-heading">
+            <div class="mx-auto max-w-3xl">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                    <h2 id="structure-heading" class="text-xl font-semibold text-heading">{structure.heading}</h2>
+                    <a
+                        href={structure.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-accent hover:text-accent-hover"
+                    >
+                        Browse on GitHub →
+                    </a>
+                </div>
+                <p class="mt-2 text-sm text-muted">{structure.caption}</p>
+                <pre class="mt-5 overflow-x-auto rounded-lg border border-border bg-stone-950 px-4 py-4 text-xs leading-relaxed text-stone-100 sm:text-sm"><code>{structure.tree}</code></pre>
+            </div>
+        </section>
+
+        <section class="border-b border-border bg-surface-muted px-4 py-12" aria-labelledby="architecture-heading">
+            <div class="mx-auto max-w-3xl">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                    <h2 id="architecture-heading" class="text-xl font-semibold text-heading">
+                        {architecture.heading}
+                    </h2>
+                    <a
+                        href={architecture.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-sm font-semibold text-accent hover:text-accent-hover"
+                    >
+                        architecture.md →
+                    </a>
+                </div>
+                <ul class="mt-5 list-disc space-y-2 pl-5 text-sm leading-relaxed text-body">
+                    {architecture.bullets.map((item) => (
+                        <li>{item}</li>
+                    ))}
+                </ul>
+                <div class="mt-6 overflow-hidden rounded-lg border border-border bg-surface">
+                    <ImageLightbox
+                        src={architecture.diagramSrc}
+                        alt={architecture.diagramAlt}
+                        block={true}
+                        imageClass="w-full cursor-zoom-in bg-stone-50 object-contain p-3"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <section class="border-b border-border px-4 py-12" aria-labelledby="case-studies-heading">
+            <div class="mx-auto max-w-3xl">
+                <h2 id="case-studies-heading" class="text-xl font-semibold text-heading">{caseStudies.heading}</h2>
+                <p class="mt-2 text-sm text-muted">{caseStudies.caption}</p>
+                <ul class="mt-6 divide-y divide-border overflow-hidden rounded-lg border border-border bg-surface">
+                    {caseStudies.items.map((study) => (
+                        <li>
+                            <a
+                                href={getProjectCaseStudyHref(study.id, currentPath, locale)}
+                                class="flex items-start gap-4 px-5 py-4 transition hover:bg-surface-muted sm:items-center"
+                            >
+                                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-border bg-surface-muted p-2">
+                                    <img src={study.icon} alt="" class="h-full w-full object-contain" />
+                                </span>
+                                <span class="min-w-0 flex-1">
+                                    <span class="block font-semibold text-heading">{study.label}</span>
+                                    <span class="mt-1 block text-sm leading-relaxed text-muted">{study.description}</span>
+                                </span>
+                                <span class="shrink-0 self-center text-sm font-semibold text-accent">Case study →</span>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    </article>
+</BaseLayout>

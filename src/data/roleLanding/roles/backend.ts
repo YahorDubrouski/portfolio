@@ -33,17 +33,23 @@ export const backendLandingConfig: RoleLandingConfig = {
     ],
     projectIds: [
         'aidesk-mini',
-        'arch-decisions',
+        'arch-decisions-backend',
+        'arch-decisions-backend-python',
         'aws-scalable-web-application',
     ],
     projectsPageSections: [
         {
             key: 'flagship',
-            projectIds: ['aidesk-mini', 'arch-decisions', 'aws-scalable-web-application'],
+            projectIds: [
+                'aidesk-mini',
+                'arch-decisions-backend',
+                'arch-decisions-backend-python',
+                'aws-scalable-web-application',
+            ],
         },
         {
             key: 'iacCiCd',
-            projectIds: ['ci-showcase'],
+            projectIds: ['ci-showcase', 'jenkins-database-backup-pipelines', 'terraform-ci-cd'],
         },
         {
             key: 'aiAutomation',
@@ -54,12 +60,8 @@ export const backendLandingConfig: RoleLandingConfig = {
             projectIds: ['aws-real-time-data-processing', 'aws-serverless-application'],
         },
         {
-            key: 'other',
-            projectIds: [
-                'jenkins-database-backup-pipelines',
-                'terraform-ci-cd',
-                'end-to-end',
-            ],
+            key: 'backendDelivery',
+            projectIds: ['end-to-end'],
         },
     ],
     integrationCategoryIds: [

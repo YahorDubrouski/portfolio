@@ -1,6 +1,6 @@
 ---
-import CaseStudyRouter from '../../../components/CaseStudyRouter.astro';
-import { caseStudySlugs } from '../../../data/projects';
+import CaseStudyRouter from '../../../../../components/CaseStudyRouter.astro';
+import { caseStudySlugs } from '../../../../../data/projects';
 
 export function getStaticPaths() {
     return caseStudySlugs.map((slug) => ({ params: { slug } }));

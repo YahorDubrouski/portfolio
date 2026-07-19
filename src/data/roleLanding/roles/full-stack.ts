@@ -25,7 +25,8 @@ export const fullStackLandingConfig: RoleLandingConfig = {
     projectsPageSectionOrder: [
         'flagship',
         'aiAutomation',
-        'other',
+        'frontendDelivery',
+        'backendDelivery',
         'awsPatterns',
         'iacCiCd',
         'devopsIndex',

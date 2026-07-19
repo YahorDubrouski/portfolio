@@ -1,6 +1,11 @@
 /** GitHub repo URLs keyed by cache project id. */
 export const githubUrls: Record<string, string> = {
     'arch-decisions': 'https://github.com/YahorDubrouski/arch-decisions',
+    'arch-decisions-backend': 'https://github.com/YahorDubrouski/arch-decisions/tree/main/backend',
+    'arch-decisions-backend-python':
+        'https://github.com/YahorDubrouski/arch-decisions/tree/main/backend-python',
+    'arch-decisions-frontend':
+        'https://github.com/YahorDubrouski/arch-decisions/tree/main/frontend',
     certificates: 'https://github.com/YahorDubrouski/Certificates',
     'devops-portfolio': 'https://github.com/YahorDubrouski/devops-portfolio',
     'dziana-portfolio': 'https://github.com/YahorDubrouski/dziana-portfolio',

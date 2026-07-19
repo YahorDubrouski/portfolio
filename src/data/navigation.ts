@@ -1,6 +1,13 @@
 import type { Locale } from '../i18n/locales';
 import { localizedPath } from '../i18n/paths';
-import { isHireContextNavActive, resolveBrandHref, resolveHireContextPath, getProofNavItemsForPath } from './hireNavigation';
+import {
+    isHireContextNavActive,
+    resolveBrandHref,
+    resolveHireContextPath,
+    getProofNavItemsForPath,
+    resolveCaseStudyBackHref,
+    getProjectCaseStudyHref,
+} from './hireNavigation';
 
 export interface NavItem {
     key: string;
@@ -41,4 +48,10 @@ export function isNavActive(pathname: string, path: string): boolean {
     return isHireContextNavActive(pathname, path);
 }
 
-export { resolveBrandHref, resolveHireContextPath, getProofNavItemsForPath };
+export {
+    resolveBrandHref,
+    resolveHireContextPath,
+    getProofNavItemsForPath,
+    resolveCaseStudyBackHref,
+    getProjectCaseStudyHref,
+};

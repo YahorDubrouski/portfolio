@@ -35,7 +35,13 @@ export interface CachedProject {
 
 export const projects = siteProjects.projects as CachedProject[];
 
-export const caseStudySlugs = ['ai-planner'] as const;
+export const caseStudySlugs = [
+    'ai-planner',
+    'arch-decisions',
+    'arch-decisions-frontend',
+    'arch-decisions-backend',
+    'arch-decisions-backend-python',
+] as const;
 
 export type CaseStudySlug = (typeof caseStudySlugs)[number];
 
@@ -47,22 +53,21 @@ export function getProjectById(id: string): CachedProject | undefined {
     return projects.find((project) => project.id === id);
 }
 
-/** Not shown on `/projects` — data may still power other pages (e.g. certificates). */
+/** Not shown on `/projects` auto-lists — data may still power other pages (e.g. certificates).
+ * Parent `arch-decisions` is Flagship; FE / Express / FastAPI sit in Frontend / Backend sections.
+ */
 export const hiddenProjectIds = [
     'file-storage',
     'certificates',
     'aws-guides-aws-calculator',
     'aws-terraform-vpc-geocoder-example',
     'atlassian-mcp',
-    'arch-decisions-backend',
-    'arch-decisions-backend-python',
-    'arch-decisions-frontend',
     'aws',
     'aws-guides',
     'ai-diary',
 ] as const;
 
-/** Home featured — backend → scaling proof → architecture → AI automation. */
+/** Home featured — backend → scaling proof → architecture monorepo → AI automation. */
 export const homeProjectIds = [
     'aidesk-mini',
     'aws-scalable-web-application',
@@ -76,14 +81,40 @@ export type ProjectSectionKey =
     | 'iacCiCd'
     | 'devopsIndex'
     | 'aiAutomation'
-    | 'other';
+    | 'frontendDelivery'
+    | 'backendDelivery';
 
 export interface ProjectSection {
     key: ProjectSectionKey;
     projectIds: string[];
 }
 
-/** `/projects` page — grouped sections, top to bottom within each group. */
+/**
+ * When a technology filter is active, these project ids are promoted into Flagship
+ * for that stack (instead of whatever sits in the default Flagship section).
+ */
+export const filterFlagshipByStack: Record<string, readonly string[]> = {
+    python: ['arch-decisions-backend-python'],
+    fastapi: ['arch-decisions-backend-python'],
+    express: ['arch-decisions-backend'],
+    'node.js': ['arch-decisions-backend'],
+    react: ['arch-decisions-frontend'],
+    javascript: ['arch-decisions-frontend'],
+    vite: ['arch-decisions-frontend'],
+    php: ['aidesk-mini'],
+    laravel: ['aidesk-mini'],
+    terraform: ['terraform-aws-infrastructure'],
+    aws: ['aws-scalable-web-application'],
+    'auto-scaling': ['aws-scalable-web-application'],
+    docker: ['aidesk-mini'],
+    n8n: ['ai-planner'],
+    openai: ['aidesk-mini'],
+};
+
+export function getFilterFlagshipIds(stackSlug: string): readonly string[] {
+    return filterFlagshipByStack[stackSlug.toLowerCase()] ?? [];
+}
+
 export const projectSections: ProjectSection[] = [
     {
         key: 'flagship',
@@ -118,8 +149,20 @@ export const projectSections: ProjectSection[] = [
         projectIds: ['ai-planner', 'ai-amotions'],
     },
     {
-        key: 'other',
-        projectIds: ['end-to-end', 'dziana-portfolio', 'yahor-portfolio'],
+        key: 'frontendDelivery',
+        projectIds: [
+            'arch-decisions-frontend',
+            'dziana-portfolio',
+            'yahor-portfolio',
+        ],
+    },
+    {
+        key: 'backendDelivery',
+        projectIds: [
+            'arch-decisions-backend',
+            'arch-decisions-backend-python',
+            'end-to-end',
+        ],
     },
 ];
 

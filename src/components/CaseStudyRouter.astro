@@ -1,0 +1,20 @@
+---
+import AiPlannerCaseStudyPage from '../templates/AiPlannerCaseStudyPage.astro';
+import ArchDecisionsExpressCaseStudyPage from '../templates/ArchDecisionsExpressCaseStudyPage.astro';
+import ArchDecisionsFastapiCaseStudyPage from '../templates/ArchDecisionsFastapiCaseStudyPage.astro';
+import ArchDecisionsFrontendCaseStudyPage from '../templates/ArchDecisionsFrontendCaseStudyPage.astro';
+import ArchDecisionsMonorepoCaseStudyPage from '../templates/ArchDecisionsMonorepoCaseStudyPage.astro';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+    locale: Locale;
+    slug: string;
+}
+
+const { locale, slug } = Astro.props;
+---
+{slug === 'ai-planner' && <AiPlannerCaseStudyPage locale={locale} />}
+{slug === 'arch-decisions' && <ArchDecisionsMonorepoCaseStudyPage locale={locale} />}
+{slug === 'arch-decisions-backend' && <ArchDecisionsExpressCaseStudyPage locale={locale} />}
+{slug === 'arch-decisions-backend-python' && <ArchDecisionsFastapiCaseStudyPage locale={locale} />}
+{slug === 'arch-decisions-frontend' && <ArchDecisionsFrontendCaseStudyPage locale={locale} />}

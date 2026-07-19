@@ -3,10 +3,9 @@ import CTAButton from './CTAButton.astro';
 import ImageLightbox from './ImageLightbox.astro';
 import { getGitHubUrl } from '../data/github';
 import { getProjectCaseStudyHref } from '../data/hireNavigation';
-import { getProjectSitePath } from '../data/projectLinks';
+import { getProjectDemoUrl, getProjectCardTechTags, getProjectSitePath } from '../data/projectLinks';
 import { getProjectThumbnail } from '../data/projectMedia';
-import { isCaseStudySlug } from '../data/projects';
-import type { CachedProject } from '../data/projects';
+import { isCaseStudySlug, type CachedProject } from '../data/projects';
 import type { Locale } from '../i18n/locales';
 import { localizedPath } from '../i18n/paths';
 import { getSiteTranslations } from '../i18n/translations/site';
@@ -20,18 +19,18 @@ const { project, locale } = Astro.props;
 const t = getSiteTranslations(locale);
 const currentPath = Astro.url.pathname;
 const githubUrl = getGitHubUrl(project.id);
+const demoUrl = getProjectDemoUrl(project.id);
 const portfolioSitePath = getProjectSitePath(project.id);
 const portfolioSiteHref = portfolioSitePath ? localizedPath(portfolioSitePath, locale) : undefined;
 const thumbnail = getProjectThumbnail(project.id);
 const caseStudyHref = isCaseStudySlug(project.id)
     ? getProjectCaseStudyHref(project.id, currentPath, locale)
     : undefined;
-const techTags = [
-    ...project.technologies.languages,
-    ...project.technologies.frameworks,
-    ...project.technologies.cloud,
-    ...project.technologies.tools,
-].slice(0, 6);
+
+const techTags = getProjectCardTechTags(project.id, project.technologies);
+
+const hasPrimaryCta = Boolean(demoUrl || portfolioSiteHref || caseStudyHref);
+const competencyLimit = 4;
 ---
 <article class="card-interactive flex h-full flex-col overflow-hidden p-0">
     {thumbnail && (
@@ -68,22 +67,33 @@ const techTags = [
             <p class="mt-4 text-xs text-muted">
                 <span class="font-semibold text-heading">{t.ui.competencies}:</span>
                 {' '}
-                {project.competencies.slice(0, 3).join(', ')}
+                {project.competencies.slice(0, competencyLimit).join(', ')}
             </p>
         )}
 
         <div class="mt-6 flex flex-wrap gap-2">
+            {demoUrl && (
+                <CTAButton href={demoUrl} label={t.ui.viewDemo} variant="primary" />
+            )}
             {portfolioSiteHref && (
-                <CTAButton href={portfolioSiteHref} label={t.ui.viewPortfolioSite} variant="primary" />
+                <CTAButton
+                    href={portfolioSiteHref}
+                    label={t.ui.viewPortfolioSite}
+                    variant={demoUrl ? 'secondary' : 'primary'}
+                />
             )}
             {caseStudyHref && (
-                <CTAButton href={caseStudyHref} label={t.ui.seeMore} variant={portfolioSiteHref ? 'secondary' : 'primary'} />
+                <CTAButton
+                    href={caseStudyHref}
+                    label={t.ui.seeMore}
+                    variant={demoUrl || portfolioSiteHref ? 'secondary' : 'primary'}
+                />
             )}
             {githubUrl && (
                 <CTAButton
                     href={githubUrl}
                     label={t.ui.viewOnGitHub}
-                    variant={portfolioSiteHref || caseStudyHref ? 'secondary' : 'primary'}
+                    variant={hasPrimaryCta ? 'secondary' : 'primary'}
                 />
             )}
         </div>

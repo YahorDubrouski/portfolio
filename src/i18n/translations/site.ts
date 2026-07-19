@@ -27,6 +27,7 @@ export interface SiteTranslations {
         viewProject: string;
         viewOnGitHub: string;
         viewPortfolioSite: string;
+        viewDemo: string;
         downloadCv: string;
         contactMe: string;
         allProjects: string;
@@ -115,14 +116,19 @@ export interface SiteTranslations {
             frameworks: string;
             cloud: string;
             tools: string;
+            databases: string;
+            libraries: string;
         };
+        showAllFilters: string;
+        showFewerFilters: string;
         sections: {
             flagship: string;
             awsPatterns: string;
             iacCiCd: string;
             devopsIndex: string;
             aiAutomation: string;
-            other: string;
+            frontendDelivery: string;
+            backendDelivery: string;
         };
     };
     capabilities: {
@@ -206,6 +212,7 @@ const en: SiteTranslations = {
         viewProject: 'View project',
         viewOnGitHub: 'View on GitHub',
         viewPortfolioSite: 'View portfolio site',
+        viewDemo: 'View demo',
         downloadCv: 'Download CV',
         contactMe: 'Contact',
         allProjects: 'All projects',
@@ -321,15 +328,20 @@ const en: SiteTranslations = {
             languages: 'Languages',
             frameworks: 'Frameworks',
             cloud: 'Cloud & AWS',
-            tools: 'Tools & DevOps',
+            tools: 'DevOps & tools',
+            databases: 'Databases',
+            libraries: 'Libraries & packages',
         },
+        showAllFilters: 'Show all filters',
+        showFewerFilters: 'Show fewer filters',
         sections: {
             flagship: 'Flagship',
             awsPatterns: 'AWS patterns',
             iacCiCd: 'IaC & CI/CD',
             devopsIndex: 'DevOps hub',
             aiAutomation: 'AI & automation',
-            other: 'Other delivery',
+            frontendDelivery: 'Frontend',
+            backendDelivery: 'Backend',
         },
     },
     capabilities: {

@@ -1,11 +1,14 @@
 ---
-import AiPlannerCaseStudyPage from '../../templates/AiPlannerCaseStudyPage.astro';
+import CaseStudyRouter from '../../components/CaseStudyRouter.astro';
 import { caseStudySlugs } from '../../data/projects';
 
 export function getStaticPaths() {
     return caseStudySlugs.map((slug) => ({ params: { slug } }));
 }
 
-const { slug } = Astro.params;
+const slug = Astro.params.slug;
+if (!slug) {
+    throw new Error('Missing project slug');
+}
 ---
-<AiPlannerCaseStudyPage locale="en" />
+<CaseStudyRouter locale="en" slug={slug} />
