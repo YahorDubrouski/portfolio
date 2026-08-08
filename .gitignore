@@ -7,6 +7,8 @@ test-results
 
 # Local-only: iteration plans, agent notes, drafts (not committed)
 .local/
+.tmp*
+.cursor/rules/local-*
 
 # Agent-only database, scripts, and raw sources — not used by Astro build
 ai-agents/**

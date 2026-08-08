@@ -1880,25 +1880,30 @@
       },
       "features": [
         "AI ticket triage API",
+        "Suggested reply (RAG): retrieve KB articles → grounded answer + sources, or refuse",
+        "Semantic article search (embeddings)",
         "Laravel 12 + PHP 8.2",
         "Docker-based dev and CI testing",
         "GitHub Actions pipeline",
         "16+ passing tests",
         "Stripe payment integration"
       ],
-      "architecture": "Laravel API → AI provider for ticket classification; Docker + GitHub Actions",
+      "architecture": "Laravel API → AI provider for ticket classification; ticket text → embedding search → grounded suggested reply with sources; Docker + GitHub Actions",
       "problems_solved": [
-        "Demonstrates advanced Laravel backend architecture with AI integration and DevOps practices."
+        "Demonstrates advanced Laravel backend architecture with AI integration and DevOps practices.",
+        "Shows applied RAG in a support product: draft replies from knowledge articles with citations, not search links alone."
       ],
       "use_cases": [
         "Laravel portfolio",
         "AI + backend API examples",
+        "RAG / grounded suggested replies for support tickets",
         "CI/CD with Docker"
       ],
-      "when_to_use": "Use when discussing Laravel, AI ticket triage, or backend API architecture.",
+      "when_to_use": "Use when discussing Laravel, AI ticket triage, RAG suggested replies over a knowledge base, or backend API architecture.",
       "competencies": [
         "Laravel architecture",
         "AI integration",
+        "RAG / grounded generation",
         "REST API design",
         "Docker DevOps",
         "payment integration"
@@ -1920,6 +1925,8 @@
         "laravel",
         "php",
         "ai",
+        "rag",
+        "embeddings",
         "api",
         "docker",
         "stripe",
