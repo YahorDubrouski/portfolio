@@ -8,6 +8,13 @@ export default defineConfig({
         tailwind(),
         sitemap({
             filter: (page) => !page.includes('/cv/'),
+            i18n: {
+                defaultLocale: 'en',
+                locales: {
+                    en: 'en',
+                    ru: 'ru',
+                },
+            },
         }),
     ],
     i18n: {

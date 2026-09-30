@@ -11,9 +11,11 @@ interface Props {
     description?: string;
     locale?: Locale;
     jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+    image?: string;
+    imageAlt?: string;
 }
 
-const { title, description, locale = defaultLocale, jsonLd } = Astro.props;
+const { title, description, locale = defaultLocale, jsonLd, image, imageAlt } = Astro.props;
 const t = getSiteTranslations(locale);
 const pageTitle = title ?? t.meta.defaultTitle;
 const pageDescription = description ?? t.meta.defaultDescription;
@@ -21,6 +23,7 @@ const siteOrigin = getSiteOrigin();
 const canonicalUrl = getCanonicalUrl(Astro.url.pathname, siteOrigin);
 const hreflangAlternates = getHreflangAlternates(Astro.url.pathname, siteOrigin);
 const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const imageUrl = image && siteOrigin ? new URL(image, siteOrigin).href : undefined;
 ---
 <!doctype html>
 <html lang={locale}>
@@ -29,6 +32,7 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <meta name="description" content={pageDescription} />
+        <meta name="robots" content="index, follow" />
         <meta name="author" content={t.meta.siteName} />
         <title>{pageTitle}</title>
         {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
@@ -44,6 +48,14 @@ const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         <meta property="og:site_name" content={t.meta.siteName} />
         <meta property="og:locale" content={locale === 'ru' ? 'ru_RU' : 'en_US'} />
         {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+        {imageUrl && <meta property="og:image" content={imageUrl} />}
+        {imageUrl && <meta property="og:image:alt" content={imageAlt ?? pageTitle} />}
+        {locale === 'en' && <meta property="og:locale:alternate" content="ru_RU" />}
+        {locale === 'ru' && <meta property="og:locale:alternate" content="en_US" />}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        {imageUrl && <meta name="twitter:image" content={imageUrl} />}
         {
             jsonLdBlocks.map((block) => (
                 <script type="application/ld+json" set:html={JSON.stringify(block)} />
